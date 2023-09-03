@@ -1,0 +1,161 @@
+/* Adding Media Queries are delayed. */
+
+.left-menu-bar{
+    background-color: #E2EAFF;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    padding: 1rem;
+    height: 91vh;
+    position: fixed;
+    overflow-y: auto;
+    top: 9vh;
+    bottom: 0;
+}
+
+.left-menu-bar::-webkit-scrollbar{
+    width: 5px;
+    padding: 2px;
+}
+
+.left-menu-bar::-webkit-scrollbar-track{
+    /* background-color: #355EC7; */
+}
+
+.left-menu-bar::-webkit-scrollbar-thumb {
+    background: #3b64cb;
+    background-color: #aec0ed;
+    border-radius: 10px;
+} 
+
+.lmb-option-list{
+
+}
+
+.lmb-option{
+    border-radius: 1rem;
+    background-color: #DECAFF;
+    padding: 0.2rem;
+    overflow: hidden;
+
+
+}
+
+.lmb-option-header{
+    background-color: inherit;
+}
+
+.lmb-op-btn{
+    background-color: inherit;
+    display: flex;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.lmb-option-header > button{
+
+}
+
+.lmb-plus-minus{
+    flex-basis: 20%;
+}
+
+.lmb-hr-title{
+    display: flex;
+    /* justify-content: center; */
+    text-align: center;
+    font-size:medium;
+    font-weight: bold;
+    background-color: inherit;
+    flex-grow: 1;
+}
+
+.my-community{
+    /* background-color: #C8D4F1; */
+    /* margin-left: 0.5rem;    
+    margin-top: 1rem;
+    margin: 1rem 0.2rem 0.5rem 0.5rem ; */
+    /* margin-left: 10%;
+    border-radius: 1rem; */
+
+}
+
+.all-community{
+    margin-left: 10%;
+    border-radius: 1rem;
+}
+
+.pm-slider{
+    margin-left: 0.6rem;
+    margin-right: 0.1rem;
+    padding: 0.3rem;
+    background-color: inherit;
+    font-size: 1.1rem;
+}
+
+.a-community{
+    background-color: #C8D4F1;
+    display: flex;
+    flex-direction: column;
+    border-radius: 2rem;
+    margin: 0.5rem 0px;
+    border: 1px solid blue;
+}
+
+.comm-header{
+    display: flex;
+    gap: 0.5rem;
+    padding: 5px;
+}
+
+.comm-profile-img{
+    width: 30px;
+    /* width: 27px; */
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.1rem;
+}
+
+.comm-profile-img > img{
+    width: 100%;
+    /* border-radius: 50%; */
+}
+
+.comm-name{
+    display: flex;
+    margin-left: 0.5rem;
+    align-items: center;
+    /* text-align: center; */
+    flex-grow: 1;
+}
+
+.dis-none{
+    display: none !important;
+}
+
+.sub-comm{
+    display: flex;
+    flex-direction: column;
+    /* border: 0 !important; */
+}
+
+.sub-comm-1{
+    margin-left: 10%;
+    margin-bottom: 0.5rem;
+    border-left: 1px solid black;
+    padding: 3%;
+    font-size: 0.9rem;
+
+}
+
+.sub-comm-2{
+    margin-left: 4%;
+    border-left: 1px solid black;
+}
+
+/* .a-community button::after{
+    content: "+";
+} */
+
+/* #C8D4F1 */
