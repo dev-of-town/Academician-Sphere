@@ -6,16 +6,30 @@
     <title>Academician Sphere</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/left-menu-bar.css">
+    <link rel="stylesheet" href="css/right-menu-bar.css">
     <style>
         .navbar{
-            height: 9vh;
+            height: 60px;
             background-color: #355EC7;
+        }
+
+        .navbar > div:hover{
+            background-color: rgba(255, 255, 255, 0.194);
+            /* opacity: 0; */
         }
     </style>
 </head>
 <body>
     <div id="main">
-        <div class="navbar"></div>
+        <div class="navbar" style="display: flex;align-items: center;padding: 5px 1rem;">
+            <div style="border-radius: 50%;height: 40px;width: 40px;overflow: hidden;display: flex;justify-content: center;opacity: 1;">
+                <button style="height: 100%;margin: auto;background-color: transparent;">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="80%" viewBox="0 0 30 30">
+                        <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
         <div class="left-menu-bar">
             <ul class="lmb-option-list">
                 <li class="lmb-option my-communities">
@@ -186,38 +200,20 @@
                 </li>
             </ul>
         </div>
+        <div class="right-menu-bar">
+            <div class="filters-container">
+                <ul class="filters">
+                    <li class="active-filter"><a href="#All">All</a></li>
+                    <li><a href="#News">News</a></li>
+                    <li><a href="#Events">Events</a></li>
+                    <li><a href="#Colab">Collaborate</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script>
-        $(".lmb-option.my-communities .lmb-op-btn").on("click",(event)=>{
-            let x = event.currentTarget;
-            x = x.parentElement;
-            x = x.parentElement;
-            let ele = $("."+x.className.split(" ")[0]+" > ul");
-            ele.slideToggle();
-            let y = event.currentTarget.children.item(0);
-            if(y.textContent === "+"){
-                y.textContent = "-";
-            }else{
-                y.textContent = "+";
-            }
-        });
-
-        $(".a-community button").click((event)=>{
-
-            let x = event.currentTarget;
-            // $(x.before).attr("content","-");
-            $(x).text() == "+" ? $(x).text("-"):$(x).text("+");
-            console.log(x);
-            x = x.parentElement;
-            console.log(x);
-            x = x.parentElement;
-
-            console.log(x);
-
-            $(x).find("> ul").slideToggle(250);
-        });
-    </script>
+    <script src="js/left-menu-bar.js"></script>
+    <script src="js/right-menu-bar.js"></script>
 </body>
 </html>

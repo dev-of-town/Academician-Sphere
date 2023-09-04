@@ -1,8 +1,12 @@
 /* Adding Media Queries are delayed. */
 
+:root{
+    --primary-nav-bar-color : #355EC7;
+}
+
 .left-menu-bar{
     background-color: #E2EAFF;
-    width: 20%;
+    width: 300px;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
@@ -10,9 +14,18 @@
     height: 91vh;
     position: fixed;
     overflow-y: auto;
-    top: 9vh;
-    bottom: 0;
+    /* top: 60px; */
+    /* bottom: 0; */
 }
+
+@media only screen and (max-width:361px){
+    .left-menu-bar{
+        width: 100%;
+    }
+}
+
+
+
 
 .left-menu-bar::-webkit-scrollbar{
     width: 5px;
@@ -26,6 +39,7 @@
 .left-menu-bar::-webkit-scrollbar-thumb {
     background: #3b64cb;
     background-color: #aec0ed;
+    /* border: 1px solid rgb(0, 0, 0); */
     border-radius: 10px;
 } 
 
