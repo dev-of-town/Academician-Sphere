@@ -1,0 +1,96 @@
+.the-feed{
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    grid-area: 1 / 2 / -1 / 3;
+    justify-content: center;
+}
+
+.the-feed > div:first-child{
+    display: flex;
+    flex-direction: row;
+}
+
+.create-post-btn span{
+    display: inline-block;
+}
+
+.create-post-btn{
+    background-color: #355EC7;
+    font-weight: bold;
+    font-size: 1rem;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    border-radius: 2rem;
+    transition: background-color 200ms linear;
+    padding: 0.5rem;
+    border: 1px solid rgb(195, 0, 255);
+    align-self: flex-start;
+    color: white;
+}
+
+.create-post-btn:hover{
+    background: rgb(0, 0, 0);
+}
+
+.profile-img{
+    background-color: white ;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 2px;
+}
+
+.profile-img img{
+    background-color: white ;
+    width: 100%;
+    height: 100%;
+}
+
+.filters-of-feed{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    /* justify-content: center; */
+    margin-left: auto;
+}
+
+.feed-filters{
+    font-size: 0.5rem;
+    display: flex;
+    gap: 0.2rem;
+}
+
+.feed-filters select{
+    font-size: 0.8rem;
+    padding : 0.5rem 0.7rem;
+    border-radius: 2rem;
+}
+
+.feed-filters select option{
+    padding : 0.5rem;
+    margin: 2rem;
+}
+
+.feed{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+
+#filter-3{
+    border: 2px solid #355EC7;
+    display: none;
+}
+
+
+
+
+
+
+

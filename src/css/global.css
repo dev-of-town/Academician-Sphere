@@ -18,3 +18,12 @@ button{
     background-color: inherit;
     border: 0;
 }
+
+a{
+    text-decoration: none;
+}
+
+.vertically-center{
+    display: flex;
+    align-items: center;
+}

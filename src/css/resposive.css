@@ -1,0 +1,154 @@
+@media only screen and (max-width:320px) {
+    html{
+        font-size: 12px;
+    }
+    #main{
+        grid-template-columns: 1fr;
+    }
+
+    .the-feed{
+        grid-area: 1 / 1 / 1 / 1;
+    }
+
+    .right-menu-bar{
+        display: none;
+    }
+
+    #filter-3{
+        display: inline-block;
+    }
+
+    .the-feed > div:first-child{
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .filters-of-feed{
+        /* flex-direction: column; */
+        margin-left: 0px;
+    }
+
+    .filters-of-feed > div:first-child{
+        display: none;
+    }
+
+    .feed-filters{
+        /* flex-direction: column; */
+    }
+
+    .left-menu-bar{
+        width: 100vw;
+        font-weight: 500;
+    }
+}
+
+@media only screen and (min-width:321px) and (max-width:533px) {
+    html{
+        font-size: 12px;
+    }
+    #main{
+        grid-template-columns: 1fr;
+    }
+
+    .the-feed{
+        grid-area: 1 / 1 / 1 / 1;
+    }
+
+    .right-menu-bar{
+        display: none;
+    }
+
+    #filter-3{
+        display: inline-block;
+    }
+
+    .the-feed > div:first-child{
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .filters-of-feed{
+        /* flex-direction: column; */
+        margin-left: 0px;
+    }
+
+    .filters-of-feed > div:first-child{
+        display: none;
+    }
+
+    .feed-filters{
+        /* flex-direction: column; */
+    }
+
+    .left-menu-bar{
+        width: 100vw;
+        font-weight: 500;
+    }
+    
+}
+
+@media only screen and (min-width:534px) and (max-width:768px) {
+    html{
+        font-size: 12px;
+    }
+    #main{
+        grid-template-columns: 1fr;
+    }
+
+    .the-feed{
+        grid-area: 1 / 1 / 1 / 1;
+    }
+
+    .right-menu-bar{
+        display: none;
+    }
+
+    #filter-3{
+        display: inline-block;
+    }
+
+
+}
+
+@media only screen and (min-width:769px) and (max-width:1024px) {
+    #main{
+        grid-template-columns: 1fr 250px;
+    }
+
+    .the-feed{
+        grid-area: 1 / 1 / 2 / 1;
+    }
+
+    .right-menu-bar{
+        width: 250px;
+        grid-area: 2 / 1 / -1 / -1;
+    }
+    
+}
+
+@media only screen and (min-width:1025px) and (max-width:1200px) {
+    #main{
+        grid-template-columns: 1fr 300px;
+    }
+
+    .the-feed{
+        grid-area: 1 / 1 / 2 / 1;
+    }
+
+    .right-menu-bar{
+        grid-area: 2 / 1 / -1 / -1;
+    }
+}
+
+@media  (min-width:1200px){
+    nav div button{
+        display: none;
+    }
+
+    .left-menu-container{
+        visibility: visible;
+    }
+}
+
+@media only screen and (min-width:1201px){
+    
+}
+

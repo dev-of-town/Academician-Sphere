@@ -1,0 +1,10 @@
+
+#main{
+    margin-top: 60px;
+    /* position: relative; */
+    display: grid;
+    grid-template-columns: 325px auto 300px;
+    grid-template-rows: 1fr;
+    /* height: calc(100vh - 100px); */
+}
+
