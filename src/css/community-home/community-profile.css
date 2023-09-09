@@ -1,0 +1,91 @@
+.community-profile{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 1rem;
+    background-color: rgb(241 121 121 / 67%);
+}
+
+.community-profile .banner{
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    /* width: 100%; */
+    overflow: hidden;
+    /* margin: 0.3rem 2px; */
+    height: 150px;
+    /* display: flex; */
+    /* align-items: center; */
+}
+
+.community-profile .banner img{
+    width: 100%;
+    height: 100%;
+    /* height: 100px; */
+}
+
+.community-profile-name{
+    display: flex;
+    justify-content: center;
+}
+
+.community-profile-name .profile-image{
+    width: 6rem;
+    /* height: 6rem; */
+    background-color: white;
+    margin: 0px 0.5rem;
+    border: 2px solid black;
+    border-radius: 50%;
+    padding: 5px;
+    position: relative;
+    transform: translateY(-50%);
+    
+}
+
+.community-profile-name .profile-image img{
+    width: 100%;
+}
+
+.about-community{
+    font-size: 0.9rem;
+    margin: 5px 1rem;
+    /* border: 1px solid gray; */
+}
+
+.community-info{
+    margin-top: 1rem;
+    margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    font-weight: 600;
+    justify-content: center;
+    text-align: center;
+}
+
+.filter-3{
+    display: inline-block;
+}
+
+.feed-or-about{
+    margin: 0px 5%;
+}
+
+.feed-or-about button{
+    border-radius: 2rem;
+    border: 1px solid gray;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    transition: all ease 250ms;
+}
+
+.feed-or-about button:hover{
+    background-color: rgba(255, 74, 74, 0.32);
+}
+
+.about{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5%;
+}

@@ -4,7 +4,6 @@
     /* position: relative; */
     display: grid;
     grid-template-columns: 325px auto 325px;
-    grid-template-rows: 1fr;
+    grid-template-rows: 200px auto;
     /* height: calc(100vh - 100px); */
 }
-

@@ -28,5 +28,6 @@ $(".a-community button").click((event)=>{
 });
 
 $(".navbar button").click((event)=>{
-    $(".left-menu-bar").toggle();
+    // $(".left-menu-bar").toggle();
+    $(".lmb-container").toggle();
 });

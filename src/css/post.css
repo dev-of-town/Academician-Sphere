@@ -4,7 +4,7 @@
     width: 100%;
     border-radius: 1.5rem;
     /* background-color: bisque; */
-    border: 2px solid black;
+    border: 1px solid black;
     padding: 1rem;
     transition: all 350ms linear;
 }
@@ -112,13 +112,13 @@
     transition: all 300ms linear;
 }
 
-.upvote:hover{
+/* .upvote:hover{
     background-color: rgba(255, 52, 52, 0.525);
 }
 
 .downvote:hover{
     background-color: rgba(14, 14, 255, 0.352);
-}
+} */
 
 /* .downvote svg{
     transform: rotate(90);

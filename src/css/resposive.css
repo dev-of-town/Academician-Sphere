@@ -1,13 +1,14 @@
 @media only screen and (max-width:320px) {
     html{
-        font-size: 12px;
+        font-size: 10px;
     }
+
     #main{
         grid-template-columns: 1fr;
     }
 
-    .the-feed{
-        grid-area: 1 / 1 / 1 / 1;
+    .main-section   {
+        grid-area: 1 / 1 / -1 / -1;
     }
 
     .right-menu-bar{
@@ -39,9 +40,34 @@
         width: 100vw;
         font-weight: 500;
     }
+
+    .community-profile{
+        border-radius: 0;
+        background-color: white;
+        border: 0;
+        /* border-bottom: 2px solid black; */
+    }
+
+    .community-profile .banner{
+        border-radius: 0;
+    }
+
+    .community-profile-name{
+        margin-left: 1rem;
+        justify-content: left;
+    }
+
+    .feed-or-about{
+        display: block;
+    }
+
+    .mods{
+        width: 100%;
+    }
+
 }
 
-@media only screen and (min-width:321px) and (max-width:533px) {
+@media only screen and (min-width:321px) and (max-width:534px) {
     html{
         font-size: 12px;
     }
@@ -49,8 +75,8 @@
         grid-template-columns: 1fr;
     }
 
-    .the-feed{
-        grid-area: 1 / 1 / 1 / 1;
+    .main-section{
+        grid-area: 1 / 1 / -1 / -1;
     }
 
     .right-menu-bar{
@@ -78,14 +104,44 @@
         /* flex-direction: column; */
     }
 
+    .left-menu-container{
+        width: 100%;
+        display: none;
+    }
+
     .left-menu-bar{
-        width: 100vw;
+        width: 100%;
         font-weight: 500;
     }
+
+    .community-profile{
+        border-radius: 0;
+        background-color: white;
+        border: 0;
+        /* border-bottom: 2px solid black; */
+    }
+
+    .community-profile .banner{
+        border-radius: 0;
+    }
+
+    .community-profile-name{
+        margin-left: 1rem;
+        justify-content: left;
+    }
+
+    .feed-or-about{
+        display: block;
+    }
+
+    .mods{
+        width: 80%;
+    }
+
     
 }
 
-@media only screen and (min-width:534px) and (max-width:768px) {
+@media only screen and (min-width:534px) and (max-width:900px) {
     html{
         font-size: 12px;
     }
@@ -93,8 +149,8 @@
         grid-template-columns: 1fr;
     }
 
-    .the-feed{
-        grid-area: 1 / 1 / 1 / 1;
+    .main-section{
+        grid-area: 1 / 1 / -1 / -1;
     }
 
     .right-menu-bar{
@@ -105,40 +161,86 @@
         display: inline-block;
     }
 
+    .community-profile{
+        border-radius: 0;
+        background-color: white;
+        border: 0;
+        /* border-bottom: 2px solid black; */
+    }
+
+    .community-profile .banner{
+        border-radius: 0;
+    }
+
+    .community-profile-name{
+        margin-left: 1rem;
+        justify-content: left;
+    }
+
+    .feed-or-about{
+        display: block;
+    }
+
+    .mods{
+        width: 50%;
+    }
+
 
 }
 
-@media only screen and (min-width:769px) and (max-width:1024px) {
-    #main{
-        grid-template-columns: 1fr 250px;
-    }
-
-    .the-feed{
-        grid-area: 1 / 1 / 2 / 1;
-    }
-
-    .right-menu-bar{
-        width: 250px;
-        grid-area: 2 / 1 / -1 / -1;
-    }
-    
-}
-
-@media only screen and (min-width:1025px) and (max-width:1200px) {
+@media only screen and (min-width:900px) and (max-width:1024px) {
     #main{
         grid-template-columns: 1fr 300px;
     }
 
-    .the-feed{
-        grid-area: 1 / 1 / 2 / 1;
+    .main-section{
+        grid-area: 1 / 1 / -1 / 2;
+    }
+
+    .right-menu-bar{
+        width: 300px;
+        font-size: 0.9rem;
+        /* grid-area: 2 / 1 / -1 / -1; */
+    }
+
+    
+    .main-section .community-profile{
+        display: none;
+    }
+
+
+    .feed-or-about{
+        display: none;
+    }
+    
+}
+
+@media only screen and (min-width:1025px) and (max-width:1245px) {
+    #main{
+        grid-template-columns: 1fr 325px;
+    }
+
+    .main-section{
+        grid-area: 1 / 1 / -1 / -2;
     }
 
     .right-menu-bar{
         grid-area: 2 / 1 / -1 / -1;
     }
+
+    .main-section .community-profile{
+        display: none;
+    }
+
+    
+    .feed-or-about{
+        display: none;
+    }
+
+
 }
 
-@media  (min-width:1200px){
+@media  (min-width:1245px){
     nav div button{
         display: none;
     }
@@ -146,6 +248,19 @@
     .left-menu-container{
         visibility: visible;
     }
+
+    .main-section .community-profile{
+        display: none;
+    }
+
+    .the-feed{
+        display: flex;
+    }
+    
+    .feed-or-about{
+        display: none;
+    }
+
 }
 
 @media only screen and (min-width:1201px){

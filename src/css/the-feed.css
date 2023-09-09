@@ -1,8 +1,14 @@
+.main-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-area: 1 / 2 / -1 / 2;
+}
+
 .the-feed{
     padding: 5%;
     display: flex;
     flex-direction: column;
-    grid-area: 1 / 2 / -1 / 3;
     justify-content: center;
 }
 

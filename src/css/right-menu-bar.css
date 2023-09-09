@@ -1,10 +1,10 @@
-
+/* 
 .right-menu-container{
     
-}
+} */
 
 .right-menu-bar{
-    width: 300px;
+    width: 325px;
     height: calc(100vh - 60px);
     /* background-color:rgb(220, 237, 255); */
     display: flex;

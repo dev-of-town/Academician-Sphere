@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academician Sphere</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/left-menu-bar.css">
+    <link rel="stylesheet" href="css/community-home/right-bar.css">
+    <link rel="stylesheet" href="css/community-home/comm-main.css">
+    <link rel="stylesheet" href="css/community-home/banner.css">
+    <link rel="stylesheet" href="css/the-feed.css">
+    <link rel="stylesheet" href="css/post.css">
+    <link rel="stylesheet" href="css/community-home/the-comm-feed.css">
+    <link rel="stylesheet" href="css/community-home/community-profile.css">
+    <link rel="stylesheet" href="css/resposive.css">
+    <style>
+        .navbar{
+            min-width: 100%;
+            height: 60px;
+            background-color: #355EC7;
+            position: fixed;
+            top: 0;
+            /* clear: both; */
+            left: 0;
+            z-index: 20;
+            border-bottom: 2px solid black;
+        }
+
+        .navbar > div:hover{
+            background-color: rgba(255, 255, 255, 0.194);
+            /* opacity: 0; */
+        }
+
+        #filter-3{
+            display: inline-block !important;
+        }
+
+       
+        /* @media only screen and (min-width:1078px) {
+             > div{
+                display: none;
+            }
+        } */
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar" style="display: flex;align-items: center;padding: 5px 1rem;">
+            <div style="border-radius: 50%;height: 40px;width: 40px;overflow: hidden;display: flex;justify-content: center;opacity: 1;">
+                <button style="height: 100%;margin: auto;background-color: transparent;">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="80%" viewBox="0 0 30 30">
+                        <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <div id="main">
+        <div class="lmb-container">
+            <div class="left-menu-bar">
+                <ul class="lmb-option-list">
+                    <li class="lmb-option my-communities">
+                        <div class="lmb-option-header">
+                            <button class="lmb-op-btn">
+                                <div class="lmb-plus-minus">-</div>
+                                <div class="lmb-hr-title">My Communities</div>
+                            </button>
+                        </div>
+                        <!-- <div class="my-community"> -->
+                            <ul class="all-community">
+                                <li class="a-community">
+                                    <div class="comm-header">
+                                        <button class="pm-slider">-</button>
+                                        <div class="comm-profile-img">
+                                            <img src="../images/msulogo412.png" alt="">
+                                        </div>
+                                        <div class="comm-name">MSU</div>
+                                    </div>
+                                    <ul class="sub-comm sub-comm-1">
+                                        <li class="sub-comm">
+                                            <div class="sub-comm-header comm-header">
+                                                <button class="sub-pm-slider">-</button>
+                                                <div class="sub-comm-name">Faculty Of Technology</div>
+                                            </div>
+                                            <ul class="sub-comm-2">
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of CSE</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of Mech</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of Chemical Engineering</div>
+                                                </div>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-comm">
+                                            <div class="sub-comm-header comm-header">
+                                                <button class="sub-pm-slider">-</button>
+                                                <div class="sub-comm-name">Faculty Of Commerce</div>
+                                            </div>
+                                            <ul class="sub-comm-2">
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of Economics</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of Psychology</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of Maths</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Department Of Accounting</div>
+                                                </div>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-comm">
+                                            <div class="sub-comm-header comm-header">
+                                                <button class="sub-pm-slider">-</button>
+                                                <div class="sub-comm-name">Faculty Of Science</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="a-community">
+                                    <div class="comm-header">
+                                        <button class="pm-slider">-</button>
+                                        <div class="comm-profile-img">
+                                            <img src="../images/msulogo412.png" alt="">
+                                        </div>
+                                        <div class="comm-name">MIT</div>
+                                    </div>
+                                    <ul class="sub-comm sub-comm-1">
+                                        <li class="sub-comm">
+                                            <div class="sub-comm-header comm-header">
+                                                <button class="sub-pm-slider">-</button>
+                                                <div class="sub-comm-name">School Of Engineering</div>
+                                            </div>
+                                            <ul class="sub-comm-2">
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">AI Engineering</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Biochemical Engineer</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Aerospace Engineer</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Computer Engineer</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Mechanical Engineer</div>
+                                                </div>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-comm">
+                                            <div class="sub-comm-header comm-header">
+                                                <button class="sub-pm-slider">-</button>
+                                                <div class="sub-comm-name">School Of Architecture</div>
+                                            </div>
+                                            <ul class="sub-comm-2">
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Urban Architecture</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Medieval Architecture</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Roman Architecture</div>
+                                                </div>
+                                            </ul>
+                                        </li>
+                                        <li class="sub-comm">
+                                            <div class="sub-comm-header comm-header">
+                                                <button class="sub-pm-slider">-</button>
+                                                <div class="sub-comm-name">School Of Philosophy</div>
+                                            </div>
+                                            <ul class="sub-comm-2">
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Eastern Philosophy</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Greek Philosophy</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Western Philosophy</div>
+                                                </div>
+                                                <div class="sub-comm-header comm-header">
+                                                    <button class="sub-pm-slider">-</button>
+                                                    <div class="sub-comm-name">Philosophy Of Krishna</div>
+                                                </div>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="a-community">
+                                    <div class="comm-header">
+                                        <button class="pm-slider">-</button>
+                                        <div class="comm-profile-img">
+                                            <img src="../images/msulogo412.png" alt="">
+                                        </div>
+                                        <div class="comm-name">IITB</div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        <!-- </div> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="banner">
+            dd
+        </div> -->
+        <div class="main-section">
+            <div class="community-profile">
+                <div class="banner">
+                    <img src="../images/msu-banner.png" alt="">
+                </div>
+                <div class="community-profile-name">
+                    <div class="profile-image">
+                        <img src="../images/msulogo412.png" alt="">
+                    </div>
+                    <div class="community-name">
+                        <h2>u/Maharaja Sayajirao University</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="feed-or-about">
+                <button class="feed-btn" value="feed">feed</button>
+                <button class="about-btn" value="feed">about</button>
+            </div>
+            <div class="the-feed">
+                <div>
+                    <button class="create-post-btn">
+                        <div class="profile-img"><img src="../images/msulogo412.png" alt=""></div>
+                        <span>Create a post</span>
+                    </button>
+                    <div class="filters-of-feed">
+                        <div>Sort By:</div>
+                        <div class="feed-filters">
+                            <select name="filter-1" id="filter-1">
+                                <option value="top">Top</option>
+                                <option value="new">New</option>
+                                <option value="old">Old</option>
+                            </select>
+                            <select name="filter-2" id="filter-2">
+                                <option value="today">Today</option>
+                                <option value="this-week">This week</option>
+                                <option value="this-month">This Month</option>
+                                <option value="this-year">This-year</option>
+                                <option value="all-time">All-time</option>
+                            </select>
+                            <select name="filter-3" id="filter-3">
+                                <option value="all">All</option>
+                                <option value="news">News</option>
+                                <option value="event">Event</option>
+                                <option value="collaboration">Collaboration</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feed">
+                    
+                        <div class="post image">
+                            <a href="#"></a>
+                            <div class="post-head">
+                                <div class="img-name">
+                                    <div class="profile-img">
+                                        <img src="../images/msulogo412.png" alt="">
+                                    </div>
+                                    <div class="name-of-comm">
+                                        <a href="#">c/<span>Maharaja Sayjirao University</span></a>
+                                    </div>
+                                </div>
+                                <div class="time vertically-center">
+                                    <span> - </span> 3 Hours ago
+                                </div>
+                                <!-- <div class="post-label">
+                                    
+                                </div> -->
+                                <button class="three-dot-menu">
+                                    <img src="../images/Vertical-3dots-icon.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="psubject">
+                                Wonderlust organised by the Students of MSU.
+                            </div>
+                            <div class="post-content">
+                                <img src="../images/postimg.webp" alt="" class="pimage">
+                            </div>
+                            <div class="post-footer">
+                                <div class="vote">
+                                    <button class="upvote">
+                                        <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 -0.768096 0.640334 0.768096 7 412.379)" stroke="black" stroke-width="30"/>
+                                            <line x1="207" y1="833" x2="207" y2="404" stroke="black" stroke-width="30"/>
+                                            <line x1="471.963" y1="830.023" x2="211.961" y2="828" stroke="black" stroke-width="30"/>
+                                            <line x1="475" y1="835" x2="475" y2="412" stroke="black" stroke-width="30"/>
+                                            <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 -0.768096 0.640334 -0.768096 681 412.328)" stroke="black" stroke-width="30"/>
+                                            <line x1="202" y1="409" x2="1" y2="409" stroke="black" stroke-width="30"/>
+                                            <line x1="681" y1="417" x2="480" y2="417" stroke="black" stroke-width="30"/>
+                                        </svg>
+                                    </button>
+                                    <div>
+                                        3.1k
+                                    </div>
+                                    <button class="downvote">
+                                        <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 0.768096 -0.640334 -0.768096 674 423.621)" stroke="black" stroke-width="30"/>
+                                            <line x1="474" y1="3" x2="474" y2="432" stroke="black" stroke-width="30"/>
+                                            <line x1="209.037" y1="5.97671" x2="469.039" y2="8.00018" stroke="black" stroke-width="30"/>
+                                            <line x1="206" y1="1" x2="206" y2="424" stroke="black" stroke-width="30"/>
+                                            <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 0.768096 -0.640334 0.768096 0 423.672)" stroke="black" stroke-width="30"/>
+                                            <line x1="479" y1="427" x2="680" y2="427" stroke="black" stroke-width="30"/>
+                                            <line x1="-1.14277e-07" y1="419" x2="201" y2="419" stroke="black" stroke-width="30"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="pcomment flex align-icenter g05rem">
+                                    <img src="../images/comment.png" alt="" class="pf-size">
+                                    1.2k
+                                </div>
+                                <div class="pshare flex align-icenter">
+                                    <img src="../images/share.png" alt="" class="pf-size">
+                                </div>
+                            </div>
+                        </div>
+                    <div class="post image">
+                        <div class="post-head">
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Maharaja Sayjirao University</span></a>
+                                </div>
+                            </div>
+                            <div class="time vertically-center">
+                                <span> - </span> 3 Hours ago
+                            </div>
+                            <div class="post-label">
+                                event
+                            </div>
+                            <button class="three-dot-menu">
+                                <img src="../images/Vertical-3dots-icon.svg" alt="">
+                            </button>
+                        </div>
+                        <div class="psubject">
+                            Wonderlust organised by the Students of MSU.
+                        </div>
+                        <div class="post-content">
+                            <img src="../images/postimg.webp" alt="" class="pimage">
+                        </div>
+                        <div class="post-footer">
+                            <div class="vote">
+                                <button class="upvote">
+                                    <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 -0.768096 0.640334 0.768096 7 412.379)" stroke="black" stroke-width="30"/>
+                                        <line x1="207" y1="833" x2="207" y2="404" stroke="black" stroke-width="30"/>
+                                        <line x1="471.963" y1="830.023" x2="211.961" y2="828" stroke="black" stroke-width="30"/>
+                                        <line x1="475" y1="835" x2="475" y2="412" stroke="black" stroke-width="30"/>
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 -0.768096 0.640334 -0.768096 681 412.328)" stroke="black" stroke-width="30"/>
+                                        <line x1="202" y1="409" x2="1" y2="409" stroke="black" stroke-width="30"/>
+                                        <line x1="681" y1="417" x2="480" y2="417" stroke="black" stroke-width="30"/>
+                                    </svg>
+                                </button>
+                                <div>
+                                    3.1k
+                                </div>
+                                <button class="downvote">
+                                    <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 0.768096 -0.640334 -0.768096 674 423.621)" stroke="black" stroke-width="30"/>
+                                        <line x1="474" y1="3" x2="474" y2="432" stroke="black" stroke-width="30"/>
+                                        <line x1="209.037" y1="5.97671" x2="469.039" y2="8.00018" stroke="black" stroke-width="30"/>
+                                        <line x1="206" y1="1" x2="206" y2="424" stroke="black" stroke-width="30"/>
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 0.768096 -0.640334 0.768096 0 423.672)" stroke="black" stroke-width="30"/>
+                                        <line x1="479" y1="427" x2="680" y2="427" stroke="black" stroke-width="30"/>
+                                        <line x1="-1.14277e-07" y1="419" x2="201" y2="419" stroke="black" stroke-width="30"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="pcomment flex align-icenter g05rem">
+                                <img src="../images/comment.png" alt="" class="pf-size">
+                                1.2k
+                            </div>
+                            <div class="pshare flex align-icenter">
+                                <img src="../images/share.png" alt="" class="pf-size">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <div class="post-head">
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Maharaja Sayjirao University</span></a>
+                                </div>
+                            </div>
+                            <div class="time vertically-center">
+                                <span> - </span> 3 Hours ago
+                            </div>
+                            <div class="post-label">
+                                event
+                            </div>
+                            <button class="three-dot-menu">
+                                <img src="../images/Vertical-3dots-icon.svg" alt="">
+                            </button>
+                        </div>
+                        <div class="psubject">
+                            Wonderlust organised by the Students of MSU.
+                        </div>
+                        <div class="post-content text">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim, et aut. Eveniet, illo quam. Error illum illo perferendis sequi, cumque impedit doloribus ipsa! Asperiores architecto fuga rem, unde cupiditate at quod labore, ratione aliquam praesentium totam odio, corporis quaerat consectetur soluta ex vero. Enim molestias officiis possimus dicta ipsum aut sunt dolores dolorem libero maiores quae beatae, saepe, eius sequi voluptas ullam laudantium atque reiciendis. Saepe, iste id minus facilis assumenda quas libero quasi neque reiciendis adipisci deserunt. Rem aliquid, laborum suscipit placeat veniam sapiente minima nesciunt. Voluptates temporibus et, quasi earum explicabo maxime facilis natus molestias tempore quisquam quas?
+                        </div>
+                        <div class="post-footer">
+                            <div class="vote">
+                                <button class="upvote">
+                                    <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 -0.768096 0.640334 0.768096 7 412.379)" stroke="black" stroke-width="30"/>
+                                        <line x1="207" y1="833" x2="207" y2="404" stroke="black" stroke-width="30"/>
+                                        <line x1="471.963" y1="830.023" x2="211.961" y2="828" stroke="black" stroke-width="30"/>
+                                        <line x1="475" y1="835" x2="475" y2="412" stroke="black" stroke-width="30"/>
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 -0.768096 0.640334 -0.768096 681 412.328)" stroke="black" stroke-width="30"/>
+                                        <line x1="202" y1="409" x2="1" y2="409" stroke="black" stroke-width="30"/>
+                                        <line x1="681" y1="417" x2="480" y2="417" stroke="black" stroke-width="30"/>
+                                    </svg>
+                                </button>
+                                <div>
+                                    3.1k
+                                </div>
+                                <button class="downvote">
+                                    <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 0.768096 -0.640334 -0.768096 674 423.621)" stroke="black" stroke-width="30"/>
+                                        <line x1="474" y1="3" x2="474" y2="432" stroke="black" stroke-width="30"/>
+                                        <line x1="209.037" y1="5.97671" x2="469.039" y2="8.00018" stroke="black" stroke-width="30"/>
+                                        <line x1="206" y1="1" x2="206" y2="424" stroke="black" stroke-width="30"/>
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 0.768096 -0.640334 0.768096 0 423.672)" stroke="black" stroke-width="30"/>
+                                        <line x1="479" y1="427" x2="680" y2="427" stroke="black" stroke-width="30"/>
+                                        <line x1="-1.14277e-07" y1="419" x2="201" y2="419" stroke="black" stroke-width="30"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="pcomment flex align-icenter g05rem">
+                                <img src="../images/comment.png" alt="" class="pf-size">
+                                1.2k
+                            </div>
+                            <div class="pshare flex align-icenter">
+                                <img src="../images/share.png" alt="" class="pf-size">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <div class="post-head">
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Maharaja Sayjirao University</span></a>
+                                </div>
+                            </div>
+                            <div class="time vertically-center">
+                                <span> - </span> 3 Hours ago
+                            </div>
+                            <div class="post-label">
+                                event
+                            </div>
+                            <button class="three-dot-menu">
+                                <img src="../images/Vertical-3dots-icon.svg" alt="">
+                            </button>
+                        </div>
+                        <div class="psubject">
+                            Chess Tournament at the MSU.
+                        </div>
+                        <div class="post-content text">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim, et aut. Eveniet, illo quam. Error illum illo perferendis sequi, cumque impedit doloribus ipsa! Asperiores architecto fuga rem, unde cupiditate at quod labore, ratione aliquam praesentium totam odio, corporis quaerat consectetur soluta ex vero. Enim molestias officiis possimus dicta ipsum aut sunt dolores dolorem libero maiores quae beatae, saepe, eius sequi voluptas ullam laudantium atque reiciendis. Saepe, iste id minus facilis assumenda quas libero quasi neque reiciendis adipisci deserunt. Rem aliquid, laborum suscipit placeat veniam sapiente minima nesciunt. Voluptates temporibus et, quasi earum explicabo maxime facilis natus molestias tempore quisquam quas?
+                        </div>
+                        <div class="post-content event">
+                            
+                        </div>
+                        <div class="post-footer">
+                            <div class="vote">
+                                <button class="upvote">
+                                    <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 -0.768096 0.640334 0.768096 7 412.379)" stroke="black" stroke-width="30"/>
+                                        <line x1="207" y1="833" x2="207" y2="404" stroke="black" stroke-width="30"/>
+                                        <line x1="471.963" y1="830.023" x2="211.961" y2="828" stroke="black" stroke-width="30"/>
+                                        <line x1="475" y1="835" x2="475" y2="412" stroke="black" stroke-width="30"/>
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 -0.768096 0.640334 -0.768096 681 412.328)" stroke="black" stroke-width="30"/>
+                                        <line x1="202" y1="409" x2="1" y2="409" stroke="black" stroke-width="30"/>
+                                        <line x1="681" y1="417" x2="480" y2="417" stroke="black" stroke-width="30"/>
+                                    </svg>
+                                </button>
+                                <div>
+                                    3.1k
+                                </div>
+                                <button class="downvote">
+                                    <svg width="20" height="20" viewBox="0 0 681 836" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(-0.640334 0.768096 -0.640334 -0.768096 674 423.621)" stroke="black" stroke-width="30"/>
+                                        <line x1="474" y1="3" x2="474" y2="432" stroke="black" stroke-width="30"/>
+                                        <line x1="209.037" y1="5.97671" x2="469.039" y2="8.00018" stroke="black" stroke-width="30"/>
+                                        <line x1="206" y1="1" x2="206" y2="424" stroke="black" stroke-width="30"/>
+                                        <line y1="-5" x2="526.402" y2="-5" transform="matrix(0.640334 0.768096 -0.640334 0.768096 0 423.672)" stroke="black" stroke-width="30"/>
+                                        <line x1="479" y1="427" x2="680" y2="427" stroke="black" stroke-width="30"/>
+                                        <line x1="-1.14277e-07" y1="419" x2="201" y2="419" stroke="black" stroke-width="30"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="pcomment flex align-icenter g05rem">
+                                <img src="../images/comment.png" alt="" class="pf-size">
+                                1.2k
+                            </div>
+                            <div class="pshare flex align-icenter">
+                                <img src="../images/share.png" alt="" class="pf-size">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about dis-none">
+                <div class="about-community">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero tempora exercitationem rerum cupiditate, facilis voluptate voluptatem natus repudiandae recusandae quisquam, nostrum voluptates repellat officiis accusantium impedit dolore facere vel! Aperiam?
+                    </p>
+                </div>
+                <div class="community-info">
+                    <div class="members">
+                        <div class="count">
+                            100.2k
+                        </div>
+                        <!-- <div class="txt"> -->
+                            members
+                        <!-- </div> -->
+                    </div>
+                </div>
+                <div class="mods">
+                    <h3>Moderators Of Community</h3>
+                    <hr>
+                    <ul>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">u/<span>Bhaumik Lodhia</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Aayush Dalal</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Karm Soni</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Dhruv Bhatt</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Vipul Goyal</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Apoorva Shah</span></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-name">
+                                <div class="profile-img">
+                                    <img src="../images/msulogo412.png" alt="">
+                                </div>
+                                <div class="name-of-comm">
+                                    <a href="#">c/<span>Viral Kapadia</span></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="right-menu-bar">
+            <div class="community-profile">
+                <div class="banner">
+                    <img src="../images/msu-banner.png" alt="">
+                </div>
+                <div class="community-profile-name">
+                    <div class="profile-image">
+                        <img src="../images/msulogo412.png" alt="">
+                    </div>
+                    <div class="community-name">
+                        <h2>Maharaja Sayajirao University</h2>
+                    </div>
+                </div>
+                <div class="about-community">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero tempora exercitationem rerum cupiditate, facilis voluptate voluptatem natus repudiandae recusandae quisquam, nostrum voluptates repellat officiis accusantium impedit dolore facere vel! Aperiam?
+                    </p>
+                </div>
+                <div class="community-info">
+                    <div class="members">
+                        <div class="count">
+                            100.2k
+                        </div>
+                        <!-- <div class="txt"> -->
+                            members
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="mods">
+                <h3>Moderators Of Community</h3>
+                <hr>
+                <ul>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">u/<span>Bhaumik Lodhia</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">c/<span>Aayush Dalal</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">c/<span>Karm Soni</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">c/<span>Dhruv Bhatt</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">c/<span>Vipul Goyal</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">c/<span>Apoorva Shah</span></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="img-name">
+                            <div class="profile-img">
+                                <img src="../images/msulogo412.png" alt="">
+                            </div>
+                            <div class="name-of-comm">
+                                <a href="#">c/<span>Viral Kapadia</span></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="js/left-menu-bar.js"></script>
+    <script src="js/right-menu-bar.js"></script>
+    <script src="js/post.js">
+        
+    </script>
+    <script>
+        // $("body").scroll(()=>{
+        //     console.log($("body").scrollTop);
+        //     if($("body").scrollTop===(200 + 60)){
+        //         $(".right-menu-bar").addClass(".rmb-fixed");
+        //     }else{
+        //         $(".right-menu-bar").removeClass(".rmb-fixed");
+        //     }
+        // });
+
+        $(".upvote").mouseenter((event)=>{
+            $(event.currentTarget).find("line").attr("stroke","orange");
+        });
+        $(".upvote").mouseleave((event)=>{
+            $(event.currentTarget).find("line").attr("stroke","black");
+        });
+        $(".downvote").mouseenter((event)=>{
+            $(event.currentTarget).find("line").attr("stroke","blue");
+        });
+        $(".downvote").mouseleave((event)=>{
+            $(event.currentTarget).find("line").attr("stroke","black");
+        });
+
+        $(".feed-btn").on("click",(event)=>{
+            $(".the-feed").removeClass("dis-none");
+            $(".about").addClass("dis-none");
+        });
+        
+        $(".about-btn").on("click",(event)=>{
+            $(".the-feed").addClass("dis-none");
+            $(".about").removeClass("dis-none");
+        
+        });
+    </script>
+</body>
+</html>
