@@ -1,0 +1,14 @@
+.sidebar{
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    /* justify-content: center; */
+    align-items: center;
+    position: fixed;
+    left: 0;
+    /* top: 50px; */
+    min-width: 325px;
+    height: 100%;
+    grid-column: 1 / 2;
+}

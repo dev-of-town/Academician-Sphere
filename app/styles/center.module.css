@@ -1,0 +1,8 @@
+.center{
+    background-color: rgb(196, 196, 255);
+    width: 100%;
+    height: calc(100% - 55px);
+    display: grid;
+    grid-template-columns: 325px 1fr;
+    position: relative;
+}
