@@ -45,7 +45,7 @@ const Navbar = () => {
 
         <div className={styles.profile}>
             <div>
-                <Link href={"/profile"}>
+                <Link href={"/About"}>
                     <Image src={"/favicon.ico"} alt="acad" width={34} height={34} priority/>
                 </Link>
             </div>

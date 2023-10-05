@@ -15,7 +15,9 @@ export default function RootLayout({ children }) {
         <Navbar/>
         <div className={styles.center}>
           <Sidebar/>
-          {children}
+          <main className={styles.main}>
+            {children}
+          </main>
         </div>  
       </body>
     </html>
