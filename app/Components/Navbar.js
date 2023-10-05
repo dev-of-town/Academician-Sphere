@@ -17,6 +17,12 @@ const Navbar = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
+        {/* <div className={styles.hamburger}>
+          <button>
+
+          </button>
+        </div> */}
+
         <div className={styles.logo}>
             <Link href={"/"}>
                 <Image src="/Academia.svg" alt="acad" width={100} height={30} priority />

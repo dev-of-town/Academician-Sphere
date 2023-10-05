@@ -1,20 +1,15 @@
 "use client"
 
 import React from 'react'
-import Navbar from './Components/Navbar'
-import styles from './styles/center.module.css'
-import Sidebar from './Components/Sidebar'
+import styles from './styles/main.module.css'
 
 
 
 const Home = () => {
   return (
-    <>
-      <Navbar/>    
-      <div className={styles.center}>
-        <Sidebar/>
-      </div>   
-    </>
+    <main className={styles.main}>
+      I am Main
+    </main>
   )
 }
 
