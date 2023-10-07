@@ -1,12 +1,12 @@
-"use client"
-
 import React from 'react'
+import styles from './styles/Home.module.css'
+import Feed from './Components/Feed'
 
-const Home = () => {
+const Home = async () => {
   return (
-    <>
-      I am Main
-    </>
+    <div className={styles.main}>
+      <Feed/>
+    </div>
   )
 }
 

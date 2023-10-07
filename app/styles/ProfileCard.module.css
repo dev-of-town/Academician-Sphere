@@ -1,0 +1,16 @@
+.profilecard{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.profimg{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    background-position: cover;
+    border: 1px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+}
