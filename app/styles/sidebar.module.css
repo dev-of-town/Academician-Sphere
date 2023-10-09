@@ -12,4 +12,5 @@
     height: 100%;
     grid-column: 1 / 2;
     border-right:1px solid black; 
+    padding: 10px;
 }

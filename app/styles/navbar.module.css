@@ -19,7 +19,7 @@
     grid-template-rows: 100%;
     padding: 0px 1rem;
     background-color: #355EC7;
-    overflow: hidden;
+    /* overflow: hidden; */
     gap: 1rem;
 }
 
@@ -51,18 +51,21 @@
 .profile{
     /* margin-left: auto; */
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     /* background-color: red; */
-    overflow: hidden;
+    /* overflow: hidden;*/
     grid-column: -1 / -2;
+    gap: 1rem;
 }
 
-.profile > div{
+.profile > div:first{
     border-radius: 50%;
     width: 35px;
     height: 35px;
+
 }
+
 
 .links{
     /* margin-left: auto; */
@@ -136,6 +139,10 @@
     border: 1px solid black;
     border-radius: 1rem;
     overflow: hidden;
+}
+
+.menu{
+
 }
 
 

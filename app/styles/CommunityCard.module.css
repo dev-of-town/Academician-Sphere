@@ -1,0 +1,46 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    background-color: rgb(183, 209, 255);
+    border-radius: 2rem;
+    width: 100%;
+    padding: 1px 5px;
+    font-size: 0.96em;
+    overflow: hidden;
+    color: black;
+}
+
+.main{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem;
+}
+
+.profileimg{
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.subcontainer{
+    margin-left: 4%;
+    border-left: 1px solid black;
+    transition: height 1s ease;
+}
+
+.slide-up{
+    transition: all ease 500ms;
+    height: 0px;
+    
+}
+
+.slide-down{
+    transition: all ease 500ms;
+    height: 100px;
+}

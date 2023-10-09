@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from '../styles/Feed.module.css'
 import Post from './Post'
+import CreatPostButton from './CreatPostButton';
 
 const Feed = () => {
     let dummy = {
@@ -16,9 +17,15 @@ const Feed = () => {
       let textdummy = {...dummy};
       textdummy["img"] = undefined;
   return (
-    <div className={styles.feed}>
-        <Post data={dummy}/>
-        <Post data={textdummy}/>
+    <div className={styles.container}>
+        <div className={styles.header}>
+            <CreatPostButton />
+        </div>
+        <div className={styles.feed}>
+            <Post data={dummy}/>
+            <Post data={textdummy}/>
+            <Post data={textdummy}/>
+        </div>
     </div>
   )
 }

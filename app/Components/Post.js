@@ -1,15 +1,22 @@
+"use client"
 import React from "react";
 import styles from "../styles/Post.module.css";
 import ProfileCard from "./ProfileCard";
 import Image from "next/image";
 import Votes from "./Votes";
 import Link from "next/link";
+import CommentShow from "./CommentShow";
+import Bookmark from "./Bookmark";
+import Dropdown from "./Dropdown";
+import { redirect } from "next/dist/server/api-utils";
+
 
 const Post = ({data}) => {
   
-
   return (
-    <Link href={"/"} className={styles.post}>  
+
+    <>
+    <div href={"/"} className={styles.post} >  
       <div className={styles.header}>
         <div className={styles.profilecard}>
           <ProfileCard
@@ -20,9 +27,7 @@ const Post = ({data}) => {
         </div>
         <div className={styles.category}>{data.category}</div>
         <div className={styles.menudots}>
-          <button>
-            <Image src={"/3dots.svg"} alt={"click"} width={15} height={20} />
-          </button>
+          <Dropdown content={<button>Report</button>}/>
         </div>
       </div>
       <div className={styles.subject}>{data.subject}</div>
@@ -39,6 +44,7 @@ const Post = ({data}) => {
               height: "auto",
               borderRadius:"1rem"
             }}
+            priority
           />
         </div>
       )}
@@ -46,8 +52,15 @@ const Post = ({data}) => {
             <div className={styles.votes}> 
                 <Votes votes={data.votes}/>
             </div>
+            <div className={styles.comment}>
+                <CommentShow comments={100}/>
+            </div>
+            <div>
+                <Bookmark />
+            </div>
       </div>
-    </Link>
+    </div>
+    </>
   );
 };
 
