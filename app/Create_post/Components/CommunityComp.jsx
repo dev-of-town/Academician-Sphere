@@ -6,10 +6,14 @@ function clicker(name="whatever")
     console.log("I am clicked",name);
 }
 
-export default function CommunityComp({name,nom})
+export default function CommunityComp({name,nom,crt_post,changeCon})
 {
     return(
-        <li onClick={clicker(name)}>
+        <li onClick={
+            (e)=>
+            {
+                //e.preventDefault()
+            changeCon({...crt_post,comm:name})}}>
         <a className="d-flex text-decoration-none " href="#" >
                     <img className="sub_photo align-self-center" src="pic2.jpg"/>
                     <div className={styles.cname_nom}>

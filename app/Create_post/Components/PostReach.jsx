@@ -1,12 +1,16 @@
+import { useState } from "react";
 import styles from "../CSS/createPost.module.css";
 import { Dropdown } from 'react-bootstrap';
 import { DropdownToggle, DropdownItem, DropdownMenu } from "react-bootstrap";
 import PostReachList from "./PostReachList"
+const post_types = ["Events", "Placement", "News"]
 
 
-export default function PostReach({ post_types }) {
+export default function PostReach({crt_post,changeCon}) {
 
     return (
+
+        
 
 
 
@@ -15,11 +19,11 @@ export default function PostReach({ post_types }) {
             <Dropdown>
                 < DropdownToggle
                     variant="success" id="dropdown-basic">
-                    Dropdown Button
+                    {crt_post.post_cat}
                 </DropdownToggle>
 
                 <DropdownMenu>
-                    { post_types.map(post => <DropdownItem ><PostReachList name={ post } /></DropdownItem>) }
+                    { post_types.map(post => <DropdownItem ><PostReachList name={ post } crt_post={crt_post} changeCon={changeCon} /></DropdownItem>) }
 
                 </DropdownMenu>
             </Dropdown>

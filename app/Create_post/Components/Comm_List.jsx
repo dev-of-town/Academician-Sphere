@@ -3,7 +3,7 @@ import { Dropdown } from 'react-bootstrap';
 import { DropdownToggle, DropdownItem, DropdownMenu } from "react-bootstrap";
 import CommunityComp from "./CommunityComp";
 
-export default function Comm_List({ communities }) {
+export default function Comm_List({ communities,crt_post,changeCon }) {
 
     return (
 
@@ -14,7 +14,7 @@ export default function Comm_List({ communities }) {
             <Dropdown>
                 < DropdownToggle
                     variant="success" id="dropdown-basic">
-                    Dropdown Button
+                    {crt_post.comm}
                 </DropdownToggle>
 
                 <DropdownMenu>
@@ -23,7 +23,7 @@ export default function Comm_List({ communities }) {
                     Communities
                 </b>
             </DropdownItem>
-                    { communities.map(post => <DropdownItem ><CommunityComp {...post} /></DropdownItem>) }
+                    { communities.map(post => <DropdownItem ><CommunityComp {...post} crt_post={crt_post} changeCon={changeCon} /></DropdownItem>) }
 
                 </DropdownMenu>
             </Dropdown>

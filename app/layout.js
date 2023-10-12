@@ -1,7 +1,7 @@
 import Navbar from './Components/Navbar'
 import Sidebar from './Components/Sidebar'
 import './globals.css'
-import Main from './Profile/Main'
+import Main from './Create_post/Main'
 import styles from './styles/center.module.css'
 
 export const metadata = {
