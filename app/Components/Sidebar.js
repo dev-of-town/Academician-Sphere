@@ -8,6 +8,7 @@ const Sidebar = () => {
       id: 0,
       name: "The MSU",
       profileimg: "/msulogo412.png",
+      templateimg : "red",
       subcommunities: [1, 5],
       parent: undefined,
     },

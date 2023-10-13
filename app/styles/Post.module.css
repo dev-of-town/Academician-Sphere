@@ -63,6 +63,21 @@
     margin-left: auto;
 }
 
+.dropdown{
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown ul{
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
 .subject{
     font-size: 1.5rem;
     font-weight: 600;
@@ -110,20 +125,8 @@
     gap: 10px;
 }
 
-.dropdown{
-    display: inline-block;
-    position: relative;
-}
 
-.dropdown ul{
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
+
 
 
 /* transition: all 1s ease; */

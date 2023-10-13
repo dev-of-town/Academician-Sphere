@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar'
 import Sidebar from './Components/Sidebar'
 import './globals.css'
 import styles from './styles/center.module.css'
+import { createContext } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,6 +11,8 @@ export const metadata = {
   title: 'Academician Sphere',
   description: 'Community Based Social Media Network',
 }
+
+createContext
 
 export default function RootLayout({ children }) {
   return (

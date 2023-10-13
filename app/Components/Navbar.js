@@ -16,70 +16,75 @@ const Navbar = () => {
 
   return (
     <>
-    <header className={styles.header}>
-      <nav className={styles.nav}>
-        {/* <div className={styles.hamburger}>
+      <header className={styles.header}>
+        <nav className={styles.nav}>
+          {/* <div className={styles.hamburger}>
           <button>
 
           </button>
         </div> */}
 
-        <div className={styles.logo}>
-          <Link href={"/"}>
-            <Image
-              src="/Academia.svg"
-              alt="acad"
-              width={100}
-              height={30}
-              priority
-            />
-          </Link>
-        </div>
-        {/* <div className={styles.links}>
+          <div className={styles.contleft}>
+            <button className={styles.hamburger}>
+              <Image src={"/menu-icon.svg"} width={40} height={40} />
+            </button>
+            <div className={styles.logo}>
+              <Link href={"/"}>
+                <Image
+                  src="/Academia.svg"
+                  alt="acad"
+                  width={100}
+                  height={30}
+                  priority
+                />
+              </Link>
+            </div>
+          </div>
+          {/* <div className={styles.links}>
             <Link href={"/"}>Explore</Link>
             <Link href={"/"}>Quiz and Practice</Link>
         </div> */}
 
-        <div className={styles.searchBar}>
-          <div>
-            <input
-              type="text"
-              placeholder="Search Acedemia"
-              onChange={searchHappen}
-            />
-            <button>
-              <Image
-                src={"/searchicon.svg"}
-                alt="search"
-                width={26}
-                height={26}
-                priority
+          <div className={styles.searchBar}>
+            <div>
+              <input
+                type="text"
+                placeholder="Search Acedemia"
+                onChange={searchHappen}
               />
-            </button>
+              <button>
+                <Image
+                  src={"/searchicon.svg"}
+                  alt="search"
+                  width={26}
+                  height={26}
+                  priority
+                />
+              </button>
+            </div>
           </div>
-        </div>
-        <div className={styles.login}>
-          <button> Login </button>
-        </div>
+          <div className={styles.login}>
+            <button> Login </button>
+          </div>
 
-        <div className={styles.profile}>
-          <div>
-            <Link href={"/About"}>
-              <Image
-                src={"/favicon.ico"}
-                alt="acad"
-                width={34}
-                height={34}
-                priority
-              />
-            </Link>
+          <div className={styles.profile}>
+            <div>
+              <Link href={"/About"}>
+                <Image
+                  src={"/favicon.ico"}
+                  alt="acad"
+                  width={34}
+                  height={34}
+                  priority
+                />
+              </Link>
+            </div>
+            <div className={styles.menu}>
+              <Dropdown content={<button>Log Out</button>} />
+            </div>
           </div>
-          <div className={styles.menu}>
-            <Dropdown content={<button>Log Out</button>} />
-          </div>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
     </>
   );
 };
