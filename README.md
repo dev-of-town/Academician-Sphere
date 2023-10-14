@@ -17,9 +17,10 @@ cd server
 3. run index.js in /server folder
 
 ```bash
-
 node ./index.js
-# or
+```
+#or
+```bash
 nodemon ./index.js
 
 ```
