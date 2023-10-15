@@ -29,7 +29,7 @@ const SignupPage = () => {
   const [isPassMatched, setIsPassMatched] = useState(false);
   const [isEmailOkay, setIsEmailOkay] = useState(false);
   const [isPassOkay, setIsPassOkay] = useState(false);
-  // const [isUsernameOkay, setIsUsernameOkay] = useState(true);
+  const [isUsernameOkay, setIsUsernameOkay] = useState(true);
   const [stylePassError, setStylePassError] = useState([
     { color: "red" },
     { color: "red" },
@@ -93,38 +93,35 @@ const SignupPage = () => {
   }, [user]);
 
   const onSignup = async () => {
-    if (isEmailOkay && isPassOkay && isPassMatched) {
-      // console.log(user);
-      try {
-        delete user.confirmPassword;
-        const {data} = await axios.post(
-          `http://localhost:4040/signup`,
-          user,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          }
-        );
-        // console.log(data);
-        console.log(data.status);
-        console.log(data.error);
-      } catch (error) {
-        console.log(error);
+    // if (isEmailOkay && isPassOkay && isPassMatched) {
+    // console.log(user);
+    try {
+      delete user.confirmPassword;
+      const { data } = await axios.post(`/api/signup`, user);
+      const { status } = data;
+      if(status===409){
+        setIsUsernameOkay(false);
       }
+      // router.push("/login");
+      // console.log(data.error);
+    } catch (error) {
+      console.log(error);
     }
+    // }
   };
 
-  useEffect(() => {
-    axios.get("http://localhost:4040/login",{withCredentials:true}).then((response)=>{
-      if(response.status===200){
-        router.push("/");
-      }
-    }).catch((error)=>{
-      console.log(error);
-    });
-  }, [])
-  
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:4040/login", { withCredentials: true })
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         router.push("/");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   return (
     <div className={styles["innerDiv"]}>
@@ -166,10 +163,9 @@ const SignupPage = () => {
             className={`${styles["usernameAvailability"]} ${styles["passwordGuide"]}`}
             style={{}}
           >
-            {/* {user.username.length > 0 &&
-              (isUsernameOkay
-                ? "You can take this user name."
-                : "username already taken")} */}
+            {user.username.length > 0 &&
+              !isUsernameOkay &&
+              "username already taken"}
           </p>
         </div>
         <div className={styles["loginFormColumn"]}>

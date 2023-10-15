@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(session({ secret: "mySecret" }));
 
 app.get("/login",(req,res)=>{
-  console.log(req);
+  console.log(req.cookies);
   const token = req.cookies.access_token;
   if(!token){
     return res.status(401).json("No token found");
@@ -62,7 +62,7 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ mail: enteredEmail });
 
     if (!user) {
-      return res.json({ error: "User does not exist", status: 407 });
+      return res.json({ message: "User does not exist", status: 407 });
     }
 
     const { password, _id, username, mail } = user;
@@ -74,26 +74,13 @@ app.post("/login", async (req, res) => {
 
       if (!result) {
         console.log("Passwords donot match.");
-        return res.status(403).json("password does not match");
+        return res.status(403).json({message:"password does not match",status:401});
       }
 
-      const tokenData = {
-        id: _id,
-        username: username,
-        mail: mail,
-      };
-
-      const token = jwt.sign(tokenData, JWT_TOKEN_SECRET, {
-        expiresIn: "30d",
-      });
-      console.log(token);
-      delete user.password;
+      user.password = undefined;
       return res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
         .status(200)
-        .json({message:"log-in",user});
+        .json({message:"log-in",user,token,status:200});
     });
   } catch (error) {
     console.log(error);
@@ -111,47 +98,13 @@ app.get("/checkusername", async (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  // const {prn} = req.body;
-  // const {eid} = req.body;
-  // const {username, password, email, college} = req.body;
-
-  // let user;
-  // if(prn){
-  //         user = new User({
-  //         username : username,
-  //         password :hash,
-  //         mail : email,
-  //         prn : prn,
-  //         dob : new Date()
-  //     })
-  // }
-  // else if(eid){
-  //         user = new User({
-  //         username : username,
-  //         password :hash,
-  //         mail : email,
-  //         eid : eid,
-  //         dob : new Date()
-  //     })
-  // }
-  // else{
-  //     user = new User({
-  //         username : username,
-  //         password :hash,
-  //         mail : email,
-  //         dob : new Date()
-  //     })
-  // }
-
-  // console.log(req.body);
-  // console.log(req.data);
 
   const { username, password, email } = req.body;
 
   const checkUser = await User.findOne({ username: username });
   if (checkUser) {
     console.log("User exists");
-    return res.json({ error: "Username already exists", status: 409 });
+    return res.json({message:"Username already exists",status:409}).status(100);
   }
   try {
     const hash = await bcrypt.hash(password, 12);
@@ -162,10 +115,10 @@ app.post("/signup", async (req, res) => {
     });
     await user.save();
     // req.session.user_id = user._id;
-    return res.json({ status: 210, bolbhai: "Kai nai?" });
+    return res.status(200).json("Successfully signed up");
   } catch (error) {
     console.log("Unable to create the user profile.", error);
-    return res.json({ error: error.message, status: 400 });
+    return res.status(500).json(error.message);
   }
 });
 

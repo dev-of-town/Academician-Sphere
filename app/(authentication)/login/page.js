@@ -18,29 +18,22 @@ const LoginPage = () => {
 
   const onLogin = async () => {
     try {
-      const data = await axios.post(`http://localhost:4040/login`, user, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        withCredentials:true
-      });
-      if (data.status === 200) {
-        router.push("/");
-      }
+      const data = await axios.post(`/api/login`, user);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(()=>{
-    axios.get("http://localhost:4040/login",{withCredentials:true}).then((response)=>{
-      if(response.status===200){
-        router.push("/");
-      }
-    }).catch((error)=>{
-      console.log(error);
-    });
-  },[]);
+  // useEffect(()=>{
+  //   axios.get("http://localhost:4040/login",{withCredentials:true}).then((response)=>{
+  //     if(response.status===200){
+  //       router.push("/");
+  //     }
+  //   }).catch((error)=>{
+  //     console.log(error);
+  //   });
+  // },[]);
 
   useEffect(() => {
     console.log(user);
