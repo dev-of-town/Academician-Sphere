@@ -1,4 +1,5 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
+// console.log(process.env.JWT_TOKEN_SECRET);
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -7,7 +8,6 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-
 const User = require("./models/user");
 const Community = require("./models/community");
 const Comment = require("./models/comment");
@@ -42,7 +42,9 @@ app.get("/login",(req,res)=>{
   if(!token){
     return res.status(401).json("No token found");
   }
-  return res.status(200).json("log-in");
+  const {username} = jwt.verify(token.access_token,JWT_TOKEN_SECRET);
+
+  return res.status(200).json({message:"log-in",username});
 });
 
 app.get("/logout",async (req,res)=>{
@@ -85,12 +87,13 @@ app.post("/login", async (req, res) => {
         expiresIn: "30d",
       });
       console.log(token);
+      delete user.password;
       return res
         .cookie("access_token", token, {
           httpOnly: true,
         })
         .status(200)
-        .json("log-in");
+        .json({message:"log-in",user});
     });
   } catch (error) {
     console.log(error);
