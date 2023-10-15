@@ -17,7 +17,7 @@ const SignupPage = () => {
   //to validate email
   const emailValidation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-  const route = useRouter();
+  const router = useRouter();
 
   const [user, setUser] = useState({
     username: "",
@@ -114,6 +114,17 @@ const SignupPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:4040/login",{withCredentials:true}).then((response)=>{
+      if(response.status===200){
+        router.push("/");
+      }
+    }).catch((error)=>{
+      console.log(error);
+    });
+  }, [])
+  
 
   return (
     <div className={styles["innerDiv"]}>

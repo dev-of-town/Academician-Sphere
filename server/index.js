@@ -1,10 +1,13 @@
+const dotenv = require("dotenv");
+// console.log(process.env.JWT_TOKEN_SECRET);
 const express = require("express");
 const app = express();
 const path = require("path");
 const bcrypt = require("bcrypt");
-const session = require("express-session");
+// const session = require("express-session");
 const mongoose = require("mongoose");
-
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const User = require("./models/user");
 const Community = require("./models/community");
 const Comment = require("./models/comment");
@@ -13,6 +16,7 @@ const cors = require("cors");
 const fs = require("fs");
 
 const PORT = 4040;
+const JWT_TOKEN_SECRET = 'THISISOURSECRET';
 
 mongoose
   .connect(
@@ -26,68 +30,84 @@ mongoose
     console.log(err);
   });
 
+app.use(cookieParser());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "Academician-Sphere")));
-app.use(session({ secret: "mySecret" }));
-app.use(cors());
-//app.use(express.static('Academician-Sphere/src'));
+// app.use(express.static(path.join(__dirname, "Academician-Sphere")));
+// app.use(session({ secret: "mySecret" }));
 
-// app.get('/',(req,res) =>{
-//     if(req.session.user_id) {
-//         // console.log(req.session.user_id);
-//         res.sendFile(path.join(__dirname,'/Academician-Sphere/src/community-home.html'));
-//     }
-//     else{
-//         res.redirect('/login');
-//     }
-// });
+app.get("/login",(req,res)=>{
+  console.log(req);
+  const token = req.cookies.access_token;
+  if(!token){
+    return res.status(401).json("No token found");
+  }
+  const {username} = jwt.verify(token.access_token,JWT_TOKEN_SECRET);
 
-// app.get('/c/new_post',(req,res)=>{
-//     res.sendFile(path.join(__dirname,'Academician-Sphere/src/create_post/create_post.html'));
-// });
+  return res.status(200).json({message:"log-in",username});
+});
 
-// app.get('/login',(req,res) =>{
-//     res.sendFile(path.join(__dirname,'/Academician-Sphere/src/register/login.html'));
-// })
-
-// app.get('/signup',(req,res) =>{
-//     res.sendFile(path.join(__dirname,'/Academician-Sphere/src/register/signup.html'));
-// })
-
-app.post("/login", async (req, res) => {
-  // const enteredEmail = req.body.email;
-  // const enteredPassword = req.body.password;
-  const {email:enteredEmail,password:enteredPassword} = req.body;
-  try {
-    const user = await User.findOne({ mail: enteredEmail });
-    if(!user){
-      return res.json({error:"User does not exist",status:407});
-    }
-    const {password,_id} = user;
-    bcrypt.compare(enteredPassword, password, (error, result) => {
-      if (error) {
-        console.log(`ERROR: ${error.message}`);
-      } else if (result) {
-        req.session.user_id = _id;
-        return res.json({status:208});
-      } else {
-        console.log("Passwords donot match.");
-        return res.json({status:408});
-      }
-    });
-  } catch (error) {
-    console.log(error);
-    return res.json({error:error.message,status:406});
+app.get("/logout",async (req,res)=>{
+  try{
+    return res.clearCookie('access_token').status(200).json({message:"logged-out",success:true});
+  }catch(error){
+    return res.json({error:error.message,success:false}).status(500);
   }
 });
 
-app.get("/checkusername", async (req,res)=>{
-  const {username} = req.query;
+app.post("/login", async (req, res) => {
+  const { email: enteredEmail, password: enteredPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ mail: enteredEmail });
+
+    if (!user) {
+      return res.json({ error: "User does not exist", status: 407 });
+    }
+
+    const { password, _id, username, mail } = user;
+
+    bcrypt.compare(enteredPassword, password, (error, result) => {
+      if (error) {
+        throw error;
+      }
+
+      if (!result) {
+        console.log("Passwords donot match.");
+        return res.status(403).json("password does not match");
+      }
+
+      const tokenData = {
+        id: _id,
+        username: username,
+        mail: mail,
+      };
+
+      const token = jwt.sign(tokenData, JWT_TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+      console.log(token);
+      delete user.password;
+      return res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({message:"log-in",user});
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error.message);
+  }
+});
+
+app.get("/checkusername", async (req, res) => {
+  const { username } = req.query;
   const checkUser = await User.findOne({ username: username });
   if (checkUser) {
-    return res.json({ error: "Username already exists", status : 409});
+    return res.json({ error: "Username already exists", status: 409 });
   }
-  return res.json({status:209});
+  return res.json({ status: 209 });
 });
 
 app.post("/signup", async (req, res) => {
@@ -131,7 +151,7 @@ app.post("/signup", async (req, res) => {
   const checkUser = await User.findOne({ username: username });
   if (checkUser) {
     console.log("User exists");
-    return res.json({ error: "Username already exists",status:409});
+    return res.json({ error: "Username already exists", status: 409 });
   }
   try {
     const hash = await bcrypt.hash(password, 12);
@@ -142,10 +162,10 @@ app.post("/signup", async (req, res) => {
     });
     await user.save();
     // req.session.user_id = user._id;
-    return res.json({status:210,bolbhai:"Kai nai?"});
+    return res.json({ status: 210, bolbhai: "Kai nai?" });
   } catch (error) {
     console.log("Unable to create the user profile.", error);
-    return res.json({error:error.message,status:400});
+    return res.json({ error: error.message, status: 400 });
   }
 });
 
