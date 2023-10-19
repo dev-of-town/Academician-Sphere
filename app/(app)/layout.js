@@ -1,30 +1,43 @@
-import { Inter } from 'next/font/google'
-import Navbar from './Components/Navbar'
-import Sidebar from './Components/Sidebar'
-import './globals.css'
-import styles from './styles/center.module.css'
+import { Inter } from "next/font/google";
+import UserProvider from "../_contexts/UserContext";
+import "../globals.css";
+
 // import { createContext } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ["latin"] });
+
+// export const metadata = {
+//   title: "Academician Sphere",
+//   description: "Community Based Social Media Network",
+// };
+
+// import { createContext } from 'react'
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Academician Sphere',
-  description: 'Community Based Social Media Network',
-}
+  title: "Academician Sphere",
+  description: "Community Based Social Media Network",
+};
 
+async function getUser() {
+  return { user: "Karm" };
+}
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className} suppressHydrationWarning suppressContentEditableWarning>
-        <Navbar/>
-        <div className={styles.center}>
-          <Sidebar/>
-          <main className={styles.main}>
-            {children}
-          </main>
-        </div>  
-      </body>
-    </html>
-  )
+    <>
+      <html lang="en">
+        <body
+          className={inter.className}
+          suppressHydrationWarning
+          suppressContentEditableWarning
+        >
+          {/* <AuthenticationProvider> */}
+          <UserProvider>{children}</UserProvider>
+          {/* </AuthenticationProvider> */}
+        </body>
+      </html>
+    </>
+  );
 }

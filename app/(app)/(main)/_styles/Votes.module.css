@@ -1,0 +1,10 @@
+.container{
+    display: flex;
+    gap: 7px;
+    padding: 1px 10px;
+    align-items: center;
+    border-radius: 1.5rem;
+    opacity: 1;
+    /* border-radius: 1px solid black; */
+    /* transition: all 500ms ease; */
+}

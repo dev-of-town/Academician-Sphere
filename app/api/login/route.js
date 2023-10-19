@@ -20,10 +20,12 @@ export async function POST(request) {
     });
     const res = NextResponse.json(data);
     if(data.status===200){
-        res.cookies.set("access_token",token,{
-            httpOnly:true,expires:'30d'
-        });
+      console.log(1);
+      res.cookies.set('access_token',token,{
+        httpOnly:true
+      });
     }
+    console.log(3);
 
     return res;
 } catch (error) {

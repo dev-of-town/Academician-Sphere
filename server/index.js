@@ -16,7 +16,7 @@ const cors = require("cors");
 const fs = require("fs");
 
 const PORT = 4040;
-const JWT_TOKEN_SECRET = 'THISISOURSECRET';
+const JWT_TOKEN_SECRET = "THISISOURSECRET";
 
 mongoose
   .connect(
@@ -36,22 +36,25 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, "Academician-Sphere")));
 // app.use(session({ secret: "mySecret" }));
 
-app.get("/login",(req,res)=>{
+app.get("/login", (req, res) => {
   console.log(req.cookies);
   const token = req.cookies.access_token;
-  if(!token){
+  if (!token) {
     return res.status(401).json("No token found");
   }
-  const {username} = jwt.verify(token.access_token,JWT_TOKEN_SECRET);
+  const { username } = jwt.verify(token.access_token, JWT_TOKEN_SECRET);
 
-  return res.status(200).json({message:"log-in",username});
+  return res.status(200).json({ message: "log-in", username });
 });
 
-app.get("/logout",async (req,res)=>{
-  try{
-    return res.clearCookie('access_token').status(200).json({message:"logged-out",success:true});
-  }catch(error){
-    return res.json({error:error.message,success:false}).status(500);
+app.get("/logout", async (req, res) => {
+  try {
+    return res
+      .clearCookie("access_token")
+      .status(200)
+      .json({ message: "logged-out", success: true });
+  } catch (error) {
+    return res.json({ error: error.message, success: false }).status(500);
   }
 });
 
@@ -74,13 +77,13 @@ app.post("/login", async (req, res) => {
 
       if (!result) {
         console.log("Passwords donot match.");
-        return res.status(403).json({message:"password does not match",status:401});
+        return res
+          .status(403)
+          .json({ message: "password does not match", status: 401 });
       }
 
       user.password = undefined;
-      return res
-        .status(200)
-        .json({message:"log-in",user,token,status:200});
+      return res.status(200).json({ message: "log-in", user, status: 200 });
     });
   } catch (error) {
     console.log(error);
@@ -98,13 +101,14 @@ app.get("/checkusername", async (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-
   const { username, password, email } = req.body;
 
   const checkUser = await User.findOne({ username: username });
   if (checkUser) {
     console.log("User exists");
-    return res.json({message:"Username already exists",status:409}).status(100);
+    return res
+      .json({ message: "Username already exists", status: 409 })
+      .status(100);
   }
   try {
     const hash = await bcrypt.hash(password, 12);
@@ -115,27 +119,32 @@ app.post("/signup", async (req, res) => {
     });
     await user.save();
     // req.session.user_id = user._id;
-    return res.status(200).json("Successfully signed up");
+    return res.json({message:"Successfully signed up",status:200,success:true});
   } catch (error) {
     console.log("Unable to create the user profile.", error);
-    return res.status(500).json(error.message);
+    return res.json({message:error.message,status:500,success:false});
+    // return res.status(500).json(error.message);
   }
 });
 
-app.get("/u/:username", async (req, res) => {
-  const username = req.params.username;
+app.get("/user", async (req, res) => {
+  const { _id } = req.query;
   try {
-    const userData = await User.findOne({ username: username });
-    if (userData) {
+    const user = await User.findOne({ _id });
+    if (user) {
       // console.log(userData);
-      res.send(userData); // to be redirected to the profile page .....
+      return res.json({ status: 200, success: true,user}); // to be redirected to the profile page .....
     } else {
-      console.log(`Unable to find profile with username: ${username}`);
-      res.redirect("/");
+      console.log(`Unable to find profile with username: ${_id}`);
+      return res.json({
+        status: 400,
+        message: `Unable to find profile with _id: ${_id}`,
+        success: false,
+      });
     }
   } catch (error) {
-    console.log(`ERROR: ${error.message}`);
-    res.redirect("/");
+    console.log(error);
+    return res.json({ message: error.message, status: 500 });
   }
 });
 

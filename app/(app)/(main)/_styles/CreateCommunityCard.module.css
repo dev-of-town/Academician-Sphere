@@ -1,0 +1,105 @@
+.container{
+    width: 100%;
+    padding: 10px;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+}
+
+
+.header{
+    display: flex;
+    gap: 5px;
+}
+    
+.comminfo{
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1.2rem;
+}
+
+.commnameinput{
+    flex-grow: 1;
+    height: 30px;
+    border-radius: 5px;
+    padding: 4px;
+    border: 0;
+    font-size: 1.1rem;
+}
+
+.commnameinput:focus{
+    outline: none;
+}
+
+.addbtn, .deleteBtn{
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.deleteBtn{
+    padding: 0px 5px;
+}
+
+.commdesc{
+    width: 100%;
+}
+
+.commdesc textarea{
+    font-size: 1rem;
+    width: 100%;
+    resize: none;
+    padding: 3px;
+}
+
+.outline{
+    background-color: white;
+    border: thin solid blue;
+    border-radius: 4px;
+    /* font: inherit; */
+    /* line-height: 1.5em; */
+
+}
+
+.outline:focus{
+    outline: none;
+}
+
+.adduser{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px;
+    border: 1px solid black;
+}
+
+.addedusers{
+    min-width: 300px;
+    /* max-width: 300px; */
+}
+
+.searchbar{
+    position: relative;
+    padding: 10px;
+    border-left: 1px solid black;
+}
+
+.subContainer{
+    margin-left: 1%;
+    border-left: 1px solid black;
+}
+
+.slider{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    transition: all 500ms ease;
+}
+

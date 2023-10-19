@@ -1,0 +1,226 @@
+.container {
+  width: 100%;
+  height: 100%;
+  /* display: flex;
+    flex-direction: column;
+    gap: 1px; */
+}
+
+.subContainer{
+    margin-left: 5%;
+}
+
+.header {
+}
+
+.template {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: relative;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-rows: repeat(6,50px) auto;
+  gap: 10px;
+  margin: 1rem;
+  /* position: relative; */
+  /* align-items: center; */
+}
+
+.profileimg {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed black;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 10px;
+  position: relative;
+  transform: translateY(-60%);
+  background-color: white;
+  margin-left: 2rem;
+  z-index: 250;
+}
+
+.communityname {
+  font-size: 1.2rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  gap: 5px;
+  grid-row: span 1;
+  grid-column: span 1;
+  /* width: 300px; */
+}
+
+
+.communitynameinp {
+  outline: none;
+  border: 0;
+  flex-grow: 1;
+  font-size: 1.1rem;
+  /* padding: 10px; */
+}
+
+.communitydesc {
+  grid-area: 2 / 2 / 7 / -2;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 1rem;
+  /* width: 100%; */
+  position: relative;
+}
+
+.communitydesc > div {
+  display: flex;
+  align-items: center;
+}
+
+.communitydesc textarea {
+  font-size: 1.3rem;
+  resize: none;
+}
+
+.counterDesc {
+  font-size: 1rem;
+  margin-left: auto;
+  font-family:'consolas';
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.wantheirarchy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  grid-column: span 2;
+}
+
+.typeofcomm {
+  position: relative;
+  font-family: Arial;
+}
+
+.typeofcomm select {
+    /* styling */
+    background-color: white;
+    border: thin solid blue;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+  
+    /* reset */
+      
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.typeofcomm select {
+    background-image:
+      linear-gradient(45deg, transparent 50%, gray 50%),
+      linear-gradient(135deg, gray 50%, transparent 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+}
+
+
+.outline{
+    background-color: white;
+    border: thin solid blue;
+    border-radius: 4px;
+    /* font: inherit; */
+    /* line-height: 1.5em; */
+
+}
+
+.typeofcomm select:focus{
+    background-image:
+      linear-gradient(45deg, green 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, green 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: green;
+    outline: 0;
+}
+
+.addmods{
+    /* grid-column: span 6; */
+    grid-row: span 6;
+    font-size: 1.3rem;
+    font-weight: 600;
+    overflow: auto;
+    border: 1px solid blue;
+    border-radius: 0.7rem;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+.searchbar{
+    font-size: 1rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 2px;
+} 
+
+.addmods > .title{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.createHierarchy{
+    grid-row: 3 / span 8;
+    grid-column: 1 / 3;
+    height: 100%;
+    border: 2px solid blue;
+}
+
+.btns{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+

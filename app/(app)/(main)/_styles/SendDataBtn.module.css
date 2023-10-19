@@ -1,0 +1,31 @@
+.btn{
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: green;
+    color: white;
+    border-radius: 0.5rem;
+    width: 150px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    transition: background-color 250ms ease;
+}
+
+.btn:hover{
+    background-color: rgb(31, 160, 31);
+}
+
+.spinner {
+  border: 3px solid #f3f3f3; /* Light grey */
+  border-top: 3px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

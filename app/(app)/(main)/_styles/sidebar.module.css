@@ -1,0 +1,25 @@
+.sidebar{
+    /* background-color: bisque; */
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    /* justify-content: center; */
+    align-items: center;
+    position: fixed;
+    left: 0;
+    /* top: 50px; */
+    min-width: 325px;
+    height: 100%;
+    grid-column: 1 / 2;
+    border-right:1px solid black; 
+    padding: 10px;
+    transition: transform 500ms ease;
+}
+
+.communitiesYouFollow{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
