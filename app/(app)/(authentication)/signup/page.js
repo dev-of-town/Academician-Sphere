@@ -7,24 +7,27 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+const pCheck1 = /.{8,}/;
+const pCheck2 = /[A-Z]/;
+const pCheck3 = /[0-9]/;
+const pCheck4 = /\W/;
+const emailValidation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
 const SignupPage = () => {
   // to check password
-  const pCheck1 = /.{8,}/;
-  const pCheck2 = /[A-Z]/;
-  const pCheck3 = /[0-9]/;
-  const pCheck4 = /\W/;
+
 
   //to validate email
-  const emailValidation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+ 
 
   const router = useRouter();
-
   const [user, setUser] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isPassMatched, setIsPassMatched] = useState(false);
   const [isEmailOkay, setIsEmailOkay] = useState(false);
@@ -36,6 +39,7 @@ const SignupPage = () => {
     { color: "red" },
     { color: "red" },
   ]);
+
 
   const validateEmail = () => {
     // console.log("VALIDATE MAIL",user);
@@ -246,7 +250,7 @@ const SignupPage = () => {
         </div>
         <div className={styles["loginFormColumn"]}>
           <p>
-            Already have an account? <a href="login">Login</a>
+            Already have an account? <Link href="/login">Login</Link>
           </p>
         </div>
       </div>

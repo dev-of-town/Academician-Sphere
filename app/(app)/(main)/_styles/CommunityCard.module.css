@@ -31,7 +31,7 @@
 .subcontainer{
     margin-left: 4%;
     border-left: 1px solid black;
-    transition: height 1s ease;
+    transition: all 250ms ease;
 }
 
 .slide-up{

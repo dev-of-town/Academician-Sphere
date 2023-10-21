@@ -1,18 +1,27 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import styles from "../_styles/CommunityCard.module.css";
 
 const CommunityCard = ({ communities, id }) => {
-
-    const [isOpen, setIsOpen] = useState(false);
+  const subRef = useRef(null);
   let x = communities.filter((com) => com.parent === id);
-  let donot = (!isOpen || x.length === 0);
+  let doNotShow = x.length === 0;
+  const btnRef = useRef(null);
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        {x.length == 0 || <button onClick={()=>setIsOpen(!isOpen)}>{isOpen?"-":"+"}</button>}
+        {doNotShow || <button style={{fontSize:'1.3rem'}} ref={btnRef} onClick={() => {
+          let list = subRef.current.classList;
+          if(list.contains("h-0")){
+            list.remove("h-0");
+            btnRef.current.textContent = "-";
+          }else{
+            list.add("h-0");
+            btnRef.current.textContent = "+";
+          }
+        }}>{"+"}</button>}
         {!id && (
           <div className={styles.profileimg}>
             <Image src={communities[id].profileimg} width={35} height={35} />{" "}
@@ -20,8 +29,8 @@ const CommunityCard = ({ communities, id }) => {
         )}
         <Link href="/">{communities[id].name}</Link>
       </div>
-      { donot || (
-        <div className={`${styles.subcontainer}`} style={{height:(isOpen)?"100%":"0%"}}>
+      {doNotShow || (
+        <div className={`${styles.subcontainer} h-0`} ref={subRef}>
           {x.map((ele) => (
             <CommunityCard communities={communities} id={ele.id} key={ele.id} />
           ))}

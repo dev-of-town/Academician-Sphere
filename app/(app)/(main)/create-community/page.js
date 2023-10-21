@@ -21,7 +21,7 @@ const page = () => {
 
   let allRef = [];
 
-  const { insertNode, deleteNode, editNode} = useNode();
+  const { insertNode, deleteNode, editNode } = useNode();
 
   const handleInsertNode = (parentId) => {
     const finalStructure = insertNode(communityData, parentId);
@@ -32,9 +32,9 @@ const page = () => {
   const handleEditNode = (id, community) => {
     const finalStructure = editNode(communityData, id, community);
     console.log(communityData);
-};
+  };
 
-const handleDeleteNode = (id) => {
+  const handleDeleteNode = (id) => {
     const finalStructure = deleteNode(communityData, id);
     const temp = { ...finalStructure };
     setCommunityData(temp);
@@ -51,17 +51,14 @@ const handleDeleteNode = (id) => {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.template}>
-            <ImageUploader imageData={templateImage}/>
+            <ImageUploader imageData={templateImage} />
           </div>
-          <div className={styles.main}>
+        </div>
+        <div className={styles.main}>
+          <div className={styles.cont1}>
             <div className={styles.profileimg}>
-              <ImageUploader imageData={profileImage}/>
+              <ImageUploader imageData={profileImage} />
             </div>
-            <div className={`${styles.outline} ${styles.communityname}`}>
-              <div> c/ </div>
-              <div ref={communityNameRef}></div>
-            </div>
-
             <div className={styles.addmods}>
               <div className={styles.title}>Add Moderators :</div>
               <div className={styles.searchbar}>
@@ -69,6 +66,23 @@ const handleDeleteNode = (id) => {
               </div>
               <div className={styles.added}></div>
             </div>
+            <div className={styles.btns}>
+              <SendDataButton data={communityData} url={"/api/new-community"}>
+                Submit
+              </SendDataButton>
+              <button
+                className={btnclass.btn}
+                style={{ backgroundColor: "red" }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+          <div className={styles.cont2}>
+            {/* <div className={`${styles.outline} ${styles.communityname}`}>
+              <div> c/ </div>
+              <div ref={communityNameRef}></div>
+            </div> */}
             <div className={styles.createHierarchy}>
               <CreateCommunityCard
                 isRoot={true}
@@ -81,14 +95,6 @@ const handleDeleteNode = (id) => {
               />
             </div>
           </div>
-        </div>
-        <div className={styles.btns}>
-            <SendDataButton data={communityData} url={'/api/new-community'}>
-                Submit
-            </SendDataButton>
-            <button className={btnclass.btn} style={{backgroundColor:'red'}}>
-                Cancel
-            </button>
         </div>
       </div>
     </>

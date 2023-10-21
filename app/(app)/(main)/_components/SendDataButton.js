@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from '../_styles/SendDataBtn.module.css'
 
-const SendDataButton = ({data,children,url}) => {
+const SendDataButton = ({data,children,url,style}) => {
     const [sending,setSending] = useState(false);
     const handleClick = async (e)=>{
         try{
@@ -25,7 +25,7 @@ const SendDataButton = ({data,children,url}) => {
         }
     }
   return (
-    <button className={styles.btn} onClick={handleClick}>
+    <button className={styles.btn} style={{style}} onClick={handleClick}>
         {sending&&<div className={styles.spinner}></div>}
         {children}
     </button>

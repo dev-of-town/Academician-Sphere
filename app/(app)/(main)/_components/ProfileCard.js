@@ -10,10 +10,10 @@ const ProfileCard = ({community,profileimage}) => {
             <Image src={profileimage} alt={"MSU"} width={30} height={30} priority/>
         </div>
         <div className={styles.username}>
-            <div className={styles.userlinks}>
+            <Link href={"/"} className={styles.userlinks}>
                 <span className={""}>u/ </span>
                 {community}
-            </div>
+            </Link>
         </div>
     </div>
   )

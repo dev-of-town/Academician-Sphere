@@ -3,7 +3,7 @@ import React from 'react'
 import styles from '../_styles/CreatePostButton.module.css'
 import Link from 'next/link'
 
-const CreatPostButton = () => {
+const CreatPostButton = ({img}) => {
   return (
     <Link href={"/"} className={styles.createpostbtn}>
         <div className={styles.profileimg}>

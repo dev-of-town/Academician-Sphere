@@ -2,6 +2,7 @@ import React from 'react'
 import styles from '../_styles/Feed.module.css'
 import Post from './Post'
 import CreatPostButton from './CreatPostButton';
+import FeedFilters from './FeedFilters';
 
 const Feed = async () => {
     let dummy = {
@@ -20,6 +21,7 @@ const Feed = async () => {
     <div className={styles.container}>
         <div className={styles.header}>
             <CreatPostButton />
+            <FeedFilters />
         </div>
         <div className={styles.feed}>
             <Post data={dummy}/>

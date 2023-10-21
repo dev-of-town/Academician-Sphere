@@ -56,7 +56,7 @@ const CreateCommunityCard = ({
                 handleEditNode(community.id,comm)
                 // console.log(comm);
                 if(isRoot){
-                    communityNameRef.current.textContent = comm.name;
+                    // communityNameRef.current.textContent = comm.name;
                 }
               }}
               placeholder="enter community name"

@@ -1,0 +1,13 @@
+.container{
+    margin-left: auto;
+}
+
+.filter{
+    padding:10px 12px;
+    border:1px solid blue;
+    border-radius:1.5rem;
+}
+
+.filter:hover{
+    outline: none;
+}

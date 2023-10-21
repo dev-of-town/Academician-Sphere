@@ -1,4 +1,6 @@
+"use client"
 import React, { useState } from 'react'
+import styles from '../_styles/FollowBtn.module.css'
 
 
 const followProfile = async (profileid)=>{
@@ -18,12 +20,11 @@ const followProfile = async (profileid)=>{
     }
 }
 
+
 const FollowBtn = ({profileid,followed}) => {
     const [follow,setFollow] = useState(followed);
-    const [optimisticFollow,setOptimisticFollow] = useState(follow);
-
     const handleClick = async ()=>{
-        setOptimisticFollow(!optimisticFollow);
+        setFollow(!follow);
         try{
             const response = await fetch(url, {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -36,17 +37,17 @@ const FollowBtn = ({profileid,followed}) => {
             });
             const {success} = await response.json();
             if(!success){
-                setOptimisticFollow(!optimisticFollow);
+                setFollow(!follow);
             }
         }catch(error){
             console.log(error);
-            setOptimisticFollow(!optimisticFollow);
+            setFollow(!follow);
         }   
     }
 
   return (
     <button className={styles.btn} onClick={handleClick}>
-        {optimisticFollow?'followed':'follow'}
+        {follow?'followed':'follow'}
     </button>
   )
 }

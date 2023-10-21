@@ -1,7 +1,11 @@
 .container{
     display: flex;
     flex-direction: column;
-    
+    padding: 10px 10px;
+    border: 1px solid black;
+    border-radius: 1rem;
+    gap: 10px;
+    overflow-y: auto;
 }
 
 .header{
@@ -9,8 +13,9 @@
 }
 .profile{
     display: flex;
-    height: 25px;
     font-size: 1.2rem;
+    align-items: center;
+    gap: 10px;
     
 }
 
@@ -25,12 +30,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     margin-left: 10px;
     background-color: white;
     border-radius: 50%;
     border: 1px solid black;
     padding: 10px 5px;
-    transform: translateY(-60%);
+    /* transform: translateY(-60%); */
+}
+
+.description{
+    
+}
+
+.followContainer{
+    display: flex;
+    align-items: center;
+}
+
+.followBtn{
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.modsContainer{
+
+}
+
+.mods{
+    list-style: none;
+}
+
+.mods > li{
+    margin: 10px 5px;
 }

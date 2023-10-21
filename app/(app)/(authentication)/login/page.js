@@ -8,10 +8,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import useUser, { UserContext } from "@/app/_contexts/UserContext";
 
+const emailValidation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
 const LoginPage = () => {
   const {user,setUser} = useContext(UserContext);
   const router = useRouter();
-  const emailValidation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
   const [userCred, setUserCred] = useState({
     email: "",
     password: "",
