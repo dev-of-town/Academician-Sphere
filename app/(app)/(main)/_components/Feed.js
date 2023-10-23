@@ -4,7 +4,8 @@ import Post from './Post'
 import CreatPostButton from './CreatPostButton';
 import FeedFilters from './FeedFilters';
 
-const Feed = async () => {
+const Feed = async ({myProps}) => {
+    console.log(myProps);
     let dummy = {
         community: "The MSU",
         timeago: "3 hours",
@@ -30,6 +31,13 @@ const Feed = async () => {
         </div>
     </div>
   )
+}
+export function getServerSideProps(context){
+    console.log(10,context);
+
+    return{
+        myProps:{posts:"123"}
+    }
 }
 
 export default Feed

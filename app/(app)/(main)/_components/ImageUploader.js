@@ -3,13 +3,15 @@ import React, { useRef, useState } from "react";
 import styles from "../_styles/ImageUploader.module.css";
 // import { ToastContainer, toast } from "react-toastify";
 
-const ImageUploader = ({imageData}) => {
+const ImageUploader = ({imageData,fieldName}) => {
   const [image, setImage] = useState(null);
   const ref = useRef();
 
   const handleChange = ({ target: { files } }) => {
     if (files[0]) {
+      imageData.append(fieldName,files[0]);
       setImage(URL.createObjectURL(files[0]));
+      console.log(files[0]);
     }
   };
   

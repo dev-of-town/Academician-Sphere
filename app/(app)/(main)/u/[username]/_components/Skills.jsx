@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,7 +9,7 @@ export default function Skills({Skills,changer})
     return(
       <div className="mt-3">
       {Skills.map((skill,index) =>
-          <div className={`d-flex  ${styles.list} `}>
+          <div className={`d-flex  ${styles.list} `} key={index}>
            
           <div>
             <div className={styles.ins}>

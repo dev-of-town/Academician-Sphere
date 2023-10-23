@@ -5,20 +5,22 @@ import { createContext, useEffect, useContext, useState, useRef } from "react";
 // import { cookies } from 'next/headers'
 
 export const MenuContext = createContext({
-  isSideMenuOpen: true,
+  isSideMenuOpen: false,
   setIsSideMenuOpen: () => {},
   refSideMenu : null,
-  refCommunityAbout : null
+  refCommunityAbout : null,
+  refSearchFull : null
 });
 
 let i = 0;
 
 export default function MenuProvider({ children }) {
-  const [isSideMenuOpen, setIsSideMenuOpen] = useState(true);
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const refSideMenu = useRef();
   const refCommunityAbout = useRef();
+  const refSearchFull = useRef();
   return (
-    <MenuContext.Provider value={{ isSideMenuOpen,setIsSideMenuOpen,refSideMenu,refCommunityAbout}}>
+    <MenuContext.Provider value={{ isSideMenuOpen,setIsSideMenuOpen,refSideMenu,refCommunityAbout,refSearchFull}}>
       {children}
     </MenuContext.Provider>
   );

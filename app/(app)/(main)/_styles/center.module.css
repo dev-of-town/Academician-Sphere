@@ -1,17 +1,18 @@
 /* @import url("../globals.css"); */
 
-.center{
-    position: relative;
-    top: 55px;
-    /* background-color: rgb(196, 196, 255); */
+.center {
+  position: relative;
+  top: 55px;
+  /* background-color: rgb(196, 196, 255); */
+  width: 100%;
+  height: calc(100% - 55px);
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
     width: 100%;
-    height: calc(100% - 55px);
-    display: grid;
-    grid-template-columns: 325px 1fr;
-    position: relative;
 }
-
-.main{
-    grid-column: 2 / 3;
-}
-

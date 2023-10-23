@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 import { useState } from "react";
 export default function AddLink2({ progile_demo_gen, chflag, changer }) {

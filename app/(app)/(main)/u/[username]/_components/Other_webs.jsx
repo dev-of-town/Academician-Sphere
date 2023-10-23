@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'

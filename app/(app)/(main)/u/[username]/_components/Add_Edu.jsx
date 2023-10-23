@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 import { useState } from "react";
 export default function Add_Edu({ colleges, chflag,changer }) {

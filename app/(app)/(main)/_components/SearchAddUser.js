@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "../_styles/SearchBar.module.css";
 import specs from '../_styles/SearchAddUser.module.css'
 import Image from "next/image";
+
 
 const getUser = async (query) => {
   // let users = null;
@@ -13,12 +14,24 @@ const getUser = async (query) => {
 const SearchAddUser = ({ forUser, forCommunity, forBoth, maxHeight, top, ref, placeholder }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [output, setOutput] = useState([]);
+  const refOutput = useRef(null);
+
   const searchHappen = async (e) => {
     setSearchQuery(e.target.value);
     console.log(searchQuery);
     setOutput(await getUser(searchQuery));
     console.log(output);
   };
+
+  const handleFocus = (e)=>{
+    e.preventDefault();
+    refOutput.current.classList.remove("h-0");
+  }
+  
+  const handleOutFocus = (e)=>{
+    e.preventDefault();
+    refOutput.current.classList.add("h-0");
+  }
 
   return (
     <div className={styles.searchBar}>
@@ -37,15 +50,16 @@ const SearchAddUser = ({ forUser, forCommunity, forBoth, maxHeight, top, ref, pl
           type="text"
           placeholder={placeholder}
           onChange={searchHappen}
+          onFocus={handleFocus}
+          onBlur={handleOutFocus}
         />
       </div>
-      {searchQuery && (
-        <div className={`${styles.searchoutput} ${specs.searchoutput}`} style={{maxHeight,top}}>
-          {output.map((item) => {
+      {(
+        <div className={`${styles.searchoutput} ${specs.searchoutput}`} style={{maxHeight,top}} ref={refOutput}>
+          {searchQuery && output.map((item) => {
             return (
               <div className={styles.outputitem}>
                 {item.name}
-
                 <button onClick={() => {}} className={specs.add}>Add</button>
               </div>
             );

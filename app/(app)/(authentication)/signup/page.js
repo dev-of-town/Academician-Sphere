@@ -16,9 +16,7 @@ const emailValidation = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const SignupPage = () => {
   // to check password
 
-
   //to validate email
- 
 
   const router = useRouter();
   const [user, setUser] = useState({
@@ -39,7 +37,6 @@ const SignupPage = () => {
     { color: "red" },
     { color: "red" },
   ]);
-
 
   const validateEmail = () => {
     // console.log("VALIDATE MAIL",user);
@@ -97,14 +94,22 @@ const SignupPage = () => {
   }, [user]);
 
   const onSignup = async () => {
+    console.log("Sign up", user);
     // if (isEmailOkay && isPassOkay && isPassMatched) {
     // console.log(user);
     try {
       delete user.confirmPassword;
-      const { data } = await axios.post(`/api/signup`, user);
-      if(data.status===409){
+      const { data } = await axios.post(`http://localhost:4041/signup`, user, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        withCredentials:true,
+        
+      });
+      console.log(data);
+      if (data.status === 409) {
         setIsUsernameOkay(false);
-      }else if(data.status===200){
+      } else if (data.status === 200) {
         router.push("/login");
       }
     } catch (error) {

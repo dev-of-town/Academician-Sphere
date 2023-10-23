@@ -30,8 +30,6 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body
           className={inter.className}
-          suppressHydrationWarning
-          suppressContentEditableWarning
         >
           {/* <AuthenticationProvider> */}
           <UserProvider>{children}</UserProvider>

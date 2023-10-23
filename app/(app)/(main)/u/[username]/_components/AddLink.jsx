@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 
 export default function AddLink() {

@@ -91,7 +91,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className={styles.sidebar} ref={refSideMenu}>
+    <div className={`${styles.sidebar} translate-x-full`} ref={refSideMenu} >
       <div style={{backgroundColor:'transparent',width:'100%'}}>
         <CreateCommunityBtn />
       </div>

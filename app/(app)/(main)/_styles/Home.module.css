@@ -7,6 +7,7 @@
 
 .feed{
     grid-column: span 1;
+    padding: 10px;
 }
 
 .aboutcommunity{
@@ -18,3 +19,51 @@
     border-left: 1px solid black;
     overflow-y: auto;
 }
+
+@media only screen and (max-width:320px) {
+    .main{
+        display: flex;
+        justify-content: center;
+    }
+
+    .feed{
+        padding: 5px;
+    }
+   
+    .aboutcommunity{
+        display: none;
+    }
+
+}
+
+@media only screen and (min-width:321px) and (max-width:534px) {
+
+
+    
+}
+
+@media only screen and (min-width:535px) and (max-width:900px) {
+
+
+
+}
+
+@media only screen and (min-width:901px) and (max-width:1024px) {
+   
+
+}
+
+@media only screen and (min-width:1400px){
+    .main{
+    }
+
+    .feed{
+        padding: 5px;
+    }
+   
+    .aboutcommunity{
+        
+    }
+}
+
+

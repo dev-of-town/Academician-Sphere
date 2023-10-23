@@ -1,15 +1,13 @@
 "use client";
-import React, { useContext, useState } from "react";
 import styles from "../_styles/Navbar.module.css";
 import Image from "next/image";
-// import logo from "@/public/.svg";
 import Link from "next/link";
-import Dropdown from "./Dropdown";
 import SearchBar from "./SearchBar";
-import { UserContext } from "@/app/_contexts/UserContext";
 import HamBurgerBtn from "./HamBurgerBtn";
+import { useMenu } from "@/app/_contexts/MenuContext";
 
 const Navbar = () => {
+  const {refSearchFull} = useMenu();
   return (
     <>
       <header className={styles.header}>
@@ -41,12 +39,26 @@ const Navbar = () => {
             <Link href={"/"}>Quiz and Practice</Link>
         </div> */}
 
-          <div className={styles.searchBar}>
+          <div className={styles.searchBar} ref={refSearchFull}>
             <SearchBar />
           </div>
-          <div className={styles.login}>
+          <button className={styles.searchicon}
+            onClick={()=>{
+              console.log("dasd",refSearchFull.current);
+              refSearchFull.current.classList.add("z-max");
+            }}
+          >
+            <Image
+              src={"/searchicon.svg"}
+              alt="search"
+              width={26}
+              height={26}
+              priority
+            />
+          </button>
+          {/* <div className={styles.login}>
             <button> Login </button>
-          </div>
+          </div> */}
 
           <div className={styles.profile}>
             <div>
@@ -61,9 +73,9 @@ const Navbar = () => {
               </Link>
             </div>
             <div className={styles.menu}>
-              <Dropdown>
+              {/* <Dropdown>
                 <button onClick={()=>{console.log("Hey I am Clicked");}}>Log Out</button>
-              </Dropdown>
+              </Dropdown> */}
             </div>
           </div>
         </nav>

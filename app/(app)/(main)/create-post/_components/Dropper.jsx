@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import "bootstrap/dist/css/bootstrap.css";
 import styles from "../_css/createPost.module.css";
 
 import { useCallback, useEffect, useState } from 'react'

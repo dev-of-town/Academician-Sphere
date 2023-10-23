@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus } from '@fortawesome/free-solid-svg-icons'
@@ -11,7 +11,7 @@ export default function Education({c,changer})
     return(
         <div className="mt-3">
             {c.map((clg,index) =>
-                <div className={`d-flex  ${styles.list} `}>
+                <div className={`d-flex  ${styles.list} `} key={index}>
                 <img src={clg.img} className={styles.list_img} />
                 <div>
                   <div className={styles.ins}>

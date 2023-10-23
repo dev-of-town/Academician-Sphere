@@ -12,7 +12,7 @@ const FeedFilters = ({}) => {
   return (
     <div className={styles.container} style={{marginLeft:'auto'}}>
       <select className={styles.filter} ref={refSelect} onClick={handleClick}>
-        <option value="all" selected>All</option>
+        <option value="all">All</option>
         <option value="news">News</option>
         <option value="event">Event</option>
         <option value="collaboration">Collaboration</option>

@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/createPost.module.css";
 
 export default function Link_post({crt_post,changeCon})

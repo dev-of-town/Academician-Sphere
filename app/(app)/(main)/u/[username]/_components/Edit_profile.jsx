@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
+
 import styles from "../_css/Profile.module.css";
 import { useState } from "react";
 export default function Edit_profile({ profile_demo_gen, changer, change_edit_flag }) {

@@ -15,7 +15,7 @@ const Dropdown = ({ children }) => {
     } else {
       list.add("dis-none");
     }
-    // setIsOpen(!isOpen);
+    // setIsOpen(!isOpen);s
   };
 
   return (

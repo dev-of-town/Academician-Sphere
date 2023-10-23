@@ -7,6 +7,7 @@ import Image from "next/image";
 import OnlyForScroll from "./_components/OnlyForScroll";
 
 const CommunityPage = ({ params }) => {
+  console.log(params);
   let community = {
     id: 0,
     name: "The MSU",
