@@ -21,11 +21,7 @@ const LoginPage = () => {
 
   const onLogin = async () => {
     try {
-      const { data } = await axios.post(`http://localhost:4041/signup`, user, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const { data } = await axios.post(`/api/login`, userCred);
       if(data.status===200){
         console.log(data.user);
         setUser(data.user);

@@ -1,14 +1,15 @@
 "use client";
 import React, { useState } from "react";
+
 import { Montserrat, Playfair_Display } from "@next/font/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPhotoFilm, faLink } from "@fortawesome/free-solid-svg-icons";
 import styles from "./_css/createPost.module.css";
 import PostReach from "./_components/PostReach";
 import Comm_List from "./_components/Comm_List";
-import Content_post from "./_components/Content_post";
 import Link_post from "./_components/Link_post";
 import Dropzone from "./_components/Dropper";
+import { useParams } from "next/navigation";
 const communities = [
   { name: "Cricket", nom: 5687 },
   { name: "Cricket1", nom: 567 },
@@ -16,20 +17,27 @@ const communities = [
 ];
 
 export default function page({ comm }) {
+
+ const params = useParams();
+console.log(params);
+
+let [user_communities,getc]=useState([]);
+
   const [crt_post, changeCon] = useState({
-    community: ["Cricket", "Cricket1", "Cricket2"],
-    sender_id: 12,
+    community: [],
+    sender_id: params.user_id,
     isPublic: true,
     post_content: 1,
     date: new Date(),
     category: "Events",
     title: "",
     body: "",
-    attachments: [],
+    attachment: [],
+    votes:[],
     upvotes: [],
     downvotes: [],
     comments: [],
-    res_link: [],
+   
   });
   console.log("catagory", crt_post.category);
 
@@ -63,9 +71,9 @@ export default function page({ comm }) {
         <div>
           {" "}
           <Comm_List
-            communities={crt_post.community}
+            user_communities = {user_communities}
             crt_post={crt_post}
-            changeCon={changeCon}
+            changeCon={getc}
           />
         </div>
         <div>
@@ -121,7 +129,7 @@ export default function page({ comm }) {
               </span>
             </a>
           </button>
-          <button
+          {/* <button
             className={`bg-white py-2 ${
               (styles.typeTitle, crt_post.post_content === 3 && styles.current)
             }`}
@@ -140,7 +148,7 @@ export default function page({ comm }) {
                 &nbsp; Link
               </span>
             </a>
-          </button>
+          </button> */}
         </div>
 
         <textarea
@@ -180,7 +188,7 @@ export default function page({ comm }) {
         )}
       </div>
       <div>
-        <button className="btn btn-primary float-end m-2">Upload</button>
+        <button className="btn btn-primary float-end m-2" >Upload</button>
       </div>
     </div>
   );

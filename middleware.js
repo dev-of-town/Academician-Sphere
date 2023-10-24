@@ -6,27 +6,11 @@ const isAuthenticated = (token) => {};
 
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
-  console.log(request.cookies);
-  let token = request.cookies.get("connect.sid");   
-  try {
-    console.log("Helloeoeoejionibguaebfiuoaw");
-    const data = await fetch("http://localhost:4041/login", {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      headers: {
-        //   "Content-Type": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      credentials:'include'
-    });
-    console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(token);
+  // console.log(request.cookies);
+  let token = request.cookies.get("access_token");   
 
   if (path !== "/login" && path !== "/signup") {
-    if (!token) {
+    if(!token){
       return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
   }

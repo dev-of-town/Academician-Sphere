@@ -6,6 +6,7 @@ import TheBtn from "../_components/TheBtn";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useUser } from "@/app/_contexts/UserContext";
 
 const pCheck1 = /.{8,}/;
 const pCheck2 = /[A-Z]/;
@@ -19,6 +20,7 @@ const SignupPage = () => {
   //to validate email
 
   const router = useRouter();
+  const {user:loginUser,setUser:setLoginUser} = useUser();
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -99,18 +101,21 @@ const SignupPage = () => {
     // console.log(user);
     try {
       delete user.confirmPassword;
-      const { data } = await axios.post(`http://localhost:4041/signup`, user, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        withCredentials:true,
+      const { data } = await axios.post(`/api/signup`, user);
+      // const { data } = await axios.post(`/api/signup`, user, {
+      //   headers: {
+      //     "Content-Type": "application/x-www-form-urlencoded",
+      //   },
+      //   withCredentials:true,
         
-      });
-      console.log(data);
+      // });
+      console.log(data,"Beforre Signup");
       if (data.status === 409) {
         setIsUsernameOkay(false);
       } else if (data.status === 200) {
-        router.push("/login");
+        // setLoginUser(data.user);
+        console.log(data.user,"In signup");
+        router.push(`/u/${data.user._id}`);
       }
     } catch (error) {
       console.log(error);

@@ -5,11 +5,13 @@ export default function Edit_profile({ profile_demo_gen, changer, change_edit_fl
 
     
     const [newgen,newgenchange] = useState({
-        // institute: profile_demo_gen.institute,
         username: profile_demo_gen.username,
         profile_img: profile_demo_gen.profile_img,
         background_img: profile_demo_gen.background_img,
-      
+        pr_file:[],
+        bc_file:[],
+        prchange:0,
+        bcchange:0,
         about:profile_demo_gen.about
 
     })
@@ -30,7 +32,7 @@ export default function Edit_profile({ profile_demo_gen, changer, change_edit_fl
             e.preventDefault();
             //console.log(newgen);
             //console.log("changing ",newgen.username);
-            changer({...profile_demo_gen,username:newgen.username,profile_img:newgen.profile_img,background_img:newgen.background_img})
+            changer({...profile_demo_gen,username:newgen.username,profile_img:newgen.profile_img,background_img:newgen.background_img},newgen.pr_file,newgen.bc_file,newgen.prchange,newgen.bcchange)
 
             change_edit_flag(1);
         }
@@ -53,14 +55,14 @@ export default function Edit_profile({ profile_demo_gen, changer, change_edit_fl
                 <div >Profile Image</div>
                 <div >
                     <input type="file" name="profile_img"
-                        accept="image/png,image/gif,image/jpeg,image/webp" onChange={ (e) => newgenchange({ ...newgen, profile_img: e.target.value }) }  />
+                        accept="image/png,image/gif,image/jpeg,image/webp" onChange={ (e) => newgenchange({ ...newgen, pr_file: e.target.files,prchange:1 })  }  />
                 </div>
             </div>
             <div>
                 <div >Background Image</div>
                 <div >
                     <input type="file" name="background_img"
-                        accept="image/png,image/gif,image/jpeg,image/webp"  onChange={ (e) => newgenchange({ ...newgen, background_img: e.target.value }) }  />
+                        accept="image/png,image/gif,image/jpeg,image/webp"  onChange={ (e) => newgenchange({ ...newgen, bc_file: e.target.files,bcchange:1 }) }  />
                 </div>
             </div>
 

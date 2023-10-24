@@ -18,126 +18,172 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "./_components/axios.jsx";
 import { headers } from "@/next.config";
 import Show_connection from "./_components/Show_connection";
+import { useRouter } from "next/navigation";
 
-export default function page({params}) {
-  console.log(params);
+const getData = async (id) => {
+  try {
+    console.log("In get method");
+    const res = await axios.get(`/u/${id}`);
+    console.log(res, res.data, 123);
+    if (res.data.success) {
+      return res.data.user;
+    }
+    return null;
+  } catch (error) {
+    // setIsError(error.message);
+    console.error("this is error !!!", error.message);
+    return null;
+  }
+};
+
+export default function page({ params }) {
+  console.log(params, "This is params");
+  const [profile_demo, ch_profile_demo] = useState(null);
+  const [sh_flag, chsh_flag] = useState(1);
+  const [error1, setIsError] = useState("");
+  const [as_flag, ch_as_flag] = useState(1);
+  const [exp_flag, ch_exp_flag] = useState(1);
+  const [edu_flag, ch_edu_flag] = useState(1);
+  
+  useEffect(() => {
+    // console.log("hello ", window.location.href);
+    //  getData()
+    getData(params.username)
+      .then((res) => {
+        console.log(res, "In getData dhruv");
+        ch_profile_demo({...res,flag:2});
+        console.log(profile_demo,"Profile demo");
+      })
+      .catch((error) => {
+        console.log(error);
+    });
+  }, []);
+  
+
   // console.log("Path",window.location.href);
 
-  const [sh_flag, chsh_flag] = useState(1);
-  const [profile_demo, ch_profile_demo] = useState({
-    flag: 2,
-    username: "Rushabh Gandhi",
-    profile_img: "/rays.jpg",
-    background_img: "/rays.jpg",
+  let formdata = new FormData();
 
-    about: "I am very bad singer",
-    followers: 345,
-    following: 89,
-    institute: {
-      name: "The Maharaja sayajirao university of baroda",
-      img: "/rays.jpg",
-    },
-    links: [
-      { name: "Leetcode", link: "https://leetcode.com/dhruvbhatt553/" },
-      { name: "Naukri.com", link: "https://leetcode.com/dhruvbhatt553/" },
-      { name: "Instagram", link: "https://leetcode.com/dhruvbhatt553/" },
-      { name: "Github", link: "https://leetcode.com/dhruvbhatt553/" },
-    ],
-    education: [
-      {
-        name: "GSFC",
-        img: "/rays.jpg",
-        degree: "Bechlor of technology-BE",
-        field: "Chemical Engg..",
-        start: "2021",
-        end: "2025",
-      },
-      {
-        name: "Phoniex school",
-        img: "/rays.jpg",
-        degree: "12th",
-        field: "Chemical Engg..",
-        start: "2019",
-        end: "2021",
-      },
-      {
-        name: "GSFC",
-        img: "/rays.jpg",
-        degree: "time pass",
-        field: "Chemical Engg..",
-        start: "2018",
-        end: "2019",
-      },
-    ],
+  const router = useRouter();
+  // const [profile_demo, ch_profile_demo] = useState({
+  //   flag: 2,
+  //   username: "Rushabh Gandhi",
+  //   profile_img: "/rays.jpg",
+  //   background_img: "/rays.jpg",
 
-    experience: [
-      {
-        company_name: "Deepak nitrate",
-        img: "/rays.jpg",
-        job_role: "Chemical Engg..",
-        starting_year: "2012",
-        ending_year: "2014",
-      },
-      {
-        company_name: "Tata Chemicals",
-        img: "/rays.jpg",
-        job_role: "Chemical Engg",
-        starting_year: "2016",
-        ending_year: "2017",
-      },
-      {
-        company_name: "siemens",
-        img: "/rays.jpg",
-        job_role: "Chemical Engg..",
-        starting_year: "2020",
-        ending_year: "2023",
-      },
-    ],
+  //   about: "I am very bad singer",
+  //   followers: 345,
+  //   following: 89,
+  //   institute: {
+  //     name: "The Maharaja sayajirao university of baroda",
+  //     img: "/rays.jpg",
+  //   },
+  //   links: [
+  //     { name: "Leetcode", link: "https://leetcode.com/dhruvbhatt553/" },
+  //     { name: "Naukri.com", link: "https://leetcode.com/dhruvbhatt553/" },
+  //     { name: "Instagram", link: "https://leetcode.com/dhruvbhatt553/" },
+  //     { name: "Github", link: "https://leetcode.com/dhruvbhatt553/" },
+  //   ],
+  //   education: [
+  //     {
+  //       name: "GSFC",
+  //       img: "/rays.jpg",
+  //       degree: "Bechlor of technology-BE",
+  //       field: "Chemical Engg..",
+  //       start: "2021",
+  //       end: "2025",
+  //     },
+  //     {
+  //       name: "Phoniex school",
+  //       img: "/rays.jpg",
+  //       degree: "12th",
+  //       field: "Chemical Engg..",
+  //       start: "2019",
+  //       end: "2021",
+  //     },
+  //     {
+  //       name: "GSFC",
+  //       img: "/rays.jpg",
+  //       degree: "time pass",
+  //       field: "Chemical Engg..",
+  //       start: "2018",
+  //       end: "2019",
+  //     },
+  //   ],
 
-    skills: [
-      { skill: "C", level: "Intermidiate", ins: "MSU" },
-      { skill: "C++", level: "Intermidiate", ins: "MSU" },
-      { skill: "JAVA", level: "Intermidiate", ins: "MSU" },
-      { skill: "DSA", level: "Intermidiate", ins: "MSU" },
-    ],
+  //   experience: [
+  //     {
+  //       company_name: "Deepak nitrate",
+  //       img: "/rays.jpg",
+  //       job_role: "Chemical Engg..",
+  //       starting_year: "2012",
+  //       ending_year: "2014",
+  //     },
+  //     {
+  //       company_name: "Tata Chemicals",
+  //       img: "/rays.jpg",
+  //       job_role: "Chemical Engg",
+  //       starting_year: "2016",
+  //       ending_year: "2017",
+  //     },
+  //     {
+  //       company_name: "siemens",
+  //       img: "/rays.jpg",
+  //       job_role: "Chemical Engg..",
+  //       starting_year: "2020",
+  //       ending_year: "2023",
+  //     },
+  //   ],
 
-    followers: [
-      { username: "manoj", about: "kfjkhgjhfjdhjg", Profile_img: "/rays.jpg" },
-      { username: "manan", about: "jkjfkdhgjdhg", Profile_img: "/rays.jpg" },
-      { username: "yash", about: "aiiirjnnv ", Profile_img: "/rays.jpg" },
-    ],
+  //   skills: [
+  //     { skill: "C", level: "Intermidiate", ins: "MSU" },
+  //     { skill: "C++", level: "Intermidiate", ins: "MSU" },
+  //     { skill: "JAVA", level: "Intermidiate", ins: "MSU" },
+  //     { skill: "DSA", level: "Intermidiate", ins: "MSU" },
+  //   ],
 
-    followings: [
-      { username: "sharma", about: "mdv  vnm v", Profile_img: "/rays.jpg" },
-      { username: "sanu", about: "ncbdhbgvhgv", Profile_img: "/rays.jpg" },
-      {
-        username: "sangakara",
-        about: "dkjfjdhvijdjg ",
-        Profile_img: "/rays.jpg",
-      },
-    ],
-  });
+  //   followers: [
+  //     { username: "manoj", about: "kfjkhgjhfjdhjg", Profile_img: "/rays.jpg" },
+  //     { username: "manan", about: "jkjfkdhgjdhg", Profile_img: "/rays.jpg" },
+  //     { username: "yash", about: "aiiirjnnv ", Profile_img: "/rays.jpg" },
+  //   ],
 
-  console.log("Printing ", profile_demo.education);
-  const [error1, setIsError] = useState("");
+  //   followings: [
+  //     { username: "sharma", about: "mdv  vnm v", Profile_img: "/rays.jpg" },
+  //     { username: "sanu", about: "ncbdhbgvhgv", Profile_img: "/rays.jpg" },
+  //     {
+  //       username: "sangakara",
+  //       about: "dkjfjdhvijdjg ",
+  //       Profile_img: "/rays.jpg",
+  //     },
+  //   ],
+  // });
 
-  useEffect(() => {
-    console.log("hello ", window.location.href);
-    // getData()
-  }, []);
+  // console.log("Printing ", profile_demo.education);
+
 
   let ch_skill = (arr) => {
     ch_profile_demo({ ...profile_demo, education: arr });
     patchDemo();
   };
 
-  let ch_gen = (newgen) => {
+  let ch_gen = (newgen, pr_file, bc_file, prchange, bcchange) => {
     ch_profile_demo(newgen);
 
     profile_demo.username = newgen.username;
     profile_demo.about = newgen.about;
-    profile_demo.profile_img = newgen.profile_img;
-    profile_demo.background_img = newgen.background_img;
+    if (prchange == 1) {
+      console.log("-----------------pr-----------------");
+      profile_demo.changeProfile = true;
+      formdata.append("profile_img", pr_file[0]);
+    }
+    if (bcchange == 1) {
+      console.log("-----------------bc-----------------");
+      profile_demo.changeBackground = true;
+      formdata.append("background_img", bc_file[0]);
+    }
+
+    console.log("Chck files", pr_file, bc_file);
 
     console.log("Pr : ");
     console.log(profile_demo);
@@ -158,42 +204,23 @@ export default function page({params}) {
     patchDemo();
   };
 
-  const getData = async () => {
-    try {
-      console.log("In get method");
-      const res = await axios.get(`/u/6527cdb4752485a140ddd276`);
-      console.log(res.data);
-      ch_profile_demo(res.data);
-    } catch (error) {
-      setIsError(error.message);
-      console.error("this is error !!!", error.message);
-    }
-  };
-
   const patchDemo = async () => {
+    formdata.set("json", JSON.stringify(profile_demo));
+    // console.log("Just b patch", formdata.get("profile_img"));
     try {
-      const res = await axios
-        .patch("/edit-profile", profile_demo, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        })
-        .then(function (response) {
-          console.log("Response");
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log("From post", profile_demo);
-          console.log(error);
-        });
+      const response = await fetch("http://localhost:4041/edit-profile", {
+        method: "PATCH", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        body: formdata, // body data type must match "Content-Type" header
+      });
+      const data = await response.json()
+      console.log("response from patch", );
+      if(data.success) router.refresh();
     } catch (error) {
       setIsError(error.message);
     }
   };
 
-  const [as_flag, ch_as_flag] = useState(1);
-  const [exp_flag, ch_exp_flag] = useState(1);
-  const [edu_flag, ch_edu_flag] = useState(1);
   console.log("testing", profile_demo);
 
   return (
@@ -213,7 +240,7 @@ export default function page({params}) {
                 </button>
               </div>
             </div>
-            <Education c={profile_demo.education} changer={ch_edu} />
+            <Education c={profile_demo?profile_demo.education:[]} changer={ch_edu} />
           </div>
           <div className={`border ${styles.tabs} pt-3 ps-3`}>
             <div className="d-flex justify-content-between">
@@ -227,7 +254,7 @@ export default function page({params}) {
                 </button>
               </div>
             </div>{" "}
-            <Experience Companies={profile_demo.experience} changer={ch_exp} />
+            <Experience Companies={profile_demo?profile_demo.experience:[]} changer={ch_exp} />
           </div>
           <div className={`border ${styles.tabs} pt-3 ps-3 `}>
             <div className="d-flex justify-content-between">
@@ -241,7 +268,7 @@ export default function page({params}) {
                 </button>
               </div>
             </div>
-            <Skills Skills={profile_demo.skills} changer={ch_skill} />
+            <Skills Skills={profile_demo?profile_demo.skills:[]} changer={ch_skill} />
           </div>
         </div>
         <div className={`border ${styles.posts} rounded-bottom-0`}>
@@ -262,28 +289,28 @@ export default function page({params}) {
             </button>
           </div>
           <div style={{ paddingBottom: "10px" }} className={styles.someclass}>
-            <Show_connection list={profile_demo.followers} />
+            <Show_connection list={profile_demo?profile_demo.followers:[]} />
           </div>
         </div>
         {(as_flag == 2 || exp_flag == 2 || edu_flag == 2) && <AddLink />}
         {as_flag == 2 && (
           <Add_skill
             chflag={ch_as_flag}
-            skills={profile_demo.skills}
+            skills={profile_demo?profile_demo.skills:[]}
             changer={ch_skill}
           />
         )}
         {exp_flag == 2 && (
           <Add_Exp
             chflag={ch_exp_flag}
-            companies={profile_demo.experience}
+            companies={profile_demo?profile_demo.experience:[]}
             changer={ch_exp}
           />
         )}
         {edu_flag == 2 && (
           <Add_Edu
             chflag={ch_edu_flag}
-            colleges={profile_demo.education}
+            colleges={profile_demo?profile_demo.education:[]}
             changer={ch_edu}
           />
         )}

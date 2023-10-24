@@ -5,6 +5,9 @@ import Link from "next/link";
 import SearchBar from "./SearchBar";
 import HamBurgerBtn from "./HamBurgerBtn";
 import { useMenu } from "@/app/_contexts/MenuContext";
+import NavProfile from "./NavProfile";
+import { useUser } from "@/app/_contexts/UserContext";
+// import { useEffect } from "react";
 
 const Navbar = () => {
   const {refSearchFull} = useMenu();
@@ -61,17 +64,7 @@ const Navbar = () => {
           </div> */}
 
           <div className={styles.profile}>
-            <div>
-              <Link href={"/About"}>
-                <Image
-                  src={"/favicon.ico"}
-                  alt="acad"
-                  width={34}
-                  height={34}
-                  priority
-                />
-              </Link>
-            </div>
+            <NavProfile />
             <div className={styles.menu}>
               {/* <Dropdown>
                 <button onClick={()=>{console.log("Hey I am Clicked");}}>Log Out</button>

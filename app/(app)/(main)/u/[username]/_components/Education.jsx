@@ -5,7 +5,7 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons'
 
 export default function Education({c,changer})
 {
-  console.log("Printing clgs",c[0])
+  //console.log("Printing clgs",c[0])
 
 
     return(

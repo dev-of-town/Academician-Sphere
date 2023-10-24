@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createContext, useEffect, useContext, useState } from "react";
+import { createContext, useEffect, useContext, useState, useMemo } from "react";
 // import { cookies } from 'next/headers'
 
 export const UserContext = createContext({
@@ -9,22 +9,21 @@ export const UserContext = createContext({
   setUser: () => {},
 });
 
+
+
 let i = 0;
 
 export default function UserProvider({ children }) {
-  const [user, setUser] = useState({});
-//   const router = useRouter();
-//   console.log(i++,router);
-//   useEffect(() => {
-//     try {
-//       // if(user.username){
-
-//       // }
-//       fetch("/api/getuser")
-//         .then((response) => {})
-//         .catch((error) => {});
-//     } catch (error) {}
-//   }, []);
+  let user = null;
+  const setUser = (x) => {
+    user = x;
+  };
+  // const router = useRouter();
+  // user = useMemo(async () => {
+  //   let data = await getUser();
+  //   console.log(data, "In memo");
+  //   return;
+  // }, [user]);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

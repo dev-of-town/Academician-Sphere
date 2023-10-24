@@ -7,6 +7,7 @@ const SendDataButton = ({formdata,data,children,url,style}) => {
         try{
             setSending(true);
             formdata.set("json",JSON.stringify(data));
+            console.log(formdata);
             // console.log("Data sending...");
             const response = await fetch(url, {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.

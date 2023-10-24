@@ -20,19 +20,17 @@ export const metadata = {
   description: "Community Based Social Media Network",
 };
 
-async function getUser() {
-  return { user: "Karm" };
-}
+
 
 export default function RootLayout({ children }) {
+
+
   return (
     <>
       <html lang="en">
-        <body
-          className={inter.className}
-        >
+        <body className={inter.className}>
           {/* <AuthenticationProvider> */}
-          <UserProvider>{children}</UserProvider>
+          {children}
           {/* </AuthenticationProvider> */}
         </body>
       </html>

@@ -8,10 +8,10 @@ import Other_webs from "./Other_webs";
 import Edit_profile from "./Edit_profile";
 export default function Name_images({ profile_demo_gen, changer }) {
   const [edit_flag, ch_edit_flag] = useState(1);
-
+  console.log("Profile gen ->->->",profile_demo_gen);
   return (
     <div className={`border ${styles.tabs}`}>
-      <img src={profile_demo_gen.profile_img} className={styles.pic1} />
+      <img src={profile_demo_gen?profile_demo_gen.background_img.url:"/favicon.svg"} className={styles.pic1} />
       <button
         className="btn"
         style={{ float: "right", margin: "3px", color: "blue" }}
@@ -23,30 +23,30 @@ export default function Name_images({ profile_demo_gen, changer }) {
       </button>
       <img
         className={styles.profile_photo}
-        src={profile_demo_gen.background_img}
+        src={profile_demo_gen?profile_demo_gen.profile_img.url:'/dummytemplate.jpg'}
       />
 
       <div style={{ marginTop: "50px" }} className={styles.inf_con}>
         <div className="container-fluid row">
           <div className="col-md-8 col-12">
             <div className="d-flex justify-content-between">
-              {profile_demo_gen.flag == 1 && (
+              {profile_demo_gen && profile_demo_gen.flag == 1 && (
                 <div>
                   {" "}
                   <a href="#">See posts</a>{" "}
                 </div>
               )}
-              {profile_demo_gen.flag == 2 && (
+              {profile_demo_gen && profile_demo_gen.flag == 2 && (
                 <div>
                   <a href="#">Saved posts</a>{" "}
                 </div>
               )}
             </div>
             <div className={`fw-bold fs-3 ${styles.name}`}>
-              {profile_demo_gen.username}
+              {profile_demo_gen?profile_demo_gen.username:""}
             </div>
             {/* follow button */}
-            <div className={styles.remarks}>{profile_demo_gen.about}</div>
+            <div className={styles.remarks}>{profile_demo_gen?profile_demo_gen.about:""}</div>
           </div>
           <div className="col-md-4 col-12 d-flex">
             {/* <img
