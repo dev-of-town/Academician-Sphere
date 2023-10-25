@@ -7,58 +7,40 @@ import SearchAddUser from "../_components/SearchAddUser";
 import CreateCommunityCard from "../_components/CreateCommunityCard";
 import useNode from "../_hooks/useNode";
 import SendDataButton from "../_components/SendDataButton";
+import CommunityHierarchy from "../_components/CommunityHierarchy";
 // import { ToastContainer, toast } from "react-toastify";
 
 const page = () => {
-  const [communityData, setCommunityData] = useState({
+
+  let community = {
     id: 1,
     name: "",
     description: "",
     sub_communities: [],
     users: [],
-    moderators:[],
+    moderators: [],
     allowed_participants: [],
-  });
-
-  let allRef = [];
-
-  const { insertNode, deleteNode, editNode } = useNode();
-
-  const handleInsertNode = (parentId) => {
-    const finalStructure = insertNode(communityData, parentId);
-    setCommunityData(finalStructure);
-    console.log(communityData);
   };
 
-  const handleEditNode = (id, community) => {
-    const finalStructure = editNode(communityData, id, community);
-    console.log(communityData);
-  };
+ 
 
-  const handleDeleteNode = (id) => {
-    const finalStructure = deleteNode(communityData, id);
-    const temp = { ...finalStructure };
-    setCommunityData(temp);
-    console.log(communityData);
-  };
 
   const communityNameRef = useRef(null);
 
   let formdata = new FormData();
-
 
   return (
     <>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.template}>
-            <ImageUploader data={communityData} imageData={formdata} fieldName={"template_img"} />
+            <ImageUploader imageData={formdata} fieldName={"template_img"} />
           </div>
         </div>
         <div className={styles.main}>
           <div className={styles.cont1}>
             <div className={styles.profileimg}>
-              <ImageUploader data={communityData} imageData={formdata} fieldName={"profile_img"} />
+              <ImageUploader imageData={formdata} fieldName={"profile_img"} />
             </div>
             <div className={styles.addmods}>
               <div className={styles.title}>Add Moderators :</div>
@@ -68,7 +50,7 @@ const page = () => {
               <div className={styles.added}></div>
             </div>
             <div className={styles.btns}>
-              <SendDataButton formdata={formdata} data={communityData} url={"/api/new-community"}>
+              <SendDataButton formdata={formdata} data={community} url={"/api/new-community"}>
                 Submit
               </SendDataButton>
               <button
@@ -85,15 +67,7 @@ const page = () => {
               <div ref={communityNameRef}></div>
             </div> */}
             <div className={styles.createHierarchy}>
-              <CreateCommunityCard
-                isRoot={true}
-                handleInsertNode={handleInsertNode}
-                handleDeleteNode={handleDeleteNode}
-                communityNameRef={communityNameRef}
-                handleEditNode={handleEditNode}
-                community={communityData}
-                allRef={allRef}
-              />
+              <CommunityHierarchy community={community} communityNameRef={communityNameRef} />
             </div>
           </div>
         </div>

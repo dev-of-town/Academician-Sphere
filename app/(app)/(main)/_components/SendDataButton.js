@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import styles from '../_styles/SendDataBtn.module.css'
+import { useRouter } from 'next/navigation';
 
 const SendDataButton = ({formdata,data,children,url,style}) => {
     const [sending,setSending] = useState(false);
+    const router = useRouter();
     const handleClick = async (e)=>{
         try{
             setSending(true);
@@ -16,7 +18,11 @@ const SendDataButton = ({formdata,data,children,url,style}) => {
                 body: formdata, // body data type must match "Content-Type" header
             });
             
-            console.log(await response.json());
+            let res = await response.json();
+            console.log(res);
+            if(res.success){
+                router.push(`/c/${res.community._id}`);
+            }
         }catch(error){
             console.log(error);
         }finally{

@@ -5,15 +5,15 @@ import { redirect } from "next/dist/server/api-utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request) {
-  console.log("---------------------------------------------------");
+  // console.log("---------------------------------------------------");
   const token = request.cookies.get("access_token")
   if(token){
       try {
-        console.log(token);
+        // console.log(token);
         const decode = jwt.verify(token.value.toString(), "THISISOURSECRET");
-        console.log(decode);
+        // console.log(decode);
         const { data } = await axios.post(`http://localhost:4041/u/${decode._id}`,{user_id:decode._id});
-        console.log(data);
+        // console.log(data);
         const res = NextResponse.json(data);
         // console.log(data);
         return res;

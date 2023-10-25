@@ -324,7 +324,7 @@ export default async function page({params:{username}}) {
             </button>
           </div>
           <div style={{ paddingBottom: "10px" }} className={styles.someclass}>
-            {profile_demo && sh_flag == 1 &&  (
+            {/* {profile_demo && sh_flag == 1 &&  (
               <Show_connection
                 list={[].concat(
                   profile_demo.followers,
@@ -337,7 +337,7 @@ export default async function page({params:{username}}) {
             )}
             {profile_demo && sh_flag == 3 && (
               <Show_connection list={profile_demo.following} />
-            )}
+            )} */}
           </div>
         </div>
         {(as_flag == 2 || exp_flag == 2 || edu_flag == 2) && <AddLink />}

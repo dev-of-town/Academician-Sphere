@@ -3,15 +3,9 @@ import { Dropdown } from "react-bootstrap";
 import { DropdownToggle, DropdownItem, DropdownMenu } from "react-bootstrap";
 import CommunityComp from "./CommunityComp";
 import axios from "./axios.jsx";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
-
-
-export default function Comm_List({user_communities,  crt_post, changeCon }) {
-
-
-
-
+export default function Comm_List({ user_communities, crt_post, changeCon }) {
   // const getCommData = async (cid) => {
   //   try {
   //     console.log("In get method");
@@ -24,7 +18,6 @@ export default function Comm_List({user_communities,  crt_post, changeCon }) {
   //   }
   // };
 
-
   // const getuserData = async () => {
   //   try {
   //     console.log("In get method");
@@ -36,19 +29,25 @@ export default function Comm_List({user_communities,  crt_post, changeCon }) {
   //     console.error("this is error !!!", error.message);
   //   }
   // };
- 
+
   useEffect(() => {
+    // changeCon([
+    //   ...user_communities,
+    //   {
+    //     comm: { name: "Cricket1", participants: ["h", "h", "l"] },
+    //     selected: true,
+    //   },
+    //   {
+    //     comm: { name: "Cricket1", participants: ["h", "h", "l"] },
+    //     selected: true,
+    //   },
+    //   {
+    //     comm: { name: "Cricket1", participants: ["h", "h", "l"] },
+    //     selected: true,
+    //   },
+    // ]);
     
-    changeCon([...user_communities,{comm:{name:"Cricket1",participants:["h","h","l"]},selected:true},
-    {comm:{name:"Cricket1",participants:["h","h","l"]},selected:true},
-    {comm:{name:"Cricket1",participants:["h","h","l"]},selected:true}
-    ]
-  )
   }, []);
-
-
-  
-
 
   return (
     <div className="mt-3 float-end">
@@ -61,12 +60,11 @@ export default function Comm_List({user_communities,  crt_post, changeCon }) {
           <DropdownItem className="ms-2">
             <b>Communities</b>
           </DropdownItem>
-          {user_communities.map((comm,index) => (
+          {user_communities.map((comm, index) => (
             <DropdownItem key={index}>
               <CommunityComp
                 all_c={user_communities}
-                changer = {changeCon}
-                
+                changer={changeCon}
                 user_community={comm}
                 i={index}
               />

@@ -4,7 +4,7 @@ import Image from "next/image";
 import FollowBtn from "./FollowBtn";
 import ProfileCard from "./ProfileCard";
 
-const CommunityAbout = ({ community }) => {
+const CommunityAbout = ({ community,data }) => {
 
 
   return (
@@ -23,7 +23,7 @@ const CommunityAbout = ({ community }) => {
         </div> */}
       <div className={styles.profile}>
         <div className={styles.profileImg}>
-          <Image src={community.profileimg} width={50} height={50} />
+          <Image src={community.profile_img.url?community.profile_img.url:'/next.svg'} width={50} height={50} />
         </div>
         <div className={styles.name}>
           <span>c/ </span> {community.name}
@@ -33,20 +33,20 @@ const CommunityAbout = ({ community }) => {
       <div className={styles.followContainer}>
         <div className={styles.followerCount}>
           <span>Followers </span>
-          {community.followers}
+          {data.numberOfFollowers}
         </div>
         <div className={styles.followBtn}>
-          <FollowBtn />
+          <FollowBtn profileid={community._id} followed={data.isFollower}/>
         </div>
       </div>
       <div className={styles.modsContainer}>
-        <h3>Moderators of Community:</h3>
+        <h5>Moderators of Community:</h5>
         <ul className={styles.mods}>
-          {/* {community.moderators.map((mods)=>{
-            return <li><ProfileCard /></li>
-          })} */}
-          <li><ProfileCard community={"Karm Soni"} profileimage={"/next.svg"}/></li>
-          <li><ProfileCard community={"Karm Soni"} profileimage={"/next.svg"}/></li>
+          {data.communityModerators.map((mods,index)=>{
+            return <li key={index}><ProfileCard name={mods.username} id={mods._id} profileimage={mods.profile_img.url}/></li>
+          })}
+          {/* <li><ProfileCard community={"Karm Soni"} profileimage={"/next.svg"}/></li>
+          <li><ProfileCard community={"Karm Soni"} profileimage={"/next.svg"}/></li> */}
         </ul>
       </div>
     </div>
