@@ -158,11 +158,11 @@ app.post("/u/:id", async (req, res) => {
     const userData = await User.findOne({ _id: id });
     if (userData) {
       delete userData.password;
-      const isSelfAccount = (id === user_id);
+      const isSelfAccount = id === user_id;
       console.log(userData);
-      const user = { ...userData._doc, flag: ((isSelfAccount)?1:0) };
+      const user = { ...userData._doc, flag: isSelfAccount ? 1 : 0 };
       console.log(user);
-      return res.json({ status: 200, success: true, user:user});
+      return res.json({ status: 200, success: true, user: user });
     } else {
       console.log(`Unable to find profile with ID: ${id}`);
       return res.json({ success: false, status: 400, message: "not found" });
@@ -281,9 +281,18 @@ app.post(
       // console.log(communityData);
       console.log("Files", req.files.profile_img);
       const data = JSON.parse(communityData);
-
-      createCommunity(data, null, data.name, data.createdBy, null, req.files);
-      return res.json({ success: true, status: 200 });
+      const top = null;
+      const topCommunity = await createCommunity(
+        data,
+        null,
+        data.name,
+        data.createdBy,
+        null,
+        req.files,
+        top
+      );
+      console.log("The Most Top", topCommunity);
+      return res.json({ success: true, status: 200, community: topCommunity });
     } catch (error) {
       console.log("Unable to create Community !!", error);
       return res.json({ success: false, message: error.message, status: 500 });
@@ -291,58 +300,77 @@ app.post(
   }
 );
 
-app.get('/c/search',async (req,res) =>{
-    console.log("Community search !!");
-    const {q} = req.query;
-    let foundCommunity = [];
-    try{
-    foundCommunity = await Community.find({name : {$regex : `^${q}`,$options : 'mi'}}).project({_id:1,name:1,profile_img:1});
-    return res.json({success : true, status : 200, data : foundCommunity});
-    }catch(err){
-        console.log(err);
-        return res.json({success : false, status : 500, message : "Cannot carry search, try again later !!"});
-    }
+app.get("/c/search", async (req, res) => {
+  console.log("Community search !!");
+  const { q } = req.query;
+  let foundCommunity = [];
+  try {
+    foundCommunity = await Community.find({
+      name: { $regex: `^${q}`, $options: "mi" },
+    }).project({ _id: 1, name: 1, profile_img: 1 });
+    return res.json({ success: true, status: 200, data: foundCommunity });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+      status: 500,
+      message: "Cannot carry search, try again later !!",
+    });
+  }
 });
 
-app.get('/u/search',async (req,res) =>{
-    const {q} = req.query;
-    let foundUser =[];
-    try{
-    foundUser = await User.find({username : {$regex : `^${q}`,$options : 'mi'}}).project({_id:1,username:1,profile_img:1});
-    return res.json({success : true, status : 200, data : foundUser});
-    }catch(error){
-        console.log(err);
-        return res.json({success : false, status : 500, message : "Cannot carry search, try again later !!"});
-    }
+app.get("/u/search", async (req, res) => {
+  const { q } = req.query;
+  let foundUser = [];
+  try {
+    foundUser = await User.find({
+      username: { $regex: `^${q}`, $options: "mi" },
+    }).project({ _id: 1, username: 1, profile_img: 1 });
+    return res.json({ success: true, status: 200, data: foundUser });
+  } catch (error) {
+    console.log(err);
+    return res.json({
+      success: false,
+      status: 500,
+      message: "Cannot carry search, try again later !!",
+    });
+  }
 });
 
-app.get('/search',async (req,res) =>{
-    const {q} = req.query;
-    let result = [];
-    try{
-    const foundCommunity = await Community.find({name : {$regex : `^${q}`,$options : 'mi'}}).project({_id:1,name:1,profile_img:1});
-    const foundUser = await User.find({username : {$regex : `^${q}`,$options : 'mi'}}).project({_id:1,username:1,profile_img:1});
-    if(foundCommunity !== 0){
-        for(let community of foundCommunity){
-            result.push(community);
-        }
+app.get("/search", async (req, res) => {
+  const { q } = req.query;
+  let result = [];
+  try {
+    const foundCommunity = await Community.find({
+      name: { $regex: `^${q}`, $options: "mi" },
+    }).project({ _id: 1, name: 1, profile_img: 1 });
+    const foundUser = await User.find({
+      username: { $regex: `^${q}`, $options: "mi" },
+    }).project({ _id: 1, username: 1, profile_img: 1 });
+    if (foundCommunity !== 0) {
+      for (let community of foundCommunity) {
+        result.push(community);
+      }
     }
-    if(foundUser.length !== 0){
-        for(let user of foundUser){
-            result.push(user);
-        }
+    if (foundUser.length !== 0) {
+      for (let user of foundUser) {
+        result.push(user);
+      }
     }
-    return res.json({success : true, status : 200, data : result});
-    }catch(err){
-        console.log(err);
-        return res.json({success : false, status : 500, message : "Cannot carry search, try again later !!"});
-    }
-    
+    return res.json({ success: true, status: 200, data: result });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+      status: 500,
+      message: "Cannot carry search, try again later !!",
+    });
+  }
 });
 
-app.post("/u/:id/get-following-community", async (req, res) => {
-  // const user_id = JSON.parse(req.body.json).user_id;
-  const user_id = req.params.id;
+app.get("/u/:id/get-following-community", async (req, res) => {
+//   const user_id = JSON.parse(req.body.json).user_id;
+    const user_id = req.params.id;
   try {
     const userData = await User.findOne({ _id: user_id });
     const followingCommunity = userData.filter((following) => {
@@ -361,7 +389,7 @@ app.post("/u/:id/get-following-community", async (req, res) => {
       });
     return res.json({ status: 200, success: true, followingCommunity: result });
   } catch (err) {
-    console.error("Unable to fetch communities followed by user: ", err);
+    console.error("Unable to fetch communities followed by user: ", error);
     return res.json({
       status: 500,
       success: false,
@@ -532,27 +560,27 @@ app.post("/upvote/:post_id", async (req, res) => {
   const user_id = JSON.parse(req.body).user_id;
 
   try {
-      const postData = await Post.findOne({ _id: post_id });
+    const postData = await Post.findOne({ _id: post_id });
 
-      let i = postData.upvotes.findIndex((upvote) => (upvote.user_id == user_id));
-      if(i > -1) postData.upvotes[i].dt = new Date();
-      else {
-          const newUpvote = {
-              user_id: user_id,
-              dt: new Date()
-          };
-          postData.upvotes.push(newUpvote);
-      }
+    let i = postData.upvotes.findIndex((upvote) => upvote.user_id == user_id);
+    if (i > -1) postData.upvotes[i].dt = new Date();
+    else {
+      const newUpvote = {
+        user_id: user_id,
+        dt: new Date(),
+      };
+      postData.upvotes.push(newUpvote);
+    }
 
-      i = postData.downvotes.findIndex((downvote) => (downvote.user_id == user_id));
-      if(i > -1) postData.downvotes = postData.downvotes.splice(i + 1, 1);
-      postData.votes = postData.upvotes.length - postData.downvotes.length;
-      postData.save();
+    i = postData.downvotes.findIndex((downvote) => downvote.user_id == user_id);
+    if (i > -1) postData.downvotes = postData.downvotes.splice(i + 1, 1);
+    postData.votes = postData.upvotes.length - postData.downvotes.length;
+    postData.save();
 
-      return res.json({ success: true });
-  } catch(error) {
-      console.error("Unable to Upvote the post.", error.message);
-      return res.json({ success: false });
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Unable to Upvote the post.", error.message);
+    return res.json({ success: false });
   }
 });
 
@@ -561,54 +589,57 @@ app.post("/downvote/:post_id", async (req, res) => {
   const user_id = JSON.parse(req.body).user_id;
 
   try {
-      const postData = await Post.findOne({ _id: post_id });
+    const postData = await Post.findOne({ _id: post_id });
 
-      let i = postData.downvotes.findIndex((downvote) => (downvote.user_id == user_id));
-      if(i > -1) postData.downvotes[i].dt = new Date();
-      else {
-          const newDownvote = {
-              user_id: user_id,
-              dt: new Date()
-          };
-          postData.downvotes.push(newDownvote);
-      }
-      
-      i = postData.upvotes.findIndex((upvote) => (upvote.user_id == user_id));
-      if(i > -1) postData.upvotes = postData.upvotes.splice(i + 1, 1);
-      postData.votes = postData.upvotes.length - postData.downvotes.length;
-      postData.save();
+    let i = postData.downvotes.findIndex(
+      (downvote) => downvote.user_id == user_id
+    );
+    if (i > -1) postData.downvotes[i].dt = new Date();
+    else {
+      const newDownvote = {
+        user_id: user_id,
+        dt: new Date(),
+      };
+      postData.downvotes.push(newDownvote);
+    }
 
-      return res.json({ success: true });
-  } catch(error) {
-      console.error("Unable to Downvote the post.", error.message);
-      return res.json({ success: false });
+    i = postData.upvotes.findIndex((upvote) => upvote.user_id == user_id);
+    if (i > -1) postData.upvotes = postData.upvotes.splice(i + 1, 1);
+    postData.votes = postData.upvotes.length - postData.downvotes.length;
+    postData.save();
+
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Unable to Downvote the post.", error.message);
+    return res.json({ success: false });
   }
 });
-
 
 // SAVE-UNSAVE
 app.post("/save/:post_id", async (req, res) => {
   const post_id = req.params.post_id;
   const user_id = JSON.parse(req.body).user_id;
-  
+
   try {
-      const userData = await User.findOne({ _id: user_id });
+    const userData = await User.findOne({ _id: user_id });
 
-      let i = userData.saved_posts.findIndex((saved_post) => (saved_post.post_id == post_id));
-      if(i > -1) userData.saved_posts[i].dt = new Date();
-      else {
-          const newSave = {
-              post_id: post_id,
-              dt: new Date()
-          };
-          userData.saved_posts.push(newSave);
-      }
-      userData.save();
+    let i = userData.saved_posts.findIndex(
+      (saved_post) => saved_post.post_id == post_id
+    );
+    if (i > -1) userData.saved_posts[i].dt = new Date();
+    else {
+      const newSave = {
+        post_id: post_id,
+        dt: new Date(),
+      };
+      userData.saved_posts.push(newSave);
+    }
+    userData.save();
 
-      return res.json({ success: true });
-  } catch(error) {
-      console.error("Unable to Save post: ", error);
-      return res.json({ success: false });
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Unable to Save post: ", error);
+    return res.json({ success: false });
   }
 });
 
@@ -617,17 +648,19 @@ app.post("/unsave/:post_id", async (req, res) => {
   const user_id = JSON.parse(req.body).user_id;
 
   try {
-      const userData = await User.findOne({ _id: user_id });
-      console.log(userData);
+    const userData = await User.findOne({ _id: user_id });
+    console.log(userData);
 
-      let i = userData.saved_posts.findIndex((saved_post) => (saved_post.post_id == post_id));
-      if(i > -1) userData.saved_posts = userData.saved_posts.splice(i + 1, 1);
-      userData.save();
+    let i = userData.saved_posts.findIndex(
+      (saved_post) => saved_post.post_id == post_id
+    );
+    if (i > -1) userData.saved_posts = userData.saved_posts.splice(i + 1, 1);
+    userData.save();
 
-      return res.json({ success: true });
-  } catch(error) {
-      console.error("Unable to Unsave post: ", error);
-      return res.json({ success: false });
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Unable to Unsave post: ", error);
+    return res.json({ success: false });
   }
 });
 
@@ -641,65 +674,68 @@ app.delete("/delete-post/:community_id/:post_id", async (req, res) => {
   console.log("Post:", post_id);
 
   const removalFunction = async (postData, communityData) => {
-      try {
-          if(communityData == null) communityData = await Community.findOne({ _id: community_id });
+    try {
+      if (communityData == null)
+        communityData = await Community.findOne({ _id: community_id });
 
-          // remove post from the posts array in the Community
-          let i = communityData.posts.findIndex((post) => (post == post_id));
-          if(i > -1) communityData.posts = communityData.posts.splice(i + 1, 1);
-          communityData.save();
-          
-          // remove the community from Community array in the Post
-          i = postData.community.findIndex((community) => (community == community_id));
-          if(i > -1) postData.community = postData.community.splice(i + 1, 1);
-          postData.save();
+      // remove post from the posts array in the Community
+      let i = communityData.posts.findIndex((post) => post == post_id);
+      if (i > -1) communityData.posts = communityData.posts.splice(i + 1, 1);
+      communityData.save();
 
-          // remove post from posts array in the User if community array is empty in the Post
-          // remove the post if community array is empty in the Post
-          if(!postData.community) {
-              const userData = await User({ _id: postData.sender_id });
-              i = userData.posts.findIndex((post) => (post == post_id));
-              if(i > -1) userData.posts = userData.posts.splice(i + 1, 1);
-              userData.save();
-              for(let attachment of postData.attachment) await cloudinary.uploader.destroy(attachment.filename);
-              await Post.deleteOne({ _id: post_id });
-          }
+      // remove the community from Community array in the Post
+      i = postData.community.findIndex(
+        (community) => community == community_id
+      );
+      if (i > -1) postData.community = postData.community.splice(i + 1, 1);
+      postData.save();
 
-          res.send(JSON.stringify({ success: true }));
-      } catch(error) {
-          console.error("Unable to Delete the post: ", error.message);
-          res.send(JSON.stringify({ success: false }));
+      // remove post from posts array in the User if community array is empty in the Post
+      // remove the post if community array is empty in the Post
+      if (!postData.community) {
+        const userData = await User({ _id: postData.sender_id });
+        i = userData.posts.findIndex((post) => post == post_id);
+        if (i > -1) userData.posts = userData.posts.splice(i + 1, 1);
+        userData.save();
+        for (let attachment of postData.attachment)
+          await cloudinary.uploader.destroy(attachment.filename);
+        await Post.deleteOne({ _id: post_id });
       }
+
+      res.send(JSON.stringify({ success: true }));
+    } catch (error) {
+      console.error("Unable to Delete the post: ", error.message);
+      res.send(JSON.stringify({ success: false }));
+    }
   };
 
   try {
-      const postData = await Post.findOne({ _id: post_id });
-      console.log("Checking for sender of the post.");
-      if(postData.sender_id == user_id) {
-        removalFunction(postData, null);
-      }
-      else {
-        console.log("User is not sender of the post.");
-        console.log("Checking for moderator of the post.");
-          try {
-              const communityData = await Community.findOne({ _id: community_id });
-              let flag = false;
-              for(let moderator in communityData.moderators) {
-                  if(moderator == user_id) {
-                      flag = true;
-                      break;
-                  }
-              }
-              if(flag) removalFunction(postData, communityData);
-              else console.log("User is not moderator of the post.");
-          } catch(error) {
-              console.error("Unable to find the community: ", error.message);
-              res.send(JSON.stringify({ success: false }));
+    const postData = await Post.findOne({ _id: post_id });
+    console.log("Checking for sender of the post.");
+    if (postData.sender_id == user_id) {
+      removalFunction(postData, null);
+    } else {
+      console.log("User is not sender of the post.");
+      console.log("Checking for moderator of the post.");
+      try {
+        const communityData = await Community.findOne({ _id: community_id });
+        let flag = false;
+        for (let moderator in communityData.moderators) {
+          if (moderator == user_id) {
+            flag = true;
+            break;
           }
+        }
+        if (flag) removalFunction(postData, communityData);
+        else console.log("User is not moderator of the post.");
+      } catch (error) {
+        console.error("Unable to find the community: ", error.message);
+        res.send(JSON.stringify({ success: false }));
       }
-  } catch(error) {
-      console.error("Unable to Fetch the post: ", error.message);
-      res.send(JSON.stringify({ success: false }));
+    }
+  } catch (error) {
+    console.error("Unable to Fetch the post: ", error.message);
+    res.send(JSON.stringify({ success: false }));
   }
 });
 
@@ -707,62 +743,67 @@ app.delete("/delete-post/:community_id/:post_id", async (req, res) => {
 app.post("/u/:id/get-user-posts", async (req, res) => {
   const user_id = req.params.id;
   try {
-      const userData = await User.findOne({ _id: user_id });
-      console.log("Post IDs:", userData.posts);
-      let data = [];
-      for(let post_id of userData.posts) {
-          const postData = await Post.findOne({ _id: post_id });
-          data.push(postData);
-      }
-      return res.json({ status: 200, success: true, posts: data });
-  } catch(error) {
-      console.error("Unable to fetch the posts: ", error);
-      return res.json({ status: 500, success: false, error: error.message });
+    const userData = await User.findOne({ _id: user_id });
+    console.log("Post IDs:", userData.posts);
+    let data = [];
+    for (let post_id of userData.posts) {
+      const postData = await Post.findOne({ _id: post_id });
+      data.push(postData);
+    }
+    return res.json({ status: 200, success: true, posts: data });
+  } catch (error) {
+    console.error("Unable to fetch the posts: ", error);
+    return res.json({ status: 500, success: false, error: error.message });
   }
 });
-
 
 // GET SAVED POSTS OF A USER
 app.get("/u/:id/get-saved-posts", async (req, res) => {
   const user_id = req.params.id;
   try {
-      const userData = await User.findOne({ _id: user_id });
-      console.log("Saved IDs:", userData.saved_posts);
-      let data = [];
-      for(let post of userData.saved_posts) {
-          const postData = await Post.findOne({ _id: post.post_id });
-          data.push(postData);
-      }
-      return res.json({ status: 200, success: true, savedPosts: data });
-  } catch(error) {
-      console.error("Unable to fetch saved posts: ", error);
-      return res.json({ status: 500, success: false, error: error.message });
+    const userData = await User.findOne({ _id: user_id });
+    console.log("Saved IDs:", userData.saved_posts);
+    let data = [];
+    for (let post of userData.saved_posts) {
+      const postData = await Post.findOne({ _id: post.post_id });
+      data.push(postData);
+    }
+    return res.json({ status: 200, success: true, savedPosts: data });
+  } catch (error) {
+    console.error("Unable to fetch saved posts: ", error);
+    return res.json({ status: 500, success: false, error: error.message });
   }
 });
 
-
 // GET COMMUNITY DATA
 app.post("/c/:id/get-community-data", async (req, res) => {
-  const user_id = JSON.parse(req.body).user_id;
+  const user_id = req.body.user_id;
   const community_id = req.params.id;
   try {
-      const communityData = await Community.findOne({ _id: community_id });
-      const communityPosts = await Post.find({ _id: { $in: communityData.posts } });
+    const communityData = await Community.findOne({ _id: community_id });
+    const communityPosts = await Post.find({
+      _id: { $in: communityData.posts },
+    });
+    const communityModerators = await User.find(
+      { _id: { $in: communityData.moderators } },
+      { _id: 1, username: 1, profile_img: 1 }
+    );
 
-      let data = {};
-      data.communityData = communityData;
-      data.communityPosts = communityPosts;
-      data.isModerator = communityData.moderators.includes(user_id);
-      data.isParticipant = communityData.participants.includes(user_id);
-      data.isFollower = communityData.followers.includes(user_id);
-      data.numberOfFollowers = communityData.followers.length;
-      data.numberOfParticipants = communityData.participants.length;
-      console.log(data);
+    let data = {};
+    data.communityData = communityData;
+    data.communityPosts = communityPosts;
+    data.communityModerators = communityModerators;
+    data.numberOfFollowers = communityData.followers.length;
+    data.numberOfParticipants = communityData.participants.length;
+    data.isModerator = communityData.moderators.includes(user_id);
+    data.isParticipant = communityData.participants.includes(user_id);
+    data.isFollower = communityData.followers.includes(user_id);
+    console.log(data);
 
-      return res.json({ status: 200, success: true, data: data });
-  } catch(error) {
-      console.error("Unable to fetch saved posts: ", error);
-      return res.json({ status: 500, success: false, error: error.message });
+    return res.json({ status: 200, success: true, data: data });
+  } catch (error) {
+    console.error("Unable to fetch saved posts: ", error);
+    return res.json({ status: 500, success: false, error: error.message });
   }
 });
 
@@ -776,8 +817,10 @@ async function createCommunity(
   community_group,
   user_id,
   parent_community,
-  images
+  images,
+  top
 ) {
+  console.log("This is Our TOp", top);
   try {
     const community = new Community({
       name: newCommunity.name,
@@ -789,16 +832,17 @@ async function createCommunity(
       allowed_participants: newCommunity.allowed_participants,
       parent_community: parent_community ? parent_community : null,
       profile_img: {
-        filename: images.profile_img?images.profile_img[0].filename:null,
-        url: images.profile_img?images.profile_img[0].path:null,
+        filename: images.profile_img ? images.profile_img[0].filename : null,
+        url: images.profile_img ? images.profile_img[0].path : null,
       },
       template_img: {
-        filename: images.template_img?images.template_img[0].filename:null,
-        url: images.template_img?images.template_img[0].path:null,
+        filename: images.template_img ? images.template_img[0].filename : null,
+        url: images.template_img ? images.template_img[0].path : null,
       },
     });
 
     await community.save();
+    if (!parent_community) top = await community;
     console.log(community);
     if (community.sub_communities.length !== 0) {
       for (let subCommunity of community.sub_communities) {
@@ -808,10 +852,12 @@ async function createCommunity(
           community_group,
           user_id,
           community._id,
-          images
+          images,
+          top
         );
       }
     }
+    return top;
   } catch (err) {
     console.log("Unable to create all communites");
     console.log(err);
