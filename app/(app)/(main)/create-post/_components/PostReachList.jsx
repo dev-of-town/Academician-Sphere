@@ -20,7 +20,7 @@ export default function PostReachList({ name, crt_post, changeCon }) {
           name="post_catagory"
           id={name}
           type="radio"
-          checked={crt_post.category == name}
+          defaultChecked={crt_post.category == name}
         />
         <div className={styles.cname_nom}>
           <label htmlFor={name} className={styles.cname}>

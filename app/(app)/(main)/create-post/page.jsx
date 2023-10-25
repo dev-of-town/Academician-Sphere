@@ -9,18 +9,17 @@ import PostReach from "./_components/PostReach";
 import Comm_List from "./_components/Comm_List";
 import Link_post from "./_components/Link_post";
 import Dropzone from "./_components/Dropper";
-import { useParams } from "next/navigation";
 const communities = [
   { name: "Cricket", nom: 5687 },
   { name: "Cricket1", nom: 567 },
   { name: "Cricket2", nom: 5967 },
 ];
 
-export default function page({ comm }) {
-  const params = useParams();
-  console.log(params);
-
-  let [user_communities, getc] = useState([]);
+export default function page() {
+  // let [user_communities, getc] = useState([]);
+  let user_communities = {
+    coms : []
+  };
   let coms = [];
   const [crt_post, changeCon] = useState({
     community: [],
@@ -42,10 +41,11 @@ export default function page({ comm }) {
 
   const sendit = async (e) => {
     e.preventDefault();
-    console.log("Sending It");
-    user_communities.map((c) => {
+    console.log("Sending It", user_communities.coms);
+    // crt_post.communities = user_communities
+    user_communities.coms.map((c) => {
       if (c.selected) {
-        coms.push("" + c.comm._id);
+        coms.push("" + c._id);
       }
     });
     if (coms.length == 0) {
@@ -53,17 +53,16 @@ export default function page({ comm }) {
     } else {
       // changeCon(...crt_post,community=coms);
       crt_post.community = coms;
+      formData.append("json", JSON.stringify(crt_post));
+
+      const response = await fetch("/api/new-post", {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        body: formData, // body data type must match "Content-Type" header
+      });
+
+      console.log(await response.json());
     }
-
-    formData.append("json", JSON.stringify(crt_post));
-
-    const response = await fetch("/api/new-post", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      body: formData, // body data type must match "Content-Type" header
-    });
-
-    console.log(await response.json());
   };
 
   return (
@@ -95,11 +94,7 @@ export default function page({ comm }) {
       <div className={styles.dropContainer}>
         <div>
           {" "}
-          <Comm_List
-            user_communities={user_communities}
-            crt_post={crt_post}
-            changeCon={getc}
-          />
+          <Comm_List usercoms={user_communities} crt_post={crt_post} />
         </div>
         <div>
           {" "}
@@ -118,7 +113,7 @@ export default function page({ comm }) {
             }`}
             onClick={() => changeCon({ ...crt_post, post_content: 1 })}
           >
-            <a
+            <div
               href="#"
               className={
                 crt_post.post_content === 1
@@ -133,7 +128,7 @@ export default function page({ comm }) {
                 />
                 &nbsp; Post
               </span>
-            </a>
+            </div>
           </button>
           <button
             className={`bg-white border-end py-2 ${

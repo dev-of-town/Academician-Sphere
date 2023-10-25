@@ -4,20 +4,21 @@ import Post from './Post'
 import CreatPostButton from './CreatPostButton';
 import FeedFilters from './FeedFilters';
 
-const Feed = async ({myProps}) => {
-    console.log(myProps);
-    let dummy = {
-        community: "The MSU",
-        timeago: "3 hours",
-        category: "event",
-        profileimage: "/msulogo412.png",
-        subject: "Hey This is Dummy Data",
-        text: "Hello this is dummy text. I have been trying to write but i couldn't figure what to write so i ended up writing about why i am not writing?",
-        img: "/dummypostimg.webp",
-        votes: 123,
-      };
-      let textdummy = {...dummy};
-      textdummy["img"] = undefined;
+const Feed = async ({posts}) => {
+    if(!posts) posts = [];
+    console.log(posts);
+    // let dummy = {
+    //     community: "The MSU",
+    //     timeago: "3 hours",
+    //     category: "event",
+    //     profileimage: "/msulogo412.png",
+    //     subject: "Hey This is Dummy Data",
+    //     text: "Hello this is dummy text. I have been trying to write but i couldn't figure what to write so i ended up writing about why i am not writing?",
+    //     img: "/dummypostimg.webp",
+    //     votes: 123,
+    //   };
+    //   let textdummy = {...dummy};
+    //   textdummy["img"] = undefined;
   return (
     <div className={styles.container}>
         <div className={styles.header}>
@@ -25,9 +26,9 @@ const Feed = async ({myProps}) => {
             <FeedFilters />
         </div>
         <div className={styles.feed}>
-            <Post data={dummy}/>
-            <Post data={textdummy}/>
-            <Post data={textdummy}/>
+            {posts.map((post,index)=>{
+                return <Post post={post} key={index}/>
+            })}
         </div>
     </div>
   )

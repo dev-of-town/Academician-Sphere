@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AddLink from "./AddLink";
 
 import styles from "../_css/Profile.module.css";
@@ -7,8 +7,42 @@ import { faUserPen } from "@fortawesome/free-solid-svg-icons";
 import Other_webs from "./Other_webs";
 import Edit_profile from "./Edit_profile";
 import Link from "next/link";
-export default function Name_images({ profile_demo_gen, changer }) {
+import Feed from "../../../_components/Feed";
+export default function Name_images({ profile_demo_gen, changer,user }) {
   const [edit_flag, ch_edit_flag] = useState(1);
+  const [reqarray,chreqarray] = useState([]);
+  let id ;
+  useEffect(() => {
+   
+      
+      if(profile_demo_gen && profile_demo_gen.flag==1)
+      id = JSON.parse(localStorage.getItem("user"))._id; 
+    else
+    {
+      id = user;
+    }
+     // let data;
+      
+      // fetch(`http://localhost:4041/u/${id}/get-user-posts`).then(async (res)=>{
+      //   data = await res.json();
+      //   console.log(data);
+      //   chreqarray(data);
+      //   // let coms = data.followingCommunity.map((c)=>{
+      //   //   c.selected = false;
+      //   //   return c;
+      //   // })
+      //   // // console.log(coms);
+      //   // usercoms.coms = coms;
+      //   // console.log(usercoms,"Hello");
+      //   // changeCon(coms);
+      // }).catch((error)=>{
+      //   console.log(error);
+      // });
+
+
+  }, []);
+ 
+
   console.log("Profile gen ->->->", profile_demo_gen);
   return (profile_demo_gen && (
     
@@ -44,16 +78,19 @@ export default function Name_images({ profile_demo_gen, changer }) {
       <div style={{ marginTop: "50px" }} className={styles.inf_con}>
         <div className="container-fluid row">
           <div className="col-md-8 col-12">
-            <div className="d-flex justify-content-between">
-              {profile_demo_gen && profile_demo_gen.flag == 0 && (
+            <div className=" justify-content-start">
+              
                 <div>
                   {" "}
-                  <Link href={`/u/${profile_demo_gen._id}`}>See posts</Link>{" "}
+                  {/* <Feed posts={reqarray}/> */}
+                  <Link href={`/u/${profile_demo_gen._id}/see-posts`}>See posts</Link>{" "}
                 </div>
-              )}
+               
+              
               {profile_demo_gen && profile_demo_gen.flag == 1 && (
                 <div>
-                  <Link href={`/u/${profile_demo_gen._id}`}>Saved posts</Link>{" "}
+                  {/* <Feed posts={reqarray}/> */}
+                  <Link href={`/u/${profile_demo_gen._id}/saved-posts`}>Saved posts</Link>{" "}
                 </div>
               )}
             </div>

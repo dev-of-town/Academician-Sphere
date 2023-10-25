@@ -3,7 +3,7 @@ import styles from "../_styles/CreateCommunityCard.module.css";
 import SearchContextProvider, {
   SearchContext,
 } from "@/app/_contexts/SearchAddUserContext";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchInput";
 import SearchAddUser from "./SearchAddUser";
 
 const CreateCommunityCard = ({
@@ -94,7 +94,7 @@ const CreateCommunityCard = ({
                 }}
               ></textarea>
             </div>
-            <div className={styles.adduser}>
+            {/* <div className={styles.adduser}>
               <div className={styles.addedusers}>
                 {!comm.users || <span>Add users to Community</span>}
               </div>
@@ -105,7 +105,7 @@ const CreateCommunityCard = ({
                   top={"40px"}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

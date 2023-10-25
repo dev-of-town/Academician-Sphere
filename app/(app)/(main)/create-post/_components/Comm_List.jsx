@@ -5,7 +5,10 @@ import CommunityComp from "./CommunityComp";
 import axios from "./axios.jsx";
 import { useState, useEffect } from "react";
 
-export default function Comm_List({ user_communities, crt_post, changeCon }) {
+export default function Comm_List({ usercoms }) {
+    let [user_communities, changeCon] = useState([]);
+
+
   // const getCommData = async (cid) => {
   //   try {
   //     console.log("In get method");
@@ -20,7 +23,7 @@ export default function Comm_List({ user_communities, crt_post, changeCon }) {
 
   // const getuserData = async () => {
   //   try {
-  //     console.log("In get method");
+  //     console.log("In get method, Comm_list");
   //     const res = await axios.get(`/u/`,crt_post.user_id);
   //     console.log(res.data);
   //     res.data.communities.map((cobj) => getCommData(cobj.community_id));
@@ -46,7 +49,24 @@ export default function Comm_List({ user_communities, crt_post, changeCon }) {
     //     selected: true,
     //   },
     // ]);
-    
+      const id = JSON.parse(localStorage.getItem("user"))._id; 
+      let data;
+      fetch(`http://localhost:4041/u/${id}/get-following-community`).then(async (res)=>{
+        data = await res.json();
+        console.log(data);
+        let coms = data.followingCommunity.map((c)=>{
+          c.selected = false;
+          return c;
+        })
+        // console.log(coms);
+        usercoms.coms = coms;
+        console.log(usercoms,"Hello");
+        changeCon(coms);
+      }).catch((error)=>{
+        console.log(error);
+      });
+
+
   }, []);
 
   return (
@@ -67,6 +87,8 @@ export default function Comm_List({ user_communities, crt_post, changeCon }) {
                 changer={changeCon}
                 user_community={comm}
                 i={index}
+                usercoms={usercoms}
+                key={index}
               />
             </DropdownItem>
           ))}

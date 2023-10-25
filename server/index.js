@@ -108,6 +108,28 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get('/get-random-post', async (req, res) => {
+    try {
+      postData = await Post.find({ isPublic: true });
+      let posts = [];
+      for (let post of postData) {
+        const senderData = await User.findOne(
+          { _id: post.sender_id },
+          { username: 1, profile_img: 1 }
+        );
+        posts.push({
+          ...post._doc,
+          sender_name: senderData.username,
+          sender_profile: senderData.profile_img,
+        });
+      }
+      res.json({ success: true, status: 200, data: posts });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, status: 500, message: 'Cannot load post !!' });
+    }
+  });
+
 // SIGN-UP
 app.get("/signup", (req, res) => {
   res.sendFile(
@@ -284,7 +306,6 @@ app.post(
       const top = null;
       const topCommunity = await createCommunity(
         data,
-        null,
         data.name,
         data.createdBy,
         null,
@@ -321,11 +342,13 @@ app.get("/c/search", async (req, res) => {
 
 app.get("/u/search", async (req, res) => {
   const { q } = req.query;
-  let foundUser = [];
   try {
-    foundUser = await User.find({
-      username: { $regex: `^${q}`, $options: "mi" },
-    }).project({ _id: 1, username: 1, profile_img: 1 });
+    const foundUser = await User.find(
+      {
+        username: { $regex: `^${q}`, $options: "mi" },
+      },
+      { _id: 1, username: 1, profile_img: 1 }
+    );
     return res.json({ success: true, status: 200, data: foundUser });
   } catch (error) {
     console.log(err);
@@ -339,24 +362,36 @@ app.get("/u/search", async (req, res) => {
 
 app.get("/search", async (req, res) => {
   const { q } = req.query;
-  let result = [];
+  let result = {};
   try {
-    const foundCommunity = await Community.find({
-      name: { $regex: `^${q}`, $options: "mi" },
-    }).project({ _id: 1, name: 1, profile_img: 1 });
-    const foundUser = await User.find({
-      username: { $regex: `^${q}`, $options: "mi" },
-    }).project({ _id: 1, username: 1, profile_img: 1 });
-    if (foundCommunity !== 0) {
-      for (let community of foundCommunity) {
-        result.push(community);
-      }
-    }
-    if (foundUser.length !== 0) {
-      for (let user of foundUser) {
-        result.push(user);
-      }
-    }
+    const foundCommunity = await Community.find(
+      {
+        name: { $regex: `^${q}`, $options: "mi" },
+      },
+      { _id: 1, name: 1, profile_img: 1 }
+    );
+    const foundUser = await User.find(
+      {
+        username: { $regex: `^${q}`, $options: "mi" },
+      },
+      { _id: 1, username: 1, profile_img: 1 }
+    );
+
+    // if (foundCommunity !== 0) {
+    //   for (let community of foundCommunity) {
+    //     result.push(community);
+    //   }
+    // }
+
+    // if (foundUser.length !== 0) {
+    //   for (let user of foundUser) {
+    //     result.push(user);
+    //   }
+    // }
+
+    result.communities = foundCommunity;
+    result.users = foundUser;
+
     return res.json({ success: true, status: 200, data: result });
   } catch (err) {
     console.log(err);
@@ -369,11 +404,11 @@ app.get("/search", async (req, res) => {
 });
 
 app.get("/u/:id/get-following-community", async (req, res) => {
-//   const user_id = JSON.parse(req.body.json).user_id;
-    const user_id = req.params.id;
+  //   const user_id = JSON.parse(req.body.json).user_id;
   try {
+    const user_id = req.params.id;
     const userData = await User.findOne({ _id: user_id });
-    const followingCommunity = userData.filter((following) => {
+    const followingCommunity = userData.following.filter((following) => {
       return following.isCommunity;
     });
     console.log(followingCommunity);
@@ -382,13 +417,14 @@ app.get("/u/:id/get-following-community", async (req, res) => {
       community_ids.push(community.id);
     }
     let result = [];
-    await Community.find({ _id: { $in: community_ids } })
-      .project({ _id: 1, name: 1, profile_img: 1 })
-      .then((data) => {
-        result = data;
-      });
+    await Community.find(
+      { _id: { $in: community_ids } },
+      { _id: 1, name: 1, profile_img: 1 }
+    ).then((data) => {
+      result = data;
+    });
     return res.json({ status: 200, success: true, followingCommunity: result });
-  } catch (err) {
+  } catch (error) {
     console.error("Unable to fetch communities followed by user: ", error);
     return res.json({
       status: 500,
@@ -740,15 +776,20 @@ app.delete("/delete-post/:community_id/:post_id", async (req, res) => {
 });
 
 // GET ALL POSTS OF A USER
-app.post("/u/:id/get-user-posts", async (req, res) => {
+app.get("/u/:id/get-user-posts", async (req, res) => {
   const user_id = req.params.id;
   try {
     const userData = await User.findOne({ _id: user_id });
-    console.log("Post IDs:", userData.posts);
+    // console.log("Post IDs:", userData.posts);
     let data = [];
     for (let post_id of userData.posts) {
       const postData = await Post.findOne({ _id: post_id });
-      data.push(postData);
+      // console.log("POSTS: .......... ", posts);
+      data.push({
+        ...postData._doc,
+        sender_name: userData.username,
+        sender_profile: userData.profile_img,
+      });
     }
     return res.json({ status: 200, success: true, posts: data });
   } catch (error) {
@@ -766,7 +807,11 @@ app.get("/u/:id/get-saved-posts", async (req, res) => {
     let data = [];
     for (let post of userData.saved_posts) {
       const postData = await Post.findOne({ _id: post.post_id });
-      data.push(postData);
+      data.push({
+        ...postData._doc,
+        sender_name: userData.username,
+        sender_profile: userData.profile_img,
+      });
     }
     return res.json({ status: 200, success: true, savedPosts: data });
   } catch (error) {
@@ -781,13 +826,28 @@ app.post("/c/:id/get-community-data", async (req, res) => {
   const community_id = req.params.id;
   try {
     const communityData = await Community.findOne({ _id: community_id });
-    const communityPosts = await Post.find({
+    let communityPosts = await Post.find({
       _id: { $in: communityData.posts },
     });
     const communityModerators = await User.find(
       { _id: { $in: communityData.moderators } },
       { _id: 1, username: 1, profile_img: 1 }
     );
+
+    let posts = [];
+    for (let post of communityPosts) {
+      const senderData = await User.findOne(
+        { _id: post.sender_id },
+        { username: 1, profile_img: 1 }
+      );
+      posts.push({
+        ...post._doc,
+        sender_name: senderData.username,
+        sender_profile: senderData.profile_img,
+      });
+    }
+    // console.log("POSTS: .......... ", posts);
+    communityPosts = posts;
 
     let data = {};
     data.communityData = communityData;
@@ -813,7 +873,6 @@ app.listen(PORT, () => {
 
 async function createCommunity(
   newCommunity,
-  mods,
   community_group,
   user_id,
   parent_community,
@@ -825,30 +884,49 @@ async function createCommunity(
     const community = new Community({
       name: newCommunity.name,
       description: newCommunity.description,
-      moderators: mods ? mods : [],
+      moderators: newCommunity.moderators,
       sub_communities: newCommunity.sub_communities,
       createdBy: user_id,
       community_group: community_group,
       allowed_participants: newCommunity.allowed_participants,
       parent_community: parent_community ? parent_community : null,
       profile_img: {
-        filename: images.profile_img ? images.profile_img[0].filename : null,
-        url: images.profile_img ? images.profile_img[0].path : null,
+        filename: images.profile_img
+          ? images.profile_img[0].filename
+          : "defaults/default-community.png",
+        url: images.profile_img
+          ? images.profile_img[0].path
+          : "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-community.png",
       },
       template_img: {
-        filename: images.template_img ? images.template_img[0].filename : null,
-        url: images.template_img ? images.template_img[0].path : null,
+        filename: images.template_img
+          ? images.template_img[0].filename
+          : "defaults/default-background.jpg",
+        url: images.template_img
+          ? images.template_img[0].path
+          : "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-background.jpg",
       },
     });
-
     await community.save();
+
+    console.log("------------------xxx------------------");
+    newCommunity.moderators.forEach(async (moderator) => {
+      const user = await User.findOne({ _id: moderator });
+      const newFollowing = {
+        isCommunity: true,
+        id: community._id,
+      };
+      user.following.push(newFollowing);
+      await user.save();
+    });
+
     if (!parent_community) top = await community;
     console.log(community);
     if (community.sub_communities.length !== 0) {
       for (let subCommunity of community.sub_communities) {
+        subCommunity.moderators = newCommunity.moderators;
         createCommunity(
           subCommunity,
-          mods,
           community_group,
           user_id,
           community._id,

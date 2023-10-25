@@ -8,6 +8,7 @@ import CreateCommunityCard from "../_components/CreateCommunityCard";
 import useNode from "../_hooks/useNode";
 import SendDataButton from "../_components/SendDataButton";
 import CommunityHierarchy from "../_components/CommunityHierarchy";
+import AddMods from "../_components/AddMods";
 // import { ToastContainer, toast } from "react-toastify";
 
 const page = () => {
@@ -17,14 +18,10 @@ const page = () => {
     name: "",
     description: "",
     sub_communities: [],
-    users: [],
-    moderators: [],
     allowed_participants: [],
+    moderators : []
   };
-
  
-
-
   const communityNameRef = useRef(null);
 
   let formdata = new FormData();
@@ -42,13 +39,7 @@ const page = () => {
             <div className={styles.profileimg}>
               <ImageUploader imageData={formdata} fieldName={"profile_img"} />
             </div>
-            <div className={styles.addmods}>
-              <div className={styles.title}>Add Moderators :</div>
-              <div className={styles.searchbar}>
-                <SearchAddUser />
-              </div>
-              <div className={styles.added}></div>
-            </div>
+            <AddMods community={community} />
             <div className={styles.btns}>
               <SendDataButton formdata={formdata} data={community} url={"/api/new-community"}>
                 Submit

@@ -41,13 +41,13 @@ const CommunityAbout = ({ community,data }) => {
       </div>
       <div className={styles.modsContainer}>
         <h5>Moderators of Community:</h5>
-        <ul className={styles.mods}>
+        <div className={styles.mods}>
           {data.communityModerators.map((mods,index)=>{
             return <li key={index}><ProfileCard name={mods.username} id={mods._id} profileimage={mods.profile_img.url}/></li>
           })}
           {/* <li><ProfileCard community={"Karm Soni"} profileimage={"/next.svg"}/></li>
           <li><ProfileCard community={"Karm Soni"} profileimage={"/next.svg"}/></li> */}
-        </ul>
+        </div>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const getData = async (id) => {
   }
 };
 
-export default async function page({params:{username}}) {
+export default async function page({ params: { username } }) {
   console.log(username, "This is params");
   // const data = useMemo(await getData(username),[profile_demo]);
   const [profile_demo, ch_profile_demo] = useState(null);
@@ -229,9 +229,7 @@ export default async function page({params:{username}}) {
     <div className={styles.Profile_body}>
       <div className={styles.ch_dip} style={{ margin: "10px auto" }}>
         <div>
-          {
-            <Name_images profile_demo_gen={profile_demo} changer={ch_gen} />
-          }
+          {<Name_images profile_demo_gen={profile_demo} changer={ch_gen} />}
           <div className={`border ${styles.tabs} pt-3 ps-3`}>
             <div className="d-flex justify-content-between">
               <div className="fw-bold fs-5">Education</div>
@@ -298,9 +296,10 @@ export default async function page({params:{username}}) {
             className="fw-bold fs-5 d-block text-center p-1"
             style={{ borderBottom: "1px solid black" }}
           >
-            Connections
+            {profile_demo && profile_demo.username} Joined{" "}
+            {profile_demo && profile_demo.following.length} Communities
           </div>
-          <div className="d-flex border border-dark border-1">
+          {/* <div className="d-flex border border-dark border-1">
             <button
               className={`${styles.show_connections_button} border-end border-1 border-dark`}
               onClick={() => chsh_flag(1)}
@@ -321,9 +320,12 @@ export default async function page({params:{username}}) {
               onClick={() => chsh_flag(3)}
             >
               {(profile_demo && profile_demo.following.length) || 0} Followings
-            </button>
-          </div>
+            </button> 
+          </div>*/}
           <div style={{ paddingBottom: "10px" }} className={styles.someclass}>
+            <Show_connection
+              list={profile_demo ? profile_demo.communities : []}
+            />
             {/* {profile_demo && sh_flag == 1 &&  (
               <Show_connection
                 list={[].concat(

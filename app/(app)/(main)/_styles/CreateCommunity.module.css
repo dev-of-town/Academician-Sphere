@@ -234,4 +234,11 @@
     gap: 10px;
 }
 
+.added{
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  flex-direction: column;
+}
+
 

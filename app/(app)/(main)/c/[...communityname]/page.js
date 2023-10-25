@@ -60,11 +60,11 @@ const CommunityPage = async ({ params: { communityname } }) => {
             width: "100%",
             height: "250px",
           }}
-        />
+        />  
       </div>
       <div className={defaultStyles.main}>
         <div className={defaultStyles.feed}>
-          <Feed />
+          <Feed posts={data.communityPosts}/>
         </div>
         <div className={styles.aboutcommunity} id="communityAbout">
           <OnlyForScroll />

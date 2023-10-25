@@ -9,8 +9,8 @@ import CommentShow from "./CommentShow";
 import Bookmark from "./Bookmark";
 import Dropdown from "./Dropdown";
 
-const Post = ({data}) => {
-  
+const Post = ({post}) => {
+  console.log(post,"THIs is iPOSt");
   return (
 
     <>
@@ -18,22 +18,23 @@ const Post = ({data}) => {
       <div className={styles.header}>
         <div className={styles.profilecard}>
           <ProfileCard
-            community={data.community}
-            profileimage={data.profileimage}
+            name={post.sender_name?post.sender_name:"Karm"}
+            id={post.sender_id}
+            profileimage={(post.sender_profile?post.sender_profile.url:'/next.svg')}
           />
           <div className={styles.timeago}>~ 3 hours ago</div>
         </div>
-        <div className={styles.category}>{data.category}</div>
+        <div className={styles.category}>{post.category}</div>
         <div className={styles.menudots}>
           <Dropdown content={<button>Report</button>}/>
         </div>
       </div>
-      <div className={styles.subject}>{data.subject}</div>
-      {!data["text"] || <div className={styles.text}>{data.text}</div>}
-      {!data["img"] || (
+      <div className={styles.subject}>{post.title}</div>
+      {!post["body"] || <div className={styles.text}>{post.body}</div>}
+      {post.attachment.length!==0 && (
         <div className="contentimg">
           <Image
-            src={data.img}
+            src={post.attachment[0]?post.attachment[0].url:"/next.svg"}
             width={700}
             height={475}
             sizes="100vw"
@@ -48,7 +49,7 @@ const Post = ({data}) => {
       )}
       <div className={styles.footer}>
             <div className={styles.votes}> 
-                <Votes votes={data.votes}/>
+                <Votes votes={post.votes}/>
             </div>
             <div className={styles.comment}>
                 <CommentShow comments={100}/>
