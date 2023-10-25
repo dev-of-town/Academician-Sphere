@@ -51,9 +51,9 @@ const userSchema = new mongoose.Schema({
     ],
     education :[
         {
-            institute_name:{
+            name:{
                 type:String,
-                default:-1
+                required :[true,'name cannot be empty']
             },
             start:{
                 type:String,
@@ -94,10 +94,10 @@ const userSchema = new mongoose.Schema({
                 type:String,
                 default:''
             },
-            joining_dt :{
+            starting_year :{
                 type:String
             },
-            end_dt :{
+            ending_year :{
                 type:String
             },
             job_role :{
@@ -134,14 +134,7 @@ const userSchema = new mongoose.Schema({
     ],
     comments :[String],
     followers :[String],
-    following :[{
-        isCommunity : {
-            type : Boolean
-        },
-        id : {
-            type : String
-        }
-    }]
+    following :[String]
 });
 
 module.exports = mongoose.model('Users',userSchema);
