@@ -7,7 +7,7 @@
     align-items: center;
     position: fixed;
     left: 0;
-    /* top: 50px; */
+    top: 55px;
     min-width: 325px;
     height: 100%;
     grid-column: 1 / 2;

@@ -14,9 +14,10 @@ const page = () => {
     id: 1,
     name: "",
     description: "",
-    subCommunities: [],
+    sub_communities: [],
     users: [],
-    expectedUsers: [],
+    moderators:[],
+    allowed_participants: [],
   });
 
   let allRef = [];
@@ -67,7 +68,7 @@ const page = () => {
               <div className={styles.added}></div>
             </div>
             <div className={styles.btns}>
-              <SendDataButton formdata={formdata} data={communityData} url={"http://localhost:4041/c/new_community"}>
+              <SendDataButton formdata={formdata} data={communityData} url={"/api/new-community"}>
                 Submit
               </SendDataButton>
               <button

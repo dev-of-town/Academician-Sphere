@@ -12,7 +12,7 @@ export default function Edit_profile({ profile_demo_gen, changer, change_edit_fl
         bc_file:[],
         prchange:0,
         bcchange:0,
-        about:profile_demo_gen.about
+        bio:profile_demo_gen.bio
 
     })
 
@@ -32,7 +32,7 @@ export default function Edit_profile({ profile_demo_gen, changer, change_edit_fl
             e.preventDefault();
             //console.log(newgen);
             //console.log("changing ",newgen.username);
-            changer({...profile_demo_gen,username:newgen.username,profile_img:newgen.profile_img,background_img:newgen.background_img},newgen.pr_file,newgen.bc_file,newgen.prchange,newgen.bcchange)
+            changer({...profile_demo_gen,username:newgen.username,profile_img:newgen.profile_img,background_img:newgen.background_img,bio:newgen.bio},newgen.pr_file,newgen.bc_file,newgen.prchange,newgen.bcchange)
 
             change_edit_flag(1);
         }
@@ -47,7 +47,7 @@ export default function Edit_profile({ profile_demo_gen, changer, change_edit_fl
             </div>
             <div >Bio</div>
             <div >
-                <input type="text" name="about" className="border-primary rounded" value={ newgen.about } onChange={ (e) => { newgenchange({ ...newgen, about: e.target.value }) } } />
+                <input type="text" name="about" className="border-primary rounded" value={ newgen.bio } onChange={ (e) => { newgenchange({ ...newgen, bio: e.target.value }) } } />
             </div>
 
 

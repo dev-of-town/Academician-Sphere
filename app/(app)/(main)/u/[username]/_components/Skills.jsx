@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus } from '@fortawesome/free-solid-svg-icons'
 
-export default function Skills({Skills,changer})
+export default function Skills({Skills,changer,chuser})
 {
     return(
       <div className="mt-3">
@@ -21,11 +21,12 @@ export default function Skills({Skills,changer})
             <div className={styles.timeRange}>{skill.ins}</div>
           </div>
           <div className="ms-auto pt-3">
+            {chuser==1 &&
                   <button className={`btn border rounded ${styles.rem}`}  onClick={ () => {Skills.splice(index,1)
                   changer(Skills)
                 }}>
                   <FontAwesomeIcon icon={faMinus} />
-                  </button>
+                  </button>}
                   </div>
         </div>
           )}

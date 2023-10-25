@@ -15,6 +15,7 @@ async function getUser() {
 }
 
 const NavProfile = (props) => {
+    // const data = await getUser();
    const [user,setUser] = useState(null);
 
     useEffect(()=>{
@@ -27,14 +28,14 @@ const NavProfile = (props) => {
     },[])
 
   return (
-    <div style={{width:"40px",height:"40px",borderRadius:"50%",overflow:"hidden"}}>
+    <div style={{width:"40px",height:"40px",borderRadius:"50%",backgroundColor:"white",overflow:"hidden",display:'flex',alignItems:"center",justifyContent:'center'}}>
       <Link href={user?`/u/${user._id}`:"/"}>
-        <img
+        <Image
           src={user?`${user.profile_img.url}`:"/favicon.svg"}
           alt="acad"
-          width={34}
-          height={34}
-          style={{backgroundColor:"white"}}
+          width={32}
+          height={32}
+          style={{borderRadius:'50%'}}
         />
       </Link>
     </div>

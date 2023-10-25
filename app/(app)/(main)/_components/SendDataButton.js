@@ -6,7 +6,8 @@ const SendDataButton = ({formdata,data,children,url,style}) => {
     const handleClick = async (e)=>{
         try{
             setSending(true);
-            formdata.set("json",JSON.stringify(data));
+            console.log(formdata.get("profile_img"),"This is profile img com");
+            formdata.append("json",JSON.stringify(data));
             console.log(formdata);
             // console.log("Data sending...");
             const response = await fetch(url, {

@@ -17,29 +17,54 @@ const communities = [
 ];
 
 export default function page({ comm }) {
+  const params = useParams();
+  console.log(params);
 
- const params = useParams();
-console.log(params);
-
-let [user_communities,getc]=useState([]);
-
+  let [user_communities, getc] = useState([]);
+  let coms = [];
   const [crt_post, changeCon] = useState({
     community: [],
-    sender_id: params.user_id,
+    // sender_id: params.user_id,
     isPublic: true,
     post_content: 1,
     date: new Date(),
     category: "Events",
     title: "",
     body: "",
-    attachment: [],
-    votes:[],
-    upvotes: [],
-    downvotes: [],
-    comments: [],
-   
+    // attachment: [],
+    // votes:[],
+    // upvotes: [],
+    // downvotes: [],
+    // comments: [],
   });
+  const formData = new FormData();
   console.log("catagory", crt_post.category);
+
+  const sendit = async (e) => {
+    e.preventDefault();
+    console.log("Sending It");
+    user_communities.map((c) => {
+      if (c.selected) {
+        coms.push("" + c.comm._id);
+      }
+    });
+    if (coms.length == 0) {
+      window.alert("Please select atleast 1 community");
+    } else {
+      // changeCon(...crt_post,community=coms);
+      crt_post.community = coms;
+    }
+
+    formData.append("json", JSON.stringify(crt_post));
+
+    const response = await fetch("/api/new-post", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      body: formData, // body data type must match "Content-Type" header
+    });
+
+    console.log(await response.json());
+  };
 
   return (
     <div className={`px-5 py-2 ${styles.create_post}`}>
@@ -71,7 +96,7 @@ let [user_communities,getc]=useState([]);
         <div>
           {" "}
           <Comm_List
-            user_communities = {user_communities}
+            user_communities={user_communities}
             crt_post={crt_post}
             changeCon={getc}
           />
@@ -184,11 +209,17 @@ let [user_communities,getc]=useState([]);
           <Link_post crt_post={crt_post} changeCon={changeCon} />
         )}
         {crt_post.post_content === 2 && (
-          <Dropzone crt_post={crt_post} changeCon={changeCon} />
+          <Dropzone
+            formData={formData}
+            crt_post={crt_post}
+            changeCon={changeCon}
+          />
         )}
       </div>
       <div>
-        <button className="btn btn-primary float-end m-2" >Upload</button>
+        <button className="btn btn-primary float-end m-2" onClick={sendit}>
+          Upload
+        </button>
       </div>
     </div>
   );

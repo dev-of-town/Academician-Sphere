@@ -110,7 +110,7 @@ const CreateCommunityCard = ({
         </div>
       </div>
       <div className={styles.subContainer}>
-        {community.subCommunities.map((c) => {
+        {community.sub_communities.map((c) => {
           return (
             <CreateCommunityCard
               community={c}

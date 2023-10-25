@@ -21,6 +21,16 @@ const nextConfig = {
   //     },
   //   ];
   // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/dbrt4m9x8/image/upload/**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

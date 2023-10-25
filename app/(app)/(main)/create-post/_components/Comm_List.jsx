@@ -3,7 +3,7 @@ import { Dropdown } from "react-bootstrap";
 import { DropdownToggle, DropdownItem, DropdownMenu } from "react-bootstrap";
 import CommunityComp from "./CommunityComp";
 import axios from "./axios.jsx";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 
 
@@ -12,30 +12,40 @@ export default function Comm_List({user_communities,  crt_post, changeCon }) {
 
 
 
-  const getCommData = async (cid) => {
-    try {
-      console.log("In get method");
-      const res = await axios.get(`/c/`,crt_post.user_id);
-      console.log(res.data);
-      changeCon(user_communities.push({comm : res.data,selected:false}));
-    } catch (error) {
-      setIsError(error.message);
-      console.error("this is error !!!", error.message);
-    }
-  };
+  // const getCommData = async (cid) => {
+  //   try {
+  //     console.log("In get method");
+  //     const res = await axios.get(`/c/`,crt_post.user_id);
+  //     console.log(res.data);
+  //     changeCon(user_communities.push({comm : res.data,selected:false}));
+  //   } catch (error) {
+  //     setIsError(error.message);
+  //     console.error("this is error !!!", error.message);
+  //   }
+  // };
 
 
-  const getuserData = async () => {
-    try {
-      console.log("In get method");
-      const res = await axios.get(`/u/`,crt_post.user_id);
-      console.log(res.data);
-      res.data.communities.map((cobj) => getCommData(cobj.community_id));
-    } catch (error) {
-      setIsError(error.message);
-      console.error("this is error !!!", error.message);
-    }
-  };
+  // const getuserData = async () => {
+  //   try {
+  //     console.log("In get method");
+  //     const res = await axios.get(`/u/`,crt_post.user_id);
+  //     console.log(res.data);
+  //     res.data.communities.map((cobj) => getCommData(cobj.community_id));
+  //   } catch (error) {
+  //     setIsError(error.message);
+  //     console.error("this is error !!!", error.message);
+  //   }
+  // };
+ 
+  useEffect(() => {
+    
+    changeCon([...user_communities,{comm:{name:"Cricket1",participants:["h","h","l"]},selected:true},
+    {comm:{name:"Cricket1",participants:["h","h","l"]},selected:true},
+    {comm:{name:"Cricket1",participants:["h","h","l"]},selected:true}
+    ]
+  )
+  }, []);
+
 
   
 
@@ -55,9 +65,8 @@ export default function Comm_List({user_communities,  crt_post, changeCon }) {
             <DropdownItem key={index}>
               <CommunityComp
                 all_c={user_communities}
-                changer = {
-                  changeCon
-                }
+                changer = {changeCon}
+                
                 user_community={comm}
                 i={index}
               />

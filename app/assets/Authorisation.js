@@ -13,10 +13,12 @@ export function getToken({username, mail, _id}){
 
 export function getId(token){
     try{
-        const {_id} = jwt.verify(token,'THISISOURSECRET');
-        return id;
+        const decode = jwt.verify(token,'THISISOURSECRET');
+        // console.log(decode);
+        return decode._id;
     }catch(error){
-
+        console.log(error);
+        return null;
     }
 }
 

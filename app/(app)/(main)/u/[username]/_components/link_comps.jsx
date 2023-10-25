@@ -14,10 +14,10 @@ export default function Give_Link({progile_demo_gen,link,index,changer})
       
             <button className={ `${styles.links} btn btn-light d-flex` } onMouseOver={ () => chrem_flag(2) } onMouseOut={ () => chrem_flag(1) }>
                 <a href={ link.link } className={ styles.links_btn_a }>{ link.name }</a>
-                { rem_flag == 2 &&
+                { rem_flag == 2 && progile_demo_gen.flag==1 && 
                  <button className={ ` btn btn-light ms-auto ` }  onClick={ () => {
                     progile_demo_gen.links.splice(index, 1)
-                    changer(progile_demo_gen.links)
+                    changer(progile_demo_gen)
                     chrem_flag(1)
                 } }>
                     <a className={ styles.links_btn_a }>

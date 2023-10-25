@@ -23,7 +23,7 @@ export default function Other_webs({ progile_demo_gen, user_flag, changer }) {
 
             }
             {
-                user_flag == 2
+                user_flag == 1
                 &&
 
                 <button className={ `${styles.links} btn btn-light` } onClick={ () => chflag(2) }>

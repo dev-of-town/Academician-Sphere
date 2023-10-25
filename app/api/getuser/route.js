@@ -12,7 +12,8 @@ export async function GET(request) {
         console.log(token);
         const decode = jwt.verify(token.value.toString(), "THISISOURSECRET");
         console.log(decode);
-        const { data } = await axios.get(`http://localhost:4041/u/${decode._id}`);
+        const { data } = await axios.post(`http://localhost:4041/u/${decode._id}`,{user_id:decode._id});
+        console.log(data);
         const res = NextResponse.json(data);
         // console.log(data);
         return res;

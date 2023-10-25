@@ -8,10 +8,14 @@ const ImageUploader = ({imageData,fieldName}) => {
   const ref = useRef();
 
   const handleChange = ({ target: { files } }) => {
-    if (files[0]) {
-      imageData.append(fieldName,files[0]);
+    if (files) {
+      if(image){
+        imageData.append(fieldName,files[0]);
+      }else{
+        imageData.append(fieldName,files[0]);
+      }
       setImage(URL.createObjectURL(files[0]));
-      console.log(files[0]);
+      console.log(files[0],"--",imageData);
     }
   };
   

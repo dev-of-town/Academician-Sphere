@@ -1,6 +1,31 @@
+
+.show_connections_button
+{
+    width: 34%; 
+    text-align: center;
+}
+
+.connection_username
+{
+    font-size: 15px;
+    font-weight:700;
+}
+
+.show_connections_button:focus
+{
+    color: blue;
+
+}
+
+
+
 .timeRange {
     color: gray;
 }
+
+
+
+
 
 .rem:hover{
     background-color: cyan;
@@ -95,9 +120,8 @@
 
 .posts {
     margin-top: 10px;
-    height: 510px;
+    height:fit-content;
     padding-bottom: 10px;
-    background-color: brown;
    
     
 }
@@ -123,6 +147,7 @@
 
 .profile_photo {
     position: relative;
+    background-color: white;
     border-radius: 50%;
     transform :translateY(-60%);
         margin-left: 2rem;
@@ -144,6 +169,7 @@
         width: 150px;
         /* top: 175px;
         left: 10%; */
+        background-color: white;
         transform :translateY(-60%);
         margin-left: 2rem;
     }
@@ -188,6 +214,7 @@
         width: 150px;
         /* top: 175px;
         left: 10%; */
+        background-color: white;
         transform :translateY(-60%);
         margin-left: 2rem;
     }
@@ -227,6 +254,7 @@
         width: 150px;
         /* top: 175px;
         left: 10%; */
+        background-color: white;
         transform :translateY(-60%);
         margin-left: 2rem;
     }
@@ -266,6 +294,7 @@
         width: 150px;
         /* top: 175px;
         left: 10%; */
+        background-color: white;
         transform :translateY(-60%);
         margin-left: 2rem;
     }
@@ -288,11 +317,6 @@
 
 @media (max-width: 800px) and (min-width: 480px) {
 
-    .posts
-    {
-        display: none;
-    }
-
     .msg
     {
         display: inline;
@@ -308,6 +332,7 @@
         width: 100px;
         /* top: 100px;
         left: 10%; */
+        background-color: white;
         transform :translateY(-60%);
         margin-left: 2rem;
     }
@@ -324,10 +349,7 @@
 
 
 @media (max-width: 480px) {
-    .posts
-    {
-        display: none;
-    }
+    
     .msg
     {
         display: inline;
@@ -345,6 +367,7 @@
 
     .profile_photo {
         width: 100px;
+        background-color: white;
         transform :translateY(-60%);
         margin-left: 2rem;
         /* top: 100px;

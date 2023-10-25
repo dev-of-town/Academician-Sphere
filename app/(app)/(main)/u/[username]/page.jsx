@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import "bootstrap/dist/css/bootstrap.css";
 import styles from "./_css/Profile.module.css";
 import Name_images from "./_components/Name_images";
 import Education from "./_components/Education";
@@ -15,18 +14,17 @@ import Add_Exp from "./_components/Add_Exp";
 import Add_Edu from "./_components/Add_Edu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import axios from "./_components/axios.jsx";
-import { headers } from "@/next.config";
+
 import Show_connection from "./_components/Show_connection";
 import { useRouter } from "next/navigation";
 
 const getData = async (id) => {
   try {
     console.log("In get method");
-    const res = await axios.get(`/u/${id}`);
-    console.log(res, res.data, 123);
-    if (res.data.success) {
-      return res.data.user;
+    const res = await (await fetch(`/api/getuser/${id}`)).json();
+    console.log(res, res.user, 123);
+    if (res.success) {
+      return res.user;
     }
     return null;
   } catch (error) {
@@ -36,29 +34,34 @@ const getData = async (id) => {
   }
 };
 
-export default function page({ params }) {
-  console.log(params, "This is params");
+export default async function page({params:{username}}) {
+  console.log(username, "This is params");
+  // const data = useMemo(await getData(username),[profile_demo]);
   const [profile_demo, ch_profile_demo] = useState(null);
   const [sh_flag, chsh_flag] = useState(1);
   const [error1, setIsError] = useState("");
   const [as_flag, ch_as_flag] = useState(1);
   const [exp_flag, ch_exp_flag] = useState(1);
   const [edu_flag, ch_edu_flag] = useState(1);
-  
+
+  // const data = await getData(username);
+  // console.log(data);
+  // ch_profile_demo()
+
   useEffect(() => {
-    // console.log("hello ", window.location.href);
+    console.log("hello ", window.location.href);
     //  getData()
-    getData(params.username)
+    getData(username)
       .then((res) => {
         console.log(res, "In getData dhruv");
-        ch_profile_demo({...res,flag:2});
-        console.log(profile_demo,"Profile demo");
+        if (res !== null) ch_profile_demo(res);
+        else ch_profile_demo(null);
+        console.log(profile_demo, "Profile demo");
       })
       .catch((error) => {
         console.log(error);
-    });
+      });
   }, []);
-  
 
   // console.log("Path",window.location.href);
 
@@ -161,7 +164,6 @@ export default function page({ params }) {
 
   // console.log("Printing ", profile_demo.education);
 
-
   let ch_skill = (arr) => {
     ch_profile_demo({ ...profile_demo, education: arr });
     patchDemo();
@@ -171,7 +173,7 @@ export default function page({ params }) {
     ch_profile_demo(newgen);
 
     profile_demo.username = newgen.username;
-    profile_demo.about = newgen.about;
+    profile_demo.bio = newgen.bio;
     if (prchange == 1) {
       console.log("-----------------pr-----------------");
       profile_demo.changeProfile = true;
@@ -213,9 +215,9 @@ export default function page({ params }) {
         mode: "cors", // no-cors, *cors, same-origin
         body: formdata, // body data type must match "Content-Type" header
       });
-      const data = await response.json()
-      console.log("response from patch", );
-      if(data.success) router.refresh();
+      const data = await response.json();
+      console.log("response from patch");
+      if (data.success) router.refresh();
     } catch (error) {
       setIsError(error.message);
     }
@@ -227,48 +229,68 @@ export default function page({ params }) {
     <div className={styles.Profile_body}>
       <div className={styles.ch_dip} style={{ margin: "10px auto" }}>
         <div>
-          <Name_images profile_demo_gen={profile_demo} changer={ch_gen} />
+          {
+            <Name_images profile_demo_gen={profile_demo} changer={ch_gen} />
+          }
           <div className={`border ${styles.tabs} pt-3 ps-3`}>
             <div className="d-flex justify-content-between">
               <div className="fw-bold fs-5">Education</div>
               <div className="me-4">
-                <button
-                  className={`btn border border-2 border-dark rounded ${styles.rem}`}
-                  onClick={() => ch_edu_flag(2)}
-                >
-                  <FontAwesomeIcon icon={faPlus} />
-                </button>
+                {profile_demo && profile_demo.flag == 1 && (
+                  <button
+                    className={`btn border border-2 border-dark rounded ${styles.rem}`}
+                    onClick={() => ch_edu_flag(2)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                )}
               </div>
             </div>
-            <Education c={profile_demo?profile_demo.education:[]} changer={ch_edu} />
+            <Education
+              c={profile_demo ? profile_demo.education : []}
+              changer={ch_edu}
+              chuser={profile_demo && profile_demo.flag}
+            />
           </div>
           <div className={`border ${styles.tabs} pt-3 ps-3`}>
             <div className="d-flex justify-content-between">
               <div className="fw-bold fs-5">Experience</div>
               <div className="me-4">
-                <button
-                  className={`btn border border-2 border-dark rounded ${styles.rem}`}
-                  onClick={() => ch_exp_flag(2)}
-                >
-                  <FontAwesomeIcon icon={faPlus} />
-                </button>
+                {profile_demo && profile_demo.flag == 1 && (
+                  <button
+                    className={`btn border border-2 border-dark rounded ${styles.rem}`}
+                    onClick={() => ch_exp_flag(2)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                )}
               </div>
             </div>{" "}
-            <Experience Companies={profile_demo?profile_demo.experience:[]} changer={ch_exp} />
+            <Experience
+              Companies={profile_demo ? profile_demo.experience : []}
+              changer={ch_exp}
+              chuser={profile_demo && profile_demo.flag}
+            />
           </div>
           <div className={`border ${styles.tabs} pt-3 ps-3 `}>
             <div className="d-flex justify-content-between">
               <div className="fw-bold fs-5">Skills</div>
               <div className="me-4">
-                <button
-                  className={`btn border border-2 border-dark rounded ${styles.rem}`}
-                  onClick={() => ch_as_flag(2)}
-                >
-                  <FontAwesomeIcon icon={faPlus} />
-                </button>
+                {profile_demo && profile_demo.flag == 1 && (
+                  <button
+                    className={`btn border border-2 border-dark rounded ${styles.rem}`}
+                    onClick={() => ch_as_flag(2)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                )}
               </div>
             </div>
-            <Skills Skills={profile_demo?profile_demo.skills:[]} changer={ch_skill} />
+            <Skills
+              Skills={profile_demo ? profile_demo.skills : []}
+              changer={ch_skill}
+              chuser={profile_demo && profile_demo.flag}
+            />
           </div>
         </div>
         <div className={`border ${styles.posts} rounded-bottom-0`}>
@@ -281,36 +303,62 @@ export default function page({ params }) {
           <div className="d-flex border border-dark border-1">
             <button
               className={`${styles.show_connections_button} border-end border-1 border-dark`}
+              onClick={() => chsh_flag(1)}
             >
-              Followers
+              {profile_demo &&
+                (profile_demo.followers.length || 0) +
+                  (profile_demo.following.length || 0)}{" "}
+              All
             </button>
-            <button className={styles.show_connections_button}>
-              Followings
+            <button
+              className={`${styles.show_connections_button} border-end border-1 border-dark`}
+              onClick={() => chsh_flag(2)}
+            >
+              {(profile_demo && profile_demo.followers.length) || 0} Followers
+            </button>
+            <button
+              className={styles.show_connections_button}
+              onClick={() => chsh_flag(3)}
+            >
+              {(profile_demo && profile_demo.following.length) || 0} Followings
             </button>
           </div>
           <div style={{ paddingBottom: "10px" }} className={styles.someclass}>
-            <Show_connection list={profile_demo?profile_demo.followers:[]} />
+            {profile_demo && sh_flag == 1 &&  (
+              <Show_connection
+                list={[].concat(
+                  profile_demo.followers,
+                  profile_demo.followings
+                )}
+              />
+            )}
+            {profile_demo && sh_flag == 2 && (
+              <Show_connection list={profile_demo.followers} />
+            )}
+            {profile_demo && sh_flag == 3 && (
+              <Show_connection list={profile_demo.following} />
+            )}
           </div>
         </div>
         {(as_flag == 2 || exp_flag == 2 || edu_flag == 2) && <AddLink />}
         {as_flag == 2 && (
           <Add_skill
             chflag={ch_as_flag}
-            skills={profile_demo?profile_demo.skills:[]}
+            skills={profile_demo ? profile_demo.skills : []}
             changer={ch_skill}
           />
         )}
         {exp_flag == 2 && (
           <Add_Exp
             chflag={ch_exp_flag}
-            companies={profile_demo?profile_demo.experience:[]}
+            companies={profile_demo ? profile_demo.experience : []}
             changer={ch_exp}
           />
         )}
         {edu_flag == 2 && (
           <Add_Edu
             chflag={ch_edu_flag}
-            colleges={profile_demo?profile_demo.education:[]}
+            colleges={profile_demo ? profile_demo.education : []}
             changer={ch_edu}
           />
         )}

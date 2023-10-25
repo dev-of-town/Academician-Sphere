@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const CreatPostButton = ({img}) => {
   return (
-    <Link href={"/"} className={styles.createpostbtn}>
+    <Link href={"/create-post"} className={styles.createpostbtn}>
         <div className={styles.profileimg}>
             <Image src={"/msulogo412.png"} width={35} height={35} priority/>
         </div>
