@@ -303,6 +303,7 @@ app.post(
       // console.log(communityData);
       console.log("Files", req.files.profile_img);
       const data = JSON.parse(communityData);
+      data.moderators.splice(0, 1);
       const top = null;
       const topCommunity = await createCommunity(
         data,
@@ -909,7 +910,7 @@ async function createCommunity(
     });
     await community.save();
 
-    console.log("------------------xxx------------------");
+    console.log("------------------xxx------------------", newCommunity.name);
     newCommunity.moderators.forEach(async (moderator) => {
       const user = await User.findOne({ _id: moderator });
       const newFollowing = {

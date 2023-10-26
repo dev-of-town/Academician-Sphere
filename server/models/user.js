@@ -51,9 +51,9 @@ const userSchema = new mongoose.Schema({
     ],
     education :[
         {
-            institute_name:{
+            name:{
                 type:String,
-                default:-1
+                default:''
             },
             start:{
                 type:String,
@@ -83,7 +83,7 @@ const userSchema = new mongoose.Schema({
             type:'String',
             default:''
         },
-        institute:{
+        ins:{
             type: String,
             default: ''
         }
@@ -94,10 +94,10 @@ const userSchema = new mongoose.Schema({
                 type:String,
                 default:''
             },
-            joining_dt :{
+            starting_year :{
                 type:String
             },
-            end_dt :{
+            ending_year :{
                 type:String
             },
             job_role :{
