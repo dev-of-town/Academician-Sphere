@@ -57,7 +57,6 @@
     flex-direction: column;
     gap: 5px;
     list-style: none;
-    border: 1px solid black;
 }
 
 .searchoutput::-webkit-scrollbar{

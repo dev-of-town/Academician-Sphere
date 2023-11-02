@@ -5,7 +5,11 @@ import ProfileCard from "./ProfileCard";
 const SearchResult = ({ output, refOutput }) => {
   console.log(output);
   return (
-    <div className={styles.searchoutput} ref={refOutput}>
+    <div className={`${styles.searchoutput} h-0`} ref={refOutput}>
+      {
+        output.communities?.length===0 && output.users?.length===0 && <div>No Data Found</div>
+      }
+
       {output &&
         output.communities &&
         output.communities.map((item, index) => {

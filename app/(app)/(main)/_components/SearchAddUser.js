@@ -1,10 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import styles from "../_styles/SearchBar.module.css";
-import specs from '../_styles/SearchAddUser.module.css'
 import Image from "next/image";
-import SearchAddUserResult from "./SearchAddUserResult";
-import { output } from "@/next.config";
 
 
 const getUser = async (query) => {
@@ -17,7 +14,7 @@ const getUser = async (query) => {
     mode: "cors",
   });
   const data = await res.json();
-  console.log(data,"-----------123456");
+  // console.log(data,"-----------123456");
   if (data.success) return data.data;
   return [];
 };
@@ -27,24 +24,38 @@ const SearchAddUserInput = ({ maxHeight, top, ref, refOutput,setOutput,placehold
 
 
   const searchHappen = async (e) => {
-    setSearchQuery(e.target.value);
-    if(searchQuery.length===0) refOutput.current.classList.add("h-0");
-    getUser(searchQuery).then((res)=>{
+    const query = e.target.value;
+    if (query.length === 0) {
+      refOutput.current.classList.add("h-0");
+      refOutput.current.classList.remove("border-1");
+    } else {
+      refOutput.current.classList.remove("h-0");
+      refOutput.current.classList.add("border-1");
+    }
+
+    setSearchQuery(query);
+    
+    getUser(query).then((res)=>{
       console.log(res,"Data-------");
       setOutput(res);
     }).catch((error)=>{
       console.log(error);
     })
+    
     console.log(searchQuery);
   };
 
   const handleFocus = (e)=>{
     e.preventDefault();
-    refOutput.current.classList.remove("h-0");
+    if (searchQuery.length !== 0) {
+      refOutput.current.classList.remove("h-0");
+      refOutput.current.classList.add("border-1");
+    }
   }
   
   const handleOutFocus = (e)=>{
     e.preventDefault();
+
   }
 
   return (
@@ -69,6 +80,7 @@ const SearchAddUserInput = ({ maxHeight, top, ref, refOutput,setOutput,placehold
         <button onClick={()=>{
             setSearchQuery("");
             refOutput.current.classList.add("h-0");
+            refOutput.current.classList.remove("border-1");
         }}>x</button>
       </div>
       

@@ -8,7 +8,7 @@ const OnlyForScroll = () => {
             let communityAbout = document.querySelector("#communityAbout");
             let templateImage = document.querySelector("#templateimage");
             // console.log(communityAbout.offsetTop,window.scrollY,templateImage.scrollHeight);
-            if(window.scrollY>communityAbout.offsetTop||0){
+            if(window.scrollY>communityAbout?.offsetTop||0){
                 communityAbout.classList.add("fixed55px");
             }
             if(window.scrollY<=templateImage.scrollHeight){

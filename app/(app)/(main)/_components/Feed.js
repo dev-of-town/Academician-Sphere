@@ -5,8 +5,8 @@ import CreatPostButton from './CreatPostButton';
 import FeedFilters from './FeedFilters';
 
 const Feed = async ({posts}) => {
-    if(!posts) posts = [];
-    console.log(posts);
+    // if(!posts) posts = [];
+    // console.log(posts);
     // let dummy = {
     //     community: "The MSU",
     //     timeago: "3 hours",
@@ -26,19 +26,12 @@ const Feed = async ({posts}) => {
             <FeedFilters />
         </div>
         <div className={styles.feed}>
-            {posts.map((post,index)=>{
+            {posts?.map((post,index)=>{
                 return <Post post={post} key={index}/>
             })}
         </div>
     </div>
   )
-}
-export function getServerSideProps(context){
-    console.log(10,context);
-
-    return{
-        myProps:{posts:"123"}
-    }
 }
 
 export default Feed
