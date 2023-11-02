@@ -11,7 +11,7 @@ const OnlyForScroll = () => {
             if(window.scrollY>communityAbout?.offsetTop||0){
                 communityAbout.classList.add("fixed55px");
             }
-            if(window.scrollY<=templateImage.scrollHeight){
+            if(window.scrollY<=templateImage?.scrollHeight){
                 communityAbout.classList.remove("fixed55px");
             }
         });
