@@ -60,6 +60,15 @@ const SearchInput = ({ setOutput, refOutput }) => {
   return (
     <>
       <div className={styles.searchinput}>
+        <button>
+          <Image
+            src={"/searchicon.svg"}
+            alt="search"
+            width={26}
+            height={26}
+            priority
+          />
+        </button>
         <input
           type="text"
           placeholder="Search Acedemia"
@@ -74,12 +83,9 @@ const SearchInput = ({ setOutput, refOutput }) => {
             refOutput.current.classList.remove("border-1");
           }}
         >
-          x
-        </button>
-        <button>
           <Image
-            src={"/searchicon.svg"}
-            alt="search"
+            src={"/cross.png"}
+            alt="cross"
             width={26}
             height={26}
             priority
