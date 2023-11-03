@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    gap:10px;
+    gap:5px;
     background-color: white;
     border-radius: 10px;
 }
@@ -27,7 +27,7 @@
     height: 35px;
     font-size: 100%;
     /* vertical-align: middle; */
-    padding: 2px 15px;
+    padding: 2px 5px;
     display: flex;
     /* justify-content: center; */
     align-items: center;
@@ -36,7 +36,7 @@
 }
 
 .searchinput button{
-    padding: 2px;
+    padding: 5px;
     border: none;
     /* border-left: 1px solid black; */
     outline: none;
