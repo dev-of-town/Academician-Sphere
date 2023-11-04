@@ -36,5 +36,5 @@ app.use(postRoutes);
 app.use(followRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Listening on ${PORT} port`);
+  console.log(`Listening on ${PORT} port.`);
 });
