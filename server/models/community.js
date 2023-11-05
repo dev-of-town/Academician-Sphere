@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const communitySchema = new mongoose.Schema({
+    community_id:{
+        type : String,
+        required : [true,'Community_id cannot be empty.'],
+        unique : true 
+    },
     name: {
         type: String,
         required: [true, 'Community name cannot be empty.']
