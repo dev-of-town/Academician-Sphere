@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function Add_Edu({ colleges, chflag,changer }) {
 
     const [newEdu, chnewEdu] = useState({
-        name: "",
+        institute_name: "",
         end: "present",
         img: "",
         start: "",
@@ -39,7 +39,7 @@ export default function Add_Edu({ colleges, chflag,changer }) {
             <div className="fs-5 mb-3 fw-semibold" >Add Education</div>
             <div >Institute</div>
             <div >
-                <input type="text" className="border-primary rounded" value={ newEdu.name } onChange={ (e) => { chnewEdu({ ...newEdu, name: e.target.value }) } } />
+                <input type="text" className="border-primary rounded" value={ newEdu.name } onChange={ (e) => { chnewEdu({ ...newEdu, institute_name: e.target.value }) } } />
             </div>
 
             <div className="d-flex" >

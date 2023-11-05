@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import styles from "./_css/Profile.module.css";
 import Name_images from "./_components/Name_images";
@@ -42,25 +42,71 @@ export default async function page({ params: { username } }) {
   const [error1, setIsError] = useState("");
   const [as_flag, ch_as_flag] = useState(1);
   const [exp_flag, ch_exp_flag] = useState(1);
+  const dataFetchedRef = useRef(false);
+
   const [edu_flag, ch_edu_flag] = useState(1);
+  const [counter, setCounter] = useState(0);
+
 
   // const data = await getData(username);
   // console.log(data);
   // ch_profile_demo()
 
   useEffect(() => {
+ //   console.log("Current in use Ref",dataFetchedRef.current);
+//if(dataFetchedRef.current) return
     console.log("hello ", window.location.href);
     //  getData()
     getData(username)
       .then((res) => {
-        console.log(res, "In getData dhruv");
-        if (res !== null) ch_profile_demo(res);
+        console.log("JJJJJJJJJJJJJJJJJJJ In get method ///////////////",res, "In getData dhruv");
+        if (res !== null ) ch_profile_demo(res);
+          
+      
         else ch_profile_demo(null);
+        console.log("Resource ",res);
         console.log(profile_demo, "Profile demo");
+       // dataFetchedRef.current=true;
       })
       .catch((error) => {
         console.log(error);
       });
+
+      // return () => ch_profile_demo(
+      //   {
+      //     // _id: {
+      //     //   $oid: "6544fe47170b0d6bce1ab08d"
+      //     // },
+      //     username: "",
+      //   //  password: "$2b$12$8iEYo5FhLXGAQIZzbuCtMuXdGcpx59VmqEp38mprA2cu9Cak0o5py",
+      //  //   mail: "abcd@ma.com",
+      //     profile_img: {
+      //       filename: "defaults/default-profile.png",
+      //       url: "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-profile.png"
+      //     },
+      //     background_img: {
+      //       "filename": "defaults/default-background.jpg",
+      //       "url": "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-background.jpg"
+      //     },
+      //     posts: [],
+      //     comments: [],
+      //     followers: [],
+      //     links: [],
+      //     education: [],
+      //     skills: [],
+      //     experience: [],
+      //     communities: [],
+      //     saved_posts: [],
+      //     following: [
+      //       // {
+      //       //   _id: "6539d9360e7d737102fb19bf"
+      //       // }
+      //     ],
+      //     __v: 0
+      //   }
+
+
+      //);  
   }, []);
 
   // console.log("Path",window.location.href);
@@ -234,6 +280,7 @@ export default async function page({ params: { username } }) {
             <div className="d-flex justify-content-between">
               <div className="fw-bold fs-5">Education</div>
               <div className="me-4">
+                
                 {profile_demo && profile_demo.flag == 1 && (
                   <button
                     className={`btn border border-2 border-dark rounded ${styles.rem}`}
@@ -296,8 +343,8 @@ export default async function page({ params: { username } }) {
             className="fw-bold fs-5 d-block text-center p-1"
             style={{ borderBottom: "1px solid black" }}
           >
-            {profile_demo && profile_demo.username} Joined{" "}
-            {profile_demo && profile_demo.following.length} Communities
+            {profile_demo !=null ? profile_demo.username: ""} Joined{" "}
+            {profile_demo  &&  profile_demo.following.length} Communities
           </div>
           {/* <div className="d-flex border border-dark border-1">
             <button
@@ -324,7 +371,7 @@ export default async function page({ params: { username } }) {
           </div>*/}
           <div style={{ paddingBottom: "10px" }} className={styles.someclass}>
             <Show_connection
-              list={profile_demo ? profile_demo.communities : []}
+              id={profile_demo ? profile_demo._id:""}
             />
             {/* {profile_demo && sh_flag == 1 &&  (
               <Show_connection

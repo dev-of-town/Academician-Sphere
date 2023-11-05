@@ -5,9 +5,9 @@ export default function Add_Exp({ companies, chflag ,changer}) {
 
     const [newExp, chnewExp] = useState({
         company_name: "",
-        ending_year: "present",
+        end_dt: "present",
         img: "",
-        starting_year: "",
+        joining_dt: "",
         job_role: ""
     })
 
@@ -16,9 +16,9 @@ export default function Add_Exp({ companies, chflag ,changer}) {
 
         let dt = new Date();
        // window.alert(dt.getFullYear());
-        if (newExp.company_name != "" && newExp.job_role != "" && year_regex.test(newExp.starting_year) == true &&  newExp.starting_year.localeCompare(dt.getFullYear()) <= 0 && newExp.starting_year.localeCompare("1900") >= 0 ) 
+        if (newExp.company_name != "" && newExp.job_role != "" && year_regex.test(newExp.joining_dt) == true &&  newExp.joining_dt.localeCompare(dt.getFullYear()) <= 0 && newExp.joining_dt.localeCompare("1900") >= 0 ) 
         {
-            if((year_regex.test(newExp.ending_year) == true && newExp.starting_year.localeCompare(newExp.ending_year) <= 0  ) || (newExp.ending_year.toLowerCase()=="present"))
+            if((year_regex.test(newExp.end_dt) == true && newExp.joining_dt.localeCompare(newExp.ending_year) <= 0  ) || (newExp.end_dt.toLowerCase()=="present"))
             {companies.unshift(newExp);
                 changer(companies)
             chflag(1);
@@ -45,14 +45,14 @@ export default function Add_Exp({ companies, chflag ,changer}) {
                 <div>
                     <div >Starting year</div>
                     <div >
-                        <input type="text" className="border-primary rounded" value={ newExp.starting_year } onChange={ (e) => { chnewExp({ ...newExp, starting_year: e.target.value }) } } />
+                        <input type="text" className="border-primary rounded" value={ newExp.joining_dt } onChange={ (e) => { chnewExp({ ...newExp, joining_dt: e.target.value }) } } />
                     </div>
                 </div>
                 <div style={{width:"12px"}}></div>
                 <div>
                     <div >Ending year</div>
                     <div >
-                        <input type="text" className="border-primary rounded" value={ newExp.ending_year } onChange={ (e) => { chnewExp({ ...newExp, ending_year: e.target.value }) } } />
+                        <input type="text" className="border-primary rounded" value={ newExp.end_dt } onChange={ (e) => { chnewExp({ ...newExp, end_dt: e.target.value }) } } />
                     </div>
                 </div>
             </div>
