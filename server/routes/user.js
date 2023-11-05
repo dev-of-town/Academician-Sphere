@@ -99,12 +99,12 @@ router.get("/u/:user_id/get-following-community", async (req, res) => {
         console.log(followingCommunity);
         let community_ids = [];
         for (let community of followingCommunity) {
-            community_ids.push(community.id);
+            community_ids.push(community.community_id);
         }
         let result = [];
         await Community.find(
-            { _id: { $in: community_ids } },
-            { _id: 1, name: 1, profile_img: 1 }
+            { community_id: { $in: community_ids } },
+            { community_id: 1, name: 1, profile_img: 1 }
         ).then((data) => {
             result = data;
         });
