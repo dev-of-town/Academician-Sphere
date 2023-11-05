@@ -165,8 +165,9 @@ router.get("/u/:user_id/get-saved-posts", async (req, res) => {
 });
 
 // FOLLOW USER
-router.get("/u/:user_id/follow", async (req, res) => {
-    const currentUser = await User.findOne({ _id: req.session.user_id });
+router.post("/u/:user_id/follow", async (req, res) => {
+    const user_id = JSON.parse(req.body.json).user_id;
+    const currentUser = await User.findOne({ _id: user_id });
     const followedUser = await User.findOne({ _id: req.params.user_id });
     currentUser.following.push(`${followedUser._id}`);
     await currentUser.save();
@@ -176,10 +177,11 @@ router.get("/u/:user_id/follow", async (req, res) => {
 });
 
 // UNFOLLOW USER
-router.get("/u/:user_id/unfollow", async (req, res) => {
+router.post("/u/:user_id/unfollow", async (req, res) => {
+    const user_id = JSON.parse(req.body.json).user_id;
     let index;
     const unfollowedUser = await User.findOne({ _id: req.params.user_id });
-    const currentUser = await User.findOne({ _id: req.session.user_id });
+    const currentUser = await User.findOne({ _id: user_id });
     const isFollowing = currentUser.following.includes(`${req.params.username}`);
     if (isFollowing) {
         index = currentUser.following.indexOf(`${req.params.username}`);
