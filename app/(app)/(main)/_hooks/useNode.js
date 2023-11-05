@@ -1,8 +1,8 @@
 const useNode = () => {
   const insertNode = function (tree, parentId) {
-    if(tree.id===parentId){
+    if(tree.community_id===parentId){
         tree.sub_communities.push({
-          id:new Date().getTime(),
+          community_id:new Date().getTime(),
           name:"",
           description:"",
           sub_communities:[],
@@ -21,7 +21,7 @@ const useNode = () => {
   };
 
   const editNode = (tree, communityId, community) => {
-    if (tree.id === communityId) {
+    if (tree.community_id == communityId) {
       tree.name = community.name;
       tree.description = community.description;
       tree.users = community.users;
@@ -38,7 +38,7 @@ const useNode = () => {
   const deleteNode = (tree, id) => {
     for (let i = 0; i < tree.sub_communities.length; i++) {
       const currentItem = tree.sub_communities[i];
-      if (currentItem.id === id) {
+      if (currentItem.community_id === id) {
         tree.sub_communities.splice(i, 1);
         return tree;
       } else {
