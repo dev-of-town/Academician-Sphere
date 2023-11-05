@@ -122,10 +122,10 @@ app.post(
 
 // GET COMMUNITY DATA
 router.post("/c/:community_id/get-community-data", async (req, res) => {
-    const user_id = req.body.user_id;
+    const user_id = JSON.parse(req.body.user_id).user_id;
     const community_id = req.params.community_id;
     try {
-        const communityData = await Community.findOne({ _id: community_id });
+        const communityData = await Community.findOne({ community_id: community_id });
         let communityPosts = await Post.find({
             _id: { $in: communityData.posts },
         });
