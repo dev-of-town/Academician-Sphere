@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const multer = require('multer');
+const mongoose = require('mongoose');
 const { userStorage } = require('../config/cloudinary');
 const uploadUserData = multer({ storage: userStorage });
 
-const User = require('../models/user');
-const Community = require('../models/community');
-const Post = require('../models/post');
+const User = mongoose.model('User');
+const Community = mongoose.model('Community');
+const Post = mongoose.model('Post');
 
 // CREATE NEW COMMUNITY
 async function createCommunity(
@@ -88,6 +89,9 @@ router.post(
             // console.log(communityData);
             console.log("Files", req.files.profile_img);
             const data = JSON.parse(communityData);
+            console.log(data.moderators);
+            data.moderators.splice(0, 1);
+            console.log(data.moderators);
             const top = null;
             const topCommunity = await createCommunity(
                 data,
@@ -107,9 +111,9 @@ router.post(
 );
 
 // GET COMMUNITY DATA
-router.post("/c/:id/get-community-data", async (req, res) => {
+router.post("/c/:community_id/get-community-data", async (req, res) => {
     const user_id = req.body.user_id;
-    const community_id = req.params.id;
+    const community_id = req.params.community_id;
     try {
         const communityData = await Community.findOne({ _id: community_id });
         let communityPosts = await Post.find({
@@ -150,6 +154,50 @@ router.post("/c/:id/get-community-data", async (req, res) => {
     } catch (error) {
         console.error("Unable to fetch saved posts: ", error);
         return res.json({ status: 500, success: false, error: error.message });
+    }
+});
+
+// FOLLOW COMMUNITY
+router.get("/c/:community_id/follow", async (req, res) => {
+    const foundCommunity = await Community.findOne({
+        _id: req.params.community_id,
+    });
+    foundCommunity.followers.push({
+        user_id: req.session.user_id,
+        follow_dt: Date(),
+    });
+    await foundCommunity.save();
+    const user = await User.findOne({ _id: req.session.user_id });
+    user.following.push(foundCommunity._id);
+    await user.save();
+    console.log(foundCommunity);
+    console.log(user);
+    res.send(`You are following ${foundCommunity.name} community`);
+});
+
+// UNFOLLOW COMMUNITY
+router.get("/c/:community_id/unfollow", async (req, res) => {
+    let followingUser, foundUser, index;
+    const foundCommunity = await Community.findOne({
+        _id: req.params.community_id,
+    });
+    for (let user of foundCommunity.followers) {
+        if (user.user_id == req.session.params) {
+            followingUser = user;
+            break;
+        }
+    }
+    if (followingUser) {
+        index = foundCommunity.followers.indexOf(followingUser);
+        foundCommunity.splice(index, 1);
+        await foundCommunity.save();
+        foundUser = await User.find({ _id: req.session.user_id });
+        index = foundUser.following.indexOf(`${foundCommunity._id}`);
+        foundUser.following.splice(index, 1);
+        await foundUser.save();
+        res.send(`You have unfollowed ${foundCommunity.name}`);
+    } else {
+        res.send(`You must be following ${foundCommunity.name} to unfollow it.`);
     }
 });
 

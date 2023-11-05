@@ -144,4 +144,4 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
-module.exports = mongoose.model('Users',userSchema);
+mongoose.model('User',userSchema);

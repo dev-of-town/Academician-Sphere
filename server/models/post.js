@@ -57,4 +57,4 @@ const postSchema = new mongoose.Schema({
     comments: [String]
 });
 
-module.exports = mongoose.model('Posts',postSchema);
+mongoose.model('Post',postSchema);

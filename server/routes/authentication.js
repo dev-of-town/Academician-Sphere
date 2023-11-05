@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-
-const User = require('../models/user');
+const User = require('mongoose').model('User');
 
 // LOGIN
 router.post("/login", async (req, res) => {
@@ -41,6 +40,7 @@ router.post("/login", async (req, res) => {
 
 // SIGNUP
 router.post("/signup", async (req, res) => {
+    console.log("In sign-up")
     const { username, email, password } = req.body;
     let isUsername = await User.findOne({ username });
     let isEmail = await User.findOne({ email });
@@ -67,7 +67,7 @@ router.post("/signup", async (req, res) => {
     });
     try {
         await user.save();
-        req.session.user_id = user._id;
+        // req.session.user_id = user._id;
         return res.json({ success: true, status: 200, user: user });
     } catch (error) {
         console.error("Unable to create the user profile: ", error.message);

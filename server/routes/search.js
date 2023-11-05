@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 
-const User = require('../models/user');
-const Community = require('../models/community');
+const User = mongoose.model('User');
+const Community = mongoose.model('Community');
 
 // SEARCH COMMUNITY
 router.get("/c/search", async (req, res) => {

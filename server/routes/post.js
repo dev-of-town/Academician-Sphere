@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const multer = require("multer");
+const mongoose = require('mongoose');
 const { cloudinary } = require("../config/cloudinary");
 const { postStorage } = require("../config/cloudinary");
 const uploadPostData = multer({ storage: postStorage });
 
-const Post = require('../models/post');
-const User = require('../models/user');
-const Community = require('../models/community');
+const User = mongoose.model('User');
+const Community = mongoose.model('Community');
+const Post = mongoose.model('Post');
 
 // CREATE NEW POST
 router.post("/new-post", uploadPostData.array("attachement", 10), async (req, res) => {

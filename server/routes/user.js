@@ -1,16 +1,17 @@
 const router = require('express').Router();
 const multer = require('multer');
+const mongoose = require('mongoose');
 const { cloudinary } = require('../config/cloudinary');
 const { userStorage } = require('../config/cloudinary');
 const uploadUserData = multer({ storage: userStorage });
 
-const User = require('../models/user');
-const Community = require('../models/community');
-const Post = require('../models/post');
+const User = mongoose.model('User');
+const Community = mongoose.model('Community');
+const Post = mongoose.model('Post');
 
 // GET USER DATA
-router.post("/u/:id", async (req, res) => {
-    const id = req.params.id;
+router.post("/u/:profile_id", async (req, res) => {
+    const id = req.params.profile_id;
     const user_id = req.body.user_id;
     try {
         const userData = await User.findOne({ _id: id });
@@ -87,10 +88,10 @@ router.patch(
 );
 
 // GET ALL THE COMMUNITIES FOLLOWED BY THE USER
-router.get("/u/:id/get-following-community", async (req, res) => {
+router.get("/u/:user_id/get-following-community", async (req, res) => {
     //   const user_id = JSON.parse(req.body.json).user_id;
     try {
-        const user_id = req.params.id;
+        const user_id = req.params.user_id;
         const userData = await User.findOne({ _id: user_id });
         const followingCommunity = userData.following.filter((following) => {
             return following.isCommunity;
@@ -119,8 +120,8 @@ router.get("/u/:id/get-following-community", async (req, res) => {
 });
 
 // GET ALL THE POSTS CREATED BY THE USER
-router.get("/u/:id/get-user-posts", async (req, res) => {
-    const user_id = req.params.id;
+router.get("/u/:user_id/get-user-posts", async (req, res) => {
+    const user_id = req.params.user_id;
     try {
         const userData = await User.findOne({ _id: user_id });
         // console.log("Post IDs:", userData.posts);
@@ -142,8 +143,8 @@ router.get("/u/:id/get-user-posts", async (req, res) => {
 });
 
 // GET SAVED POSTS OF THE USER
-router.get("/u/:id/get-saved-posts", async (req, res) => {
-    const user_id = req.params.id;
+router.get("/u/:user_id/get-saved-posts", async (req, res) => {
+    const user_id = req.params.user_id;
     try {
         const userData = await User.findOne({ _id: user_id });
         console.log("Saved IDs:", userData.saved_posts);
@@ -160,6 +161,38 @@ router.get("/u/:id/get-saved-posts", async (req, res) => {
     } catch (error) {
         console.error("Unable to fetch saved posts: ", error);
         return res.json({ status: 500, success: false, error: error.message });
+    }
+});
+
+// FOLLOW USER
+router.get("/u/:user_id/follow", async (req, res) => {
+    const currentUser = await User.findOne({ _id: req.session.user_id });
+    const followedUser = await User.findOne({ _id: req.params.user_id });
+    currentUser.following.push(`${followedUser._id}`);
+    await currentUser.save();
+    followedUser.followers.push(`${currentUser._id}`);
+    await followedUser.save();
+    res.send(`You are following ${followedUser._username}.`);
+});
+
+// UNFOLLOW USER
+router.get("/u/:user_id/unfollow", async (req, res) => {
+    let index;
+    const unfollowedUser = await User.findOne({ _id: req.params.user_id });
+    const currentUser = await User.findOne({ _id: req.session.user_id });
+    const isFollowing = currentUser.following.includes(`${req.params.username}`);
+    if (isFollowing) {
+        index = currentUser.following.indexOf(`${req.params.username}`);
+        currentUser.followers.splice(index, 1);
+        await currentUser.save();
+        index = unfollowedUser.followers.indexOf(`${currentUser._id}`);
+        unfollowedUser.followers.splice(index, 1);
+        await unfollowedUser.save();
+        res.send(`You have unfollowed ${unfollowedUser.username}.`);
+    } else {
+        res.send(
+            `You must be following ${unfollowedUser.username} to unfollow him/her.`
+        );
     }
 });
 
