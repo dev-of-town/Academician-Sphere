@@ -99,7 +99,7 @@ router.get("/u/:user_id/get-following-community", async (req, res) => {
         console.log(followingCommunity);
         let community_ids = [];
         for (let community of followingCommunity) {
-            community_ids.push(community.community_id);
+            community_ids.push(community.id);
         }
         let result = [];
         await Community.find(
