@@ -16,10 +16,12 @@ const SearchAddUserResult = ({
 }) => {
   return (
     <div
-      className={`${styles.searchoutput} ${specs.searchoutput}`}
+      className={`${styles.searchoutput} ${specs.searchoutput} h-0`}
       style={{ maxHeight, top }}
       ref={refOutput}
     >
+      {output?.length===0 && <div>No User Found</div>}
+
       {output &&
         output.map((item,index) => {
             const handleClick = (e)=>{

@@ -6,11 +6,11 @@ import Image from "next/image";
 import ProfileCard from "./ProfileCard";
 
 const getUser = async (query) => {
-  if (query === ""){
-    return ({
+  if (query === "") {
+    return {
       communities: [],
       users: [],
-    });
+    };
   }
   // let users = null;
   const res = await fetch(`http://localhost:4041/search?q=${query}`, {
@@ -25,30 +25,50 @@ const getUser = async (query) => {
   };
 };
 
-const SearchInput =  ({ setOutput,refOutput }) => {
+const SearchInput = ({ setOutput, refOutput }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const searchHappen = async (e) => {
-    setSearchQuery(e.target.value);
-    if(searchQuery.length===0) refOutput.current.classList.add("h-0");
-    getUser(searchQuery).then((res)=>{
-      console.log(res,"Data-------");
-      setOutput(res);
-    }).catch((error)=>{
-      console.log(error);
-    })
-    console.log(searchQuery);
+    const query = e.target.value;
+    if (query.length === 0) {
+      refOutput.current.classList.add("h-0");
+      refOutput.current.classList.remove("border-1");
+    } else {
+      refOutput.current.classList.remove("h-0");
+      refOutput.current.classList.add("border-1");
+    }
+    setSearchQuery(query);
+    getUser(query)
+      .then((res) => {
+        console.log(res, "Data-------");
+        setOutput(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(query);
   };
 
   const handleFocus = (e) => {
     e.preventDefault();
-    refOutput.current.classList.remove("h-0");
+    if (searchQuery.length !== 0) {
+      refOutput.current.classList.remove("h-0");
+      refOutput.current.classList.add("border-1");
+    }
   };
-
 
   return (
     <>
       <div className={styles.searchinput}>
+        <button>
+          <Image
+            src={"/searchicon.svg"}
+            alt="search"
+            width={26}
+            height={26}
+            priority
+          />
+        </button>
         <input
           type="text"
           placeholder="Search Acedemia"
@@ -60,14 +80,12 @@ const SearchInput =  ({ setOutput,refOutput }) => {
           onClick={() => {
             setSearchQuery("");
             refOutput.current.classList.add("h-0");
+            refOutput.current.classList.remove("border-1");
           }}
         >
-          x
-        </button>
-        <button>
           <Image
-            src={"/searchicon.svg"}
-            alt="search"
+            src={"/cross.png"}
+            alt="cross"
             width={26}
             height={26}
             priority

@@ -53,6 +53,10 @@ a{
   height: 0px;
 }
 
+.border-1{
+  border: 1px solid black;
+}
+
 .fixed55px{
   position: fixed;
   top: 55px;

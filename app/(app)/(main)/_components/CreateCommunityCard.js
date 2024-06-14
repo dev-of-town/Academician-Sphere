@@ -4,7 +4,7 @@ import SearchContextProvider, {
   SearchContext,
 } from "@/app/_contexts/SearchAddUserContext";
 import SearchBar from "./SearchInput";
-import SearchAddUser from "./SearchAddUser";
+import SearchAddUser from "./SearchAddUserInput";
 
 const CreateCommunityCard = ({
   community,

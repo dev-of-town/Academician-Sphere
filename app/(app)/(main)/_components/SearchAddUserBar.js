@@ -5,7 +5,7 @@ import styles from "../_styles/SearchBar.module.css";
 import specs from "../_styles/SearchAddUser.module.css";
 import Image from "next/image";
 import SearchAddUserResult from "./SearchAddUserResult";
-import SearchAddUserInput from "./SearchAddUser";
+import SearchAddUserInput from "./SearchAddUserInput";
 
 const SearchAddUserBar = ({ placeholder, moderators,setModerators, community }) => {
   const [output, setOutput] = useState([]);
