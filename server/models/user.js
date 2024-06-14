@@ -113,7 +113,7 @@ const userSchema = new mongoose.Schema({
     communities :[
         {
             community_id:{
-                type:Number,
+                type:String,
                 default:0
             },
             joining_dt:{

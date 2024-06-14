@@ -18,9 +18,14 @@ async function createCommunity(
   top
 ) {
   //console.log("This is Our TOp", top);
+  if(!top){
+    newCommunity.community_id = String(newCommunity.name);
+  }else{
+    newCommunity.community_id = String(user_id + newCommunity.community_id);
+  }
   try {
     const community = new Community({
-      community_id: (top === null ? newCommunity.name : user_id + newCommunity.community_id),
+      community_id: newCommunity.community_id,
       name: newCommunity.name,
       description: newCommunity.description,
       moderators: newCommunity.moderators,
@@ -47,7 +52,7 @@ async function createCommunity(
       },
     });
     for(let subCommunity of newCommunity.sub_communities){
-        community.sub_communities.push(user_id + subCommunity.community_id);
+        community.sub_communities.push(String(user_id + subCommunity.community_id));
     };
     await community.save();
 
@@ -64,7 +69,11 @@ async function createCommunity(
       }
       user.communities.push(joinedCommunity);
       user.following.push(followingCommunity);
-      await user.save();
+      try{
+        await user.save();
+      }catch(error){
+        console.log("Bhai ",error.message);
+      }
     });
 
     if (!parent_community) top = community;
@@ -89,7 +98,7 @@ async function createCommunity(
   }
 }
 
-app.post(
+router.post(
   "/c/new_community",
   uploadUserData.fields([{ name: "profile_img" }, { name: "template_img" }]),
   async (req, res) => {
@@ -99,7 +108,8 @@ app.post(
       const data = JSON.parse(communityData);
       data.moderators.splice(0, 1);
       const top = null;
-      isUnique = Community.findOne({community_id : data.name});
+      isUnique = await Community.findOne({community_id : data.name});
+      console.log(isUnique);
       if(isUnique){
         return res.json({success : false, status : 401, message : 'Top level community name should be unique'});
       }
@@ -122,7 +132,7 @@ app.post(
 
 // GET COMMUNITY DATA
 router.post("/c/:community_id/get-community-data", async (req, res) => {
-    const user_id = JSON.parse(req.body.user_id).user_id;
+    const user_id = req.body.user_id;
     const community_id = req.params.community_id;
     try {
         const communityData = await Community.findOne({ community_id: community_id });
@@ -168,7 +178,7 @@ router.post("/c/:community_id/get-community-data", async (req, res) => {
 });
 
 // FOLLOW COMMUNITY
-app.post("/c/:community_id/follow", async (req, res) => {
+router.post("/c/:community_id/follow", async (req, res) => {
   const user_id = JSON.parse(req.body.json).user_id;
   const foundCommunity = await Community.findOne({
     community_id: req.params.community_id,

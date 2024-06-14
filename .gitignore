@@ -34,7 +34,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/temp
+/server/temp
 
 /server/node_modules
 
