@@ -15,7 +15,7 @@ export default function Education({c,changer,chuser})
                 {/* <img src={clg.img} className={styles.list_img} /> */}
                 <div>
                   <div className={styles.ins}>
-                  {clg.name}
+                  {clg.institute_name}
                   </div>
                   <div className={styles.remarks}>
                     {clg.degree+" in "+clg.field}

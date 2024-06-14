@@ -18,7 +18,7 @@ export default function Skills({Skills,changer,chuser})
             <div className={styles.remarks}>
               {skill.level}
             </div>
-            <div className={styles.timeRange}>{skill.ins}</div>
+            <div className={styles.timeRange}>{skill.institute}</div>
           </div>
           <div className="ms-auto pt-3">
             {chuser==1 &&

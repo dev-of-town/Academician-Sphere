@@ -17,7 +17,7 @@ export default function Experience({Companies,changer,chuser})
             <div className={styles.remarks}>
               {cmp.job_role}
             </div>
-            <div className={styles.timeRange}>{cmp.starting_year}-{cmp.ending_year}</div>
+            <div className={styles.timeRange}>{cmp.joining_dt}-{cmp.end_dt}</div>
           </div>
           <div className="ms-auto pt-3">
             {chuser==1 && 

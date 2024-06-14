@@ -17,9 +17,9 @@ const communities = [
 
 export default function page() {
   // let [user_communities, getc] = useState([]);
-  let user_communities = {
+  let [user_communities,chUser_comm] = useState({
     coms : []
-  };
+  });
   let coms = [];
   const [crt_post, changeCon] = useState({
     community: [],
@@ -40,7 +40,7 @@ export default function page() {
   console.log("catagory", crt_post.category);
 
   const sendit = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     console.log("Sending It", user_communities.coms);
     // crt_post.communities = user_communities
     user_communities.coms.map((c) => {
@@ -94,7 +94,7 @@ export default function page() {
       <div className={styles.dropContainer}>
         <div>
           {" "}
-          <Comm_List usercoms={user_communities} crt_post={crt_post} />
+          <Comm_List usercoms={user_communities} crt_post={crt_post} chUser_comm={chUser_comm} />
         </div>
         <div>
           {" "}
@@ -161,6 +161,10 @@ export default function page() {
                 crt_post.post_content === 3
                   ? styles.hovStyleon
                   : styles.hovStylen
+
+
+
+                  
               }
             >
               <span>

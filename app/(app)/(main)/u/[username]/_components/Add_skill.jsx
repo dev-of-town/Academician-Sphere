@@ -6,12 +6,12 @@ export default function Add_skill({skills,chflag,changer}) {
     const [newSkill,chnewSkill]= useState({
         skill:"",
         level:"Basic",
-        ins:""
+        institute:""
     })
 
     function check_and_add()
     {
-        if(newSkill.ins=="" || newSkill.skill=="")
+        if(newSkill.institute=="" || newSkill.skill=="")
         {
             window.alert("institute and technology field can not be empty");
         }
@@ -42,7 +42,7 @@ export default function Add_skill({skills,chflag,changer}) {
         <div >Organization</div>
                 <div>
                 
-                <input type="text"className="border-primary rounded" style={ { color: "blue" } }  value={newSkill.ins} onChange={(e)=>{chnewSkill({...newSkill,ins:e.target.value})}}/>
+                <input type="text"className="border-primary rounded" style={ { color: "blue" } }  value={newSkill.institute} onChange={(e)=>{chnewSkill({...newSkill,institute:e.target.value})}}/>
                 </div> 
 
                 <div className="mt-2">

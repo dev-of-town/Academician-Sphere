@@ -4,23 +4,23 @@ import styles from "../_css/Profile.module.css";
 
 import { useState, useEffect } from "react";
 
-const getData = async (id) => {
-  try {
-    console.log("In get method");
-    const res = await (await axios.get(`http://localhost:4041/u/${id}/get-following-community`)).json();
-    console.log(res, res.followingCommunity, 123);
-    if (res.success) {
-      return res.followingCommunity;
-    }
-    return null;
-  } catch (error) {
-    // setIsError(error.message);
-    console.error("this is error !!!", error.message);
-    return null;
-  }
-};
+// const getData = async (id) => {
+//   try {
+//     console.log("In get method");
+//     const res = await (await axios.get(`http://localhost:4041/u/${id}/get-following-community`)).json();
+//     console.log(res, res.followingCommunity, 123);
+//     if (res.success) {
+//       return res.followingCommunity;
+//     }
+//     return null;
+//   } catch (error) {
+//     // setIsError(error.message);
+//     console.error("this is error !!!", error.message);
+//     return null;
+//   }
+// };
 
-export default function Show_connection({ list }) {
+export default function Show_connection({ id }) {
   const [userlist,setUserlist] = useState([]);
 
 
@@ -47,7 +47,8 @@ export default function Show_connection({ list }) {
     //     })
     // );
 
-    const id = JSON.parse(localStorage.getItem("user"))._id; 
+    //const id = JSON.parse(localStorage.getItem("user"))._id; 
+    console.log("Id in get",id)
     let data;
     fetch(`http://localhost:4041/u/${id}/get-following-community`).then(async (res)=>{
       data = await res.json();
@@ -60,12 +61,12 @@ export default function Show_connection({ list }) {
     }).catch((error)=>{
       console.log(error);
     });
-  }, []);
+  }, [id]);
 
   console.log(userlist,"My list-------------------");
 
   return (
-    <div className="p-3" style={{ maxHeight: "500px", overflowY: "scroll" }}>
+  userlist!=null &&   <div className="p-3" style={{ maxHeight: "500px", overflowY: "scroll" }}>
       {userlist.length > 0 &&
         userlist.map((list_item) => (
           <div>
