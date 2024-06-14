@@ -1,4 +1,27 @@
 
+.projects_title
+{
+    font-size: 55px;
+    font-weight: 600;    
+    align-self: center;
+}
+
+.projects_members
+{
+    font-size: 25px;
+    margin-top: 10px;
+
+}
+.projects_members_container
+{
+    border-radius: 2px;
+    border: 5px solid blue;
+    
+}
+
+
+
+
 .show_connections_button
 {
     width: 34%; 
@@ -139,10 +162,9 @@
 
 .ins {
     font-size: 15px;
-    font-weight: 600;
-    
+    font-weight: 600;    
     align-self: center;
-    
+   
 }
 
 .profile_photo {

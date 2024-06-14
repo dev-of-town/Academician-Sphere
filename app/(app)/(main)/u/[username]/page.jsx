@@ -6,6 +6,7 @@ import styles from "./_css/Profile.module.css";
 import Name_images from "./_components/Name_images";
 import Education from "./_components/Education";
 import Experience from "./_components/Experience";
+
 import Skills from "./_components/Skills";
 import Add_skill from "./_components/Add_skill";
 import AddLink from "./_components/AddLink";
@@ -17,6 +18,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import Show_connection from "./_components/Show_connection";
 import { useRouter } from "next/navigation";
+import Projects from "./_components/Projects";
 
 const getData = async (id) => {
   try {
@@ -59,10 +61,89 @@ export default async function page({ params: { username } }) {
     //  getData()
     getData(username)
       .then((res) => {
-        console.log("JJJJJJJJJJJJJJJJJJJ In get method ///////////////",res, "In getData dhruv");
-        if (res !== null ) ch_profile_demo(res);
+       // console.log("JJJJJJJJJJJJJJJJJJJ In get method ///////////////",res, "In getData dhruv");
+        if (res !== null ) 
+        {
+          // res = [...res,projects=
+          // [
+          //   {
+          //     Title:"Ray Optics Visualizer",
+          //     Technology_Stack:[[Ref="abc",Link=""],[Ref="abc",Link=""]],
+          //     Starting:"",
+          //     end:"",
+          //     Description:["Hello folks !I along with my team mates Dhruvchandra Bhatt ",
+          //     ", Karm Soni and Bhaumik Lodhia were able to complete a #java project on Ray Optics Visualizer."],
+          //     Members:[
+          //       {
+          //         id:"",
+          //         contribution:"I developed lens"
+          //       },
+          //       {
+          //         id:"",
+          //         contribution:"I developed Mirror"
+          //       },
+          //       {
+          //         id:"",
+          //         contribution:"I developed Mirror again"
+          //       },
+          //       {
+          //         id:"",
+          //         contribution:"I developed lens again"
+          //       }
+          //     ],
+          //     is_youtube:true,
+
+
+
+          //   }
+
+          // ]]
+          ch_profile_demo({...res,
+            projects:
+              [
+                {
+                  title:"Ray Optics Visualizer",
+                  technology_Stack:[{ref:"abc",link:""},{ref:"abc",link:""}],
+                  start:"Sept/2020",
+                  end:"Oct/2020",
+                  description:[{text : "Hello folks !I along with my team mates Dhruvchandra Bhatt ",cType:1},
+                  {text:" Karm Soni and Bhaumik Lodhia were able to complete a #java project on Ray Optics Visualizer.",cType:1},
+                  {text:"Java",link:"hghghghhghg",cType:2}
+                ],
+                  members:[
+                    {
+                      user_detail:{id:"",username:"Karm soni"},
+                      
+                      contribution:"I developed lens"
+                    },
+                    {
+                      user_detail:{id:"",username:"Aayush dalal"},
+                      contribution:"I developed Mirror"
+                    },
+                    {
+                      user_detail:{id:"",username:"Dhruvchandra bhatt"},
+                      contribution:"I developed Mirror again"
+                    },
+                    {
+                      user_detail:{id:"",username:"Bhaumik lodhiya"},
+                      contribution:"I developed lens again"
+                    }
+                  ],
+                  Demo_vid:
+                  {
+                  is_youtube:true,
+                  link:"ndjndf"
+
+                  }
+                }
+    
+              ]
           
-      
+          });
+        
+          
+        
+        }
         else ch_profile_demo(null);
         console.log("Resource ",res);
         console.log(profile_demo, "Profile demo");
@@ -337,12 +418,33 @@ export default async function page({ params: { username } }) {
               chuser={profile_demo && profile_demo.flag}
             />
           </div>
+
+          <div className={`border ${styles.tabs} pt-3 ps-3 `}>
+            <div className="d-flex justify-content-between">
+              <div className="fw-bold fs-5">Projects</div>
+              <div className="me-4">
+                {/* {profile_demo && profile_demo.flag == 1 && (
+                  <button
+                    className={`btn border border-2 border-dark rounded ${styles.rem}`}
+                    onClick={() => ch_as_flag(2)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                )} */}
+              </div>
+            </div>
+            <Projects
+              projects={profile_demo ? profile_demo.projects : []}
+              // changer={ch_skill}
+              // chuser={profile_demo && profile_demo.flag}
+            />
+          </div>
         </div>
         <div className={`border ${styles.posts} rounded-bottom-0`}>
           <div
             className="fw-bold fs-5 d-block text-center p-1"
             style={{ borderBottom: "1px solid black" }}
-          >
+          > 
             {profile_demo !=null ? profile_demo.username: ""} Joined{" "}
             {profile_demo  &&  profile_demo.following.length} Communities
           </div>
@@ -391,7 +493,7 @@ export default async function page({ params: { username } }) {
         </div>
         {(as_flag == 2 || exp_flag == 2 || edu_flag == 2) && <AddLink />}
         {as_flag == 2 && (
-          <Add_skill
+          <Add_skill    
             chflag={ch_as_flag}
             skills={profile_demo ? profile_demo.skills : []}
             changer={ch_skill}
