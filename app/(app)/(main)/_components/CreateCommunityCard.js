@@ -30,11 +30,11 @@ const CreateCommunityCard = ({
     allRef.forEach((element) => {
       element.current.classList.add("h-0");
     });
-    handleInsertNode(community.id);
+    handleInsertNode(community.community_id);
   };
 
   const onDeleteSubCommunity = (e) => {
-    handleDeleteNode(community.id);
+    handleDeleteNode(community.community_id);
   };
 
   return (
@@ -53,7 +53,7 @@ const CreateCommunityCard = ({
               className={styles.commnameinput}
               onChange={(e) => {
                 comm = { ...comm, name: e.target.value };
-                handleEditNode(community.id,comm)
+                handleEditNode(community.community_id,comm)
                 // console.log(comm);
                 if(isRoot){
                     // communityNameRef.current.textContent = comm.name;
@@ -90,7 +90,7 @@ const CreateCommunityCard = ({
                 maxLength={200}
                 onChange={(e) => {
                   comm = { ...comm, description: e.target.value };
-                  handleEditNode(community.id,comm);
+                  handleEditNode(community.community_id,comm);
                 }}
               ></textarea>
             </div>

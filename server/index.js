@@ -5,7 +5,7 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 
-const PORT = 4041;
+const PORT = process.env.PORT;
 const app = express();
 
 require('./config/database');

@@ -47,7 +47,7 @@ router.post("/new-post", uploadPostData.array("attachement", 10), async (req, re
         await user.save();
 
         for (let id of data.community) {
-            const foundCommunity = await Community.findOne({ _id: id });
+            const foundCommunity = await Community.findOne({ community_id: id });
             foundCommunity.posts.push(newPost._id);
             await foundCommunity.save();
         }
@@ -72,7 +72,7 @@ router.delete("/delete-post/:community_id/:post_id", async (req, res) => {
     const removalFunction = async (postData, communityData) => {
         try {
             if (communityData == null)
-                communityData = await Community.findOne({ _id: community_id });
+                communityData = await Community.findOne({ community_id : community_id });
 
             // remove post from the posts array in the Community
             let i = communityData.posts.findIndex((post) => post == post_id);
@@ -114,7 +114,7 @@ router.delete("/delete-post/:community_id/:post_id", async (req, res) => {
             console.log("User is not sender of the post.");
             console.log("Checking for moderator of the post.");
             try {
-                const communityData = await Community.findOne({ _id: community_id });
+                const communityData = await Community.findOne({ community_id: community_id });
                 let flag = false;
                 for (let moderator in communityData.moderators) {
                     if (moderator == user_id) {
@@ -163,7 +163,7 @@ router.get("/c/:community_id/:filter", async (req, res) => {
     const { community_id, filter } = req.params;
     let filteredPosts = [];
     try {
-        const communityData = await Community.findOne({ _id: community_id });
+        const communityData = await Community.findOne({ community_id: community_id });
         if (communityData) {
             for (let post_id of communityData.posts) {
                 const post = await Post.findOne({ _id: post_id, category: filter });

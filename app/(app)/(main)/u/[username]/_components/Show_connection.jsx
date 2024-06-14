@@ -76,7 +76,7 @@ export default function Show_connection({ id }) {
                 className={styles.list_img}
               />
               <div>
-                <Link className={styles.connection_username} href={`/c/${list_item._id}`}>
+                <Link className={styles.connection_username} href={`/c/${list_item.community_id}`}>
                   {list_item.name}
                 </Link>
                 <div className={styles.remarks}>{list_item.description}</div>

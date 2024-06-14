@@ -21,7 +21,7 @@ const SearchResult = ({ output, refOutput }) => {
               <ProfileCard
                 className={styles.outputitem}
                 name={item.name}
-                id={item._id}
+                id={item.community_id}
                 profileimage={item.profile_img.url}
                 isCommunity={true}
                 key={index}

@@ -14,7 +14,7 @@ import AddMods from "../_components/AddMods";
 const page = () => {
 
   let community = {
-    id: 1,
+    community_id: new Date().getTime(),
     name: "",
     description: "",
     sub_communities: [],
