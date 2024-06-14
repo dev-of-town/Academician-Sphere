@@ -12,7 +12,7 @@ router.get("/c/search", async (req, res) => {
     try {
         foundCommunity = await Community.find({
             name: { $regex: `^${q}`, $options: "mi" },
-        }).project({ _id: 1, name: 1, profile_img: 1 });
+        }).project({ community_id: 1, name: 1, profile_img: 1 });
         return res.json({ success: true, status: 200, data: foundCommunity });
     } catch (err) {
         console.log(err);
@@ -32,7 +32,7 @@ router.get("/u/search", async (req, res) => {
             {
                 username: { $regex: `^${q}`, $options: "mi" },
             },
-            { _id: 1, username: 1, profile_img: 1 }
+            { community_id: 1, username: 1, profile_img: 1 }
         );
         return res.json({ success: true, status: 200, data: foundUser });
     } catch (error) {
@@ -54,7 +54,7 @@ router.get("/search", async (req, res) => {
             {
                 name: { $regex: `^${q}`, $options: "mi" },
             },
-            { _id: 1, name: 1, profile_img: 1 }
+            { community_id: 1, name: 1, profile_img: 1 }
         );
         const foundUser = await User.find(
             {

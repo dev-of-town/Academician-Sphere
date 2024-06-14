@@ -21,7 +21,8 @@ const SendDataButton = ({formdata,data,children,url,style}) => {
             let res = await response.json();
             console.log(res);
             if(res.success){
-                router.push(`/c/${res.community._id}`);
+                console.log(res.success);
+                router.push(`/c/${res.community.community_id}`);
             }
         }catch(error){
             console.log(error);
