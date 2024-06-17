@@ -23,13 +23,16 @@ export default function Education({c,changer,chuser})
                   <div className={styles.timeRange}>{clg.start}-{clg.end}</div>
                 </div>
                 <div className="ms-auto pt-3">
-                 { chuser==1 &&
-                  <button className={`btn border rounded ${styles.rem}`} onClick={ () => {c.splice(index,1)
-                  changer(c)
-                }} >
-                  <FontAwesomeIcon icon={faMinus} />
-                  </button>}
-                  </div>
+                  { 
+                  chuser==1 &&
+                    <button className={`btn border rounded ${styles.rem}`} onClick={ () => {c.splice(index,1)
+                        changer(c)
+                      }} 
+                    >
+                    <FontAwesomeIcon icon={faMinus} />
+                    </button>
+                  }
+                </div>
                 
               </div>
                 )}

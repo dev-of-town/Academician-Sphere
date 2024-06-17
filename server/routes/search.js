@@ -77,4 +77,31 @@ router.get("/search", async (req, res) => {
     }
 });
 
+//New Search only searches users 
+router.get("/searchUser", async (req, res) => {
+    const { q } = req.query;
+    let result = {};
+    try {
+       
+        const foundUser = await User.find(
+            {
+                username: { $regex: `^${q}`, $options: "mi" },
+            },
+            { _id: 1, username: 1, profile_img: 1 }
+        );
+
+        
+        result.users = foundUser;
+
+        return res.json({ success: true, status: 200, data: result });
+    } catch (err) {
+        console.log(err);
+        return res.json({
+            success: false,
+            status: 500,
+            message: "Cannot carry search, try again later !!",
+        });
+    }
+});
+
 module.exports = router;

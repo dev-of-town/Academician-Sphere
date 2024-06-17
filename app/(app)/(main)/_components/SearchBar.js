@@ -9,7 +9,7 @@ import SearchResult from "./SearchResult";
 
 
 
-const SearchBar =  () => {
+const SearchBar =  ({onlyUser = false, isFromCreateProject = false, newProject = null, setNewProject = null}) => {
 
   const [output,setOutput] = useState({
     communities: [],
@@ -22,8 +22,10 @@ const SearchBar =  () => {
     <div className={styles.searchBar} ref={refBar} onBlur={()=>{
         
     }}>
-        <SearchInput setOutput={setOutput} refOutput={refOutput} />
-        <SearchResult output={output} refOutput={refOutput}/>
+        <SearchInput setOutput={setOutput} onlyUser={onlyUser} refOutput={refOutput} />
+        <SearchResult output={output} refOutput={refOutput} isFromCreateProject = {isFromCreateProject}
+                newProject = {newProject}
+                setNewProject = {setNewProject}/>
     </div>
   );
 };

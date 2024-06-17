@@ -2,8 +2,21 @@ import React from "react";
 import styles from "../_styles/SearchBar.module.css";
 import ProfileCard from "./ProfileCard";
 
-const SearchResult = ({ output, refOutput }) => {
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+const SearchResult = ({ output, refOutput, isFromCreateProject, newProject, setNewProject }) => {
   console.log(output);
+  function addUser(user) {
+    let tempArray = newProject.members;
+    const newMember = {
+      _id: user._id,
+      username: user.username
+    }
+    tempArray.push(newMember);
+    setNewProject((newProject)=>({...newProject, members: tempArray}));
+  }
   return (
     <div className={`${styles.searchoutput} h-0`} ref={refOutput} onClick={()=>{
         refOutput.current.classList.add("h-0");
@@ -25,7 +38,9 @@ const SearchResult = ({ output, refOutput }) => {
                 profileimage={item.profile_img.url}
                 isCommunity={true}
                 key={index}
+                
               />
+              
             </li>
           );
         })}
@@ -42,7 +57,15 @@ const SearchResult = ({ output, refOutput }) => {
                 profileimage={item.profile_img.url}
                 isCommunity={false}
                 key={index}
+                
               />
+              {
+                isFromCreateProject && !newProject.members.some(obj => obj._id === item._id) && (
+                  <div onClick={()=>addUser(item)}>
+                      <FontAwesomeIcon className={styles.addIcon} icon={faShare} />
+                  </div>
+                )
+              }
             </li>
           );
         })}

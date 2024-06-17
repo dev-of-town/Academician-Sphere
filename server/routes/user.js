@@ -73,6 +73,7 @@ router.patch(
             userData.education = data.education;
             userData.skills = data.skills;
             userData.experience = data.experience;
+            userData.projects = data.projects;
             console.log(
                 "-----------------------------------------------------------------------",
                 userData

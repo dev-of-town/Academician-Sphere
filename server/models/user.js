@@ -110,6 +110,39 @@ const userSchema = new mongoose.Schema({
             },
         }
     ],
+    projects : [
+        {
+            projectName:{
+                type: String,
+                default:""
+            },
+            startingMonth:{
+                    type: String,
+            },
+            endingMonth:{
+                    type: String,
+            },
+            githubLink:{
+                type: String,
+                default: "imagenest.vercel.app"
+            },
+            description:{
+                type: String,
+                default: "https://github.com/dhruvbhatt553/imagenest"
+            },
+            members:[
+                {
+                    _id:{
+                            type: String,
+                            required: [true, '_id cannot be null.']
+                        },
+                    username:{
+                        type: String
+                    }
+                }
+            ]
+        }
+    ],
     communities :[
         {
             community_id:{

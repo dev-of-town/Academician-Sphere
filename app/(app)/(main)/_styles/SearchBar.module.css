@@ -87,9 +87,14 @@
     transition: all 400ms ease;
     color: black;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .list:hover{
     background-color: #cbcbff;
+}
 
+.addIcon:hover {
+    color: blue;
 }

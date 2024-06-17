@@ -5,15 +5,17 @@ import Image from "next/image";
 
 import ProfileCard from "./ProfileCard";
 
-const getUser = async (query) => {
+const getUser = async (query, onlyUser) => {
   if (query === "") {
     return {
       communities: [],
       users: [],
     };
   }
+
+  let str = onlyUser ? "searchUser" : "search";
   // let users = null;
-  const res = await fetch(`http://localhost:4041/search?q=${query}`, {
+  const res = await fetch(`http://localhost:4041/${str}?q=${query}`, {
     method: "GET",
     mode: "cors",
   });
@@ -25,7 +27,7 @@ const getUser = async (query) => {
   };
 };
 
-const SearchInput = ({ setOutput, refOutput }) => {
+const SearchInput = ({ setOutput, refOutput, onlyUser }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const searchHappen = async (e) => {
@@ -38,7 +40,7 @@ const SearchInput = ({ setOutput, refOutput }) => {
       refOutput.current.classList.add("border-1");
     }
     setSearchQuery(query);
-    getUser(query)
+    getUser(query, onlyUser)
       .then((res) => {
         console.log(res, "Data-------");
         setOutput(res);

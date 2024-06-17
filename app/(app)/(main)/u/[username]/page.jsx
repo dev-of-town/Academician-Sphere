@@ -19,6 +19,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Show_connection from "./_components/Show_connection";
 import { useRouter } from "next/navigation";
 import Projects from "./_components/Projects";
+import AddProject from "./_components/add-projects";
 
 const getData = async (id) => {
   try {
@@ -30,17 +31,15 @@ const getData = async (id) => {
     }
     return null;
   } catch (error) {
-    // setIsError(error.message);
     console.error("this is error !!!", error.message);
     return null;
   }
 };
 
 export default async function page({ params: { username } }) {
-  console.log(username, "This is params");
-  // const data = useMemo(await getData(username),[profile_demo]);
   const [profile_demo, ch_profile_demo] = useState(null);
   const [sh_flag, chsh_flag] = useState(1);
+  const [addProjectFlag, setAddProjectFlag] = useState(1);
   const [error1, setIsError] = useState("");
   const [as_flag, ch_as_flag] = useState(1);
   const [exp_flag, ch_exp_flag] = useState(1);
@@ -49,249 +48,62 @@ export default async function page({ params: { username } }) {
   const [edu_flag, ch_edu_flag] = useState(1);
   const [counter, setCounter] = useState(0);
 
+  function getCurrentUser() {
+    let currentUser = {
+      username : profile_demo.username,
+      _id: profile_demo._id
+    }
+    return currentUser;
+  }
+  
 
-  // const data = await getData(username);
-  // console.log(data);
-  // ch_profile_demo()
 
   useEffect(() => {
- //   console.log("Current in use Ref",dataFetchedRef.current);
-//if(dataFetchedRef.current) return
-    console.log("hello ", window.location.href);
-    //  getData()
     getData(username)
       .then((res) => {
-       // console.log("JJJJJJJJJJJJJJJJJJJ In get method ///////////////",res, "In getData dhruv");
         if (res !== null ) 
         {
-          // res = [...res,projects=
-          // [
-          //   {
-          //     Title:"Ray Optics Visualizer",
-          //     Technology_Stack:[[Ref="abc",Link=""],[Ref="abc",Link=""]],
-          //     Starting:"",
-          //     end:"",
-          //     Description:["Hello folks !I along with my team mates Dhruvchandra Bhatt ",
-          //     ", Karm Soni and Bhaumik Lodhia were able to complete a #java project on Ray Optics Visualizer."],
-          //     Members:[
-          //       {
-          //         id:"",
-          //         contribution:"I developed lens"
-          //       },
-          //       {
-          //         id:"",
-          //         contribution:"I developed Mirror"
-          //       },
-          //       {
-          //         id:"",
-          //         contribution:"I developed Mirror again"
-          //       },
-          //       {
-          //         id:"",
-          //         contribution:"I developed lens again"
-          //       }
-          //     ],
-          //     is_youtube:true,
-
-
-
-          //   }
-
-          // ]]
-          ch_profile_demo({...res,
-            projects:
-              [
-                {
-                  title:"Ray Optics Visualizer",
-                  technology_Stack:[{ref:"abc",link:""},{ref:"abc",link:""}],
-                  start:"Sept/2020",
-                  end:"Oct/2020",
-                  description:[{text : "Hello folks !I along with my team mates Dhruvchandra Bhatt ",cType:1},
-                  {text:" Karm Soni and Bhaumik Lodhia were able to complete a #java project on Ray Optics Visualizer.",cType:1},
-                  {text:"Java",link:"hghghghhghg",cType:2}
-                ],
-                  members:[
-                    {
-                      user_detail:{id:"",username:"Karm soni"},
-                      
-                      contribution:"I developed lens"
-                    },
-                    {
-                      user_detail:{id:"",username:"Aayush dalal"},
-                      contribution:"I developed Mirror"
-                    },
-                    {
-                      user_detail:{id:"",username:"Dhruvchandra bhatt"},
-                      contribution:"I developed Mirror again"
-                    },
-                    {
-                      user_detail:{id:"",username:"Bhaumik lodhiya"},
-                      contribution:"I developed lens again"
-                    }
-                  ],
-                  Demo_vid:
-                  {
-                  is_youtube:true,
-                  link:"ndjndf"
-
-                  }
-                }
-    
-              ]
-          
+        
+          ch_profile_demo({...res
+            // projects:
+            //   [
+            //     {
+            //       title:"Ray Optics Visualizer",
+            //       start:"Sept/2020",
+            //       end:"Oct/2020",
+            //       description: "Hello folks !I along with my team mates Dhruvchandra Bhatt ",
+            //       members: [
+            //          {id:"",username:"Karm soni"}
+            //         ,{id:"",username:"Aayush dalal"}
+            //         ,{id:"",username:"Dhruvchandra bhatt"}
+            //         ,{id:"",username:"Bhaumik lodhiya"}
+            //       ],
+            //       performanceVideo:
+            //       {
+            //         isYoutube:true,
+            //         link:"ndjndf"
+            //       }
+            //     }
+            //   ]
           });
-        
-          
-        
         }
         else ch_profile_demo(null);
         console.log("Resource ",res);
         console.log(profile_demo, "Profile demo");
-       // dataFetchedRef.current=true;
       })
       .catch((error) => {
         console.log(error);
       });
 
-      // return () => ch_profile_demo(
-      //   {
-      //     // _id: {
-      //     //   $oid: "6544fe47170b0d6bce1ab08d"
-      //     // },
-      //     username: "",
-      //   //  password: "$2b$12$8iEYo5FhLXGAQIZzbuCtMuXdGcpx59VmqEp38mprA2cu9Cak0o5py",
-      //  //   mail: "abcd@ma.com",
-      //     profile_img: {
-      //       filename: "defaults/default-profile.png",
-      //       url: "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-profile.png"
-      //     },
-      //     background_img: {
-      //       "filename": "defaults/default-background.jpg",
-      //       "url": "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-background.jpg"
-      //     },
-      //     posts: [],
-      //     comments: [],
-      //     followers: [],
-      //     links: [],
-      //     education: [],
-      //     skills: [],
-      //     experience: [],
-      //     communities: [],
-      //     saved_posts: [],
-      //     following: [
-      //       // {
-      //       //   _id: "6539d9360e7d737102fb19bf"
-      //       // }
-      //     ],
-      //     __v: 0
-      //   }
-
-
-      //);  
+    
   }, []);
 
-  // console.log("Path",window.location.href);
+
 
   let formdata = new FormData();
 
   const router = useRouter();
-  // const [profile_demo, ch_profile_demo] = useState({
-  //   flag: 2,
-  //   username: "Rushabh Gandhi",
-  //   profile_img: "/rays.jpg",
-  //   background_img: "/rays.jpg",
-
-  //   about: "I am very bad singer",
-  //   followers: 345,
-  //   following: 89,
-  //   institute: {
-  //     name: "The Maharaja sayajirao university of baroda",
-  //     img: "/rays.jpg",
-  //   },
-  //   links: [
-  //     { name: "Leetcode", link: "https://leetcode.com/dhruvbhatt553/" },
-  //     { name: "Naukri.com", link: "https://leetcode.com/dhruvbhatt553/" },
-  //     { name: "Instagram", link: "https://leetcode.com/dhruvbhatt553/" },
-  //     { name: "Github", link: "https://leetcode.com/dhruvbhatt553/" },
-  //   ],
-  //   education: [
-  //     {
-  //       name: "GSFC",
-  //       img: "/rays.jpg",
-  //       degree: "Bechlor of technology-BE",
-  //       field: "Chemical Engg..",
-  //       start: "2021",
-  //       end: "2025",
-  //     },
-  //     {
-  //       name: "Phoniex school",
-  //       img: "/rays.jpg",
-  //       degree: "12th",
-  //       field: "Chemical Engg..",
-  //       start: "2019",
-  //       end: "2021",
-  //     },
-  //     {
-  //       name: "GSFC",
-  //       img: "/rays.jpg",
-  //       degree: "time pass",
-  //       field: "Chemical Engg..",
-  //       start: "2018",
-  //       end: "2019",
-  //     },
-  //   ],
-
-  //   experience: [
-  //     {
-  //       company_name: "Deepak nitrate",
-  //       img: "/rays.jpg",
-  //       job_role: "Chemical Engg..",
-  //       starting_year: "2012",
-  //       ending_year: "2014",
-  //     },
-  //     {
-  //       company_name: "Tata Chemicals",
-  //       img: "/rays.jpg",
-  //       job_role: "Chemical Engg",
-  //       starting_year: "2016",
-  //       ending_year: "2017",
-  //     },
-  //     {
-  //       company_name: "siemens",
-  //       img: "/rays.jpg",
-  //       job_role: "Chemical Engg..",
-  //       starting_year: "2020",
-  //       ending_year: "2023",
-  //     },
-  //   ],
-
-  //   skills: [
-  //     { skill: "C", level: "Intermidiate", ins: "MSU" },
-  //     { skill: "C++", level: "Intermidiate", ins: "MSU" },
-  //     { skill: "JAVA", level: "Intermidiate", ins: "MSU" },
-  //     { skill: "DSA", level: "Intermidiate", ins: "MSU" },
-  //   ],
-
-  //   followers: [
-  //     { username: "manoj", about: "kfjkhgjhfjdhjg", Profile_img: "/rays.jpg" },
-  //     { username: "manan", about: "jkjfkdhgjdhg", Profile_img: "/rays.jpg" },
-  //     { username: "yash", about: "aiiirjnnv ", Profile_img: "/rays.jpg" },
-  //   ],
-
-  //   followings: [
-  //     { username: "sharma", about: "mdv  vnm v", Profile_img: "/rays.jpg" },
-  //     { username: "sanu", about: "ncbdhbgvhgv", Profile_img: "/rays.jpg" },
-  //     {
-  //       username: "sangakara",
-  //       about: "dkjfjdhvijdjg ",
-  //       Profile_img: "/rays.jpg",
-  //     },
-  //   ],
-  // });
-
-  // console.log("Printing ", profile_demo.education);
-
-  let ch_skill = (arr) => {
+    let ch_skill = (arr) => {
     ch_profile_demo({ ...profile_demo, education: arr });
     patchDemo();
   };
@@ -332,6 +144,13 @@ export default async function page({ params: { username } }) {
     console.log(profile_demo);
     patchDemo();
   };
+
+  let addProject = (projects) => {
+    ch_profile_demo({ ...profile_demo, projects: projects });
+    console.log("Pr : ");
+    console.log(profile_demo);
+    patchDemo();
+  }
 
   const patchDemo = async () => {
     formdata.set("json", JSON.stringify(profile_demo));
@@ -423,20 +242,22 @@ export default async function page({ params: { username } }) {
             <div className="d-flex justify-content-between">
               <div className="fw-bold fs-5">Projects</div>
               <div className="me-4">
-                {/* {profile_demo && profile_demo.flag == 1 && (
-                  <button
-                    className={`btn border border-2 border-dark rounded ${styles.rem}`}
-                    onClick={() => ch_as_flag(2)}
-                  >
-                    <FontAwesomeIcon icon={faPlus} />
-                  </button>
-                )} */}
+                {
+                  profile_demo && profile_demo.flag == 1 && (
+                      <button
+                        className={`btn border border-2 border-dark rounded ${styles.rem}`}
+                        onClick={() => setAddProjectFlag(2)}
+                      >
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
+                  )
+                }
               </div>
             </div>
             <Projects
               projects={profile_demo ? profile_demo.projects : []}
-              // changer={ch_skill}
-              // chuser={profile_demo && profile_demo.flag}
+              chuser={profile_demo && profile_demo.flag}
+              changer={addProject}
             />
           </div>
         </div>
@@ -448,50 +269,13 @@ export default async function page({ params: { username } }) {
             {profile_demo !=null ? profile_demo.username: ""} Joined{" "}
             {profile_demo  &&  profile_demo.following.length} Communities
           </div>
-          {/* <div className="d-flex border border-dark border-1">
-            <button
-              className={`${styles.show_connections_button} border-end border-1 border-dark`}
-              onClick={() => chsh_flag(1)}
-            >
-              {profile_demo &&
-                (profile_demo.followers.length || 0) +
-                  (profile_demo.following.length || 0)}{" "}
-              All
-            </button>
-            <button
-              className={`${styles.show_connections_button} border-end border-1 border-dark`}
-              onClick={() => chsh_flag(2)}
-            >
-              {(profile_demo && profile_demo.followers.length) || 0} Followers
-            </button>
-            <button
-              className={styles.show_connections_button}
-              onClick={() => chsh_flag(3)}
-            >
-              {(profile_demo && profile_demo.following.length) || 0} Followings
-            </button> 
-          </div>*/}
           <div style={{ paddingBottom: "10px" }} className={styles.someclass}>
             <Show_connection
               id={profile_demo ? profile_demo._id:""}
             />
-            {/* {profile_demo && sh_flag == 1 &&  (
-              <Show_connection
-                list={[].concat(
-                  profile_demo.followers,
-                  profile_demo.followings
-                )}
-              />
-            )}
-            {profile_demo && sh_flag == 2 && (
-              <Show_connection list={profile_demo.followers} />
-            )}
-            {profile_demo && sh_flag == 3 && (
-              <Show_connection list={profile_demo.following} />
-            )} */}
           </div>
         </div>
-        {(as_flag == 2 || exp_flag == 2 || edu_flag == 2) && <AddLink />}
+        {(as_flag == 2 || exp_flag == 2 || edu_flag == 2 || addProjectFlag==2) && <AddLink />}
         {as_flag == 2 && (
           <Add_skill    
             chflag={ch_as_flag}
@@ -513,6 +297,16 @@ export default async function page({ params: { username } }) {
             changer={ch_edu}
           />
         )}
+        {
+          addProjectFlag==2 && (
+            <AddProject
+            chflag={setAddProjectFlag}
+            projects={profile_demo ? profile_demo.projects : []}
+            addProject={addProject}
+            currentUser={getCurrentUser()}
+            />
+          )
+        }
       </div>
     </div>
   );

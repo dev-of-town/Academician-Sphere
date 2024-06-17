@@ -15,15 +15,9 @@ export default function PostReachList({ name, crt_post, changeCon }) {
       }}
     >
       <div className="d-flex ps-3">
-        <input
-          className={`{styles.sub_photo} align-self-center`}
-          name="post_catagory"
-          id={name}
-          type="radio"
-          defaultChecked={crt_post.category == name}
-        />
+       
         <div className={styles.cname_nom}>
-          <label htmlFor={name} className={styles.cname}>
+          <label htmlFor={name} className={styles.cname }>
             {name}
           </label>
         </div>
