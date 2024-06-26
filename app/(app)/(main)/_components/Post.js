@@ -49,7 +49,7 @@ const Post = ({post}) => {
       )}
       <div className={styles.footer}>
             <div className={styles.votes}> 
-                <Votes votes={post.votes}/>
+                <Votes votes={post.votes} postid={post._id}/>
             </div>
             <div className={styles.comment}>
                 <CommentShow comments={100}/>

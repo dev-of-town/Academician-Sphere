@@ -22,3 +22,14 @@ export function getId(token){
     }
 }
 
+export function getUsername(token){
+    try{
+        const decode = jwt.verify(token,'THISISOURSECRET');
+        // console.log(decode);
+        return decode.username;
+    }catch(error){
+        console.log(error);
+        return null;
+    }
+}
+

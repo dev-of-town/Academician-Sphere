@@ -6,13 +6,13 @@ import CommunityAbout from "../../_components/CommunityAbout";
 import Image from "next/image";
 import OnlyForScroll from "./_components/OnlyForScroll";
 import { cookies } from "next/headers";
-import { getId } from "@/app/assets/Authorisation";
+import { getId, getUsername } from "@/app/assets/Authorisation";
 import axios from "axios";
 
 async function getCommunityData(id,user_id) {
   try {
     console.log("In GET COM DATA", id);
-    const res = await axios.post(`http://localhost:3000/api/get-community/${id}`, user_id,{
+    const res = await axios.post(`http://localhost:3000/api/get-community/${id}`, {username:user_id},{
       headers:{
         'Content-Type': 'application/json',
       }
@@ -29,7 +29,7 @@ async function getCommunityData(id,user_id) {
 const CommunityPage = async ({ params: { communityname } }) => {
   const cookieStore = cookies();
   // console.log(,"MY COOKIE");
-  const user_id = getId(cookieStore.get("access_token").value.toString());
+  const user_id = getUsername(cookieStore.get("access_token").value.toString());
   console.log(communityname.at(-1));
   let data = await getCommunityData(communityname.at(-1), user_id);
   const community = data.communityData;

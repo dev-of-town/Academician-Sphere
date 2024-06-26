@@ -66,6 +66,7 @@ const communitySchema = new mongoose.Schema({
                 type: Date
             }
         }
+        
     ]
 });
 

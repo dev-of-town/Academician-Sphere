@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "../_styles/CommunityAbout.module.css";
 import Image from "next/image";
-import FollowBtn from "./FollowBtn";
 import ProfileCard from "./ProfileCard";
+import FollowContainer from "./FollowContainer";
 
 const CommunityAbout = ({ community,data }) => {
 
@@ -30,15 +30,7 @@ const CommunityAbout = ({ community,data }) => {
         </div>
       </div>
       <p className={styles.description}>{community.description}</p>
-      <div className={styles.followContainer}>
-        <div className={styles.followerCount}>
-          <span>Followers </span>
-          {data.numberOfFollowers}
-        </div>
-        <div className={styles.followBtn}>
-          <FollowBtn profileid={community._id} followed={data.isFollower}/>
-        </div>
-      </div>
+      <FollowContainer community_id={community._id} isFollower={data.isFollower} followCount={data.numberOfFollowers} />
       <div className={styles.modsContainer}>
         <h5>Moderators of Community:</h5>
         <div className={styles.mods}>

@@ -1,12 +1,12 @@
-const router = require('express').Router();
-const multer = require('multer');
-const mongoose = require('mongoose');
-const { userStorage } = require('../config/cloudinary');
+const router = require("express").Router();
+const multer = require("multer");
+const mongoose = require("mongoose");
+const { userStorage } = require("../config/cloudinary");
 const uploadUserData = multer({ storage: userStorage });
 
-const User = mongoose.model('User');
-const Community = mongoose.model('Community');
-const Post = mongoose.model('Post');
+const User = mongoose.model("User");
+const Community = mongoose.model("Community");
+const Post = mongoose.model("Post");
 
 // CREATE NEW COMMUNITY
 async function createCommunity(
@@ -18,9 +18,9 @@ async function createCommunity(
   top
 ) {
   //console.log("This is Our TOp", top);
-  if(!top){
+  if (!top) {
     newCommunity.community_id = String(newCommunity.name);
-  }else{
+  } else {
     newCommunity.community_id = String(user_id + newCommunity.community_id);
   }
   try {
@@ -51,9 +51,11 @@ async function createCommunity(
           : "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-background.jpg",
       },
     });
-    for(let subCommunity of newCommunity.sub_communities){
-        community.sub_communities.push(String(user_id + subCommunity.community_id));
-    };
+    for (let subCommunity of newCommunity.sub_communities) {
+      community.sub_communities.push(
+        String(user_id + subCommunity.community_id)
+      );
+    }
     await community.save();
 
     //console.log("------------------xxx------------------", newCommunity.name);
@@ -63,16 +65,16 @@ async function createCommunity(
         community_id: community.community_id,
         joining_dt: new Date(),
       };
-      const followingCommunity ={
-        isCommunity : true,
-        id : community.community_id
-      }
+      const followingCommunity = {
+        isCommunity: true,
+        id: community.community_id,
+      };
       user.communities.push(joinedCommunity);
       user.following.push(followingCommunity);
-      try{
+      try {
         await user.save();
-      }catch(error){
-        console.log("Bhai ",error.message);
+      } catch (error) {
+        console.log("Bhai ", error.message);
       }
     });
 
@@ -108,10 +110,14 @@ router.post(
       const data = JSON.parse(communityData);
       data.moderators.splice(0, 1);
       const top = null;
-      isUnique = await Community.findOne({community_id : data.name});
+      isUnique = await Community.findOne({ community_id: data.name });
       console.log(isUnique);
-      if(isUnique){
-        return res.json({success : false, status : 401, message : 'Top level community name should be unique'});
+      if (isUnique) {
+        return res.json({
+          success: false,
+          status: 401,
+          message: "Top level community name should be unique",
+        });
       }
       const topCommunity = await createCommunity(
         data,
@@ -132,96 +138,203 @@ router.post(
 
 // GET COMMUNITY DATA
 router.post("/c/:community_id/get-community-data", async (req, res) => {
-    const user_id = req.body.user_id;
-    const community_id = req.params.community_id;
-    try {
-        const communityData = await Community.findOne({ community_id: community_id });
-        let communityPosts = await Post.find({
-            _id: { $in: communityData.posts },
-        });
-        const communityModerators = await User.find(
-            { _id: { $in: communityData.moderators } },
-            { _id: 1, username: 1, profile_img: 1 }
-        );
+  const { username } = req.body;
+  const { community_id } = req.params;
+  console.log(req.body+"$$$$$$$$$$$$$$$$$$$$$$$$");
+  console.log(community_id+"!!!!!!!!!!!!!!!!!!!!$$$$$$$$$$$$$$$$$$$$$$$$");
+  try {
+    const communityData = await Community.findOne({
+      community_id: community_id,
+    });
+    let communityPosts = await Post.find({
+      _id: { $in: communityData.posts },
+    });
+    const communityModerators = await User.find(
+      { _id: { $in: communityData.moderators } },
+      { _id: 1, username: 1, profile_img: 1 }
+    );
 
-        let posts = [];
-        for (let post of communityPosts) {
-            const senderData = await User.findOne(
-                { _id: post.sender_id },
-                { username: 1, profile_img: 1 }
-            );
-            posts.push({
-                ...post._doc,
-                sender_name: senderData.username,
-                sender_profile: senderData.profile_img,
-            });
-        }
-        // console.log("POSTS: .......... ", posts);
-        communityPosts = posts;
-
-        let data = {};
-        data.communityData = communityData;
-        data.communityPosts = communityPosts;
-        data.communityModerators = communityModerators;
-        data.numberOfFollowers = communityData.followers.length;
-        data.numberOfParticipants = communityData.participants.length;
-        data.isModerator = communityData.moderators.includes(user_id);
-        data.isParticipant = communityData.participants.includes(user_id);
-        data.isFollower = communityData.followers.includes(user_id);
-        console.log(data);
-
-        return res.json({ status: 200, success: true, data: data });
-    } catch (error) {
-        console.error("Unable to fetch saved posts: ", error);
-        return res.json({ status: 500, success: false, error: error.message });
+    let posts = [];
+    for (let post of communityPosts) {
+      const senderData = await User.findOne(
+        { _id: post.sender_id },
+        { username: 1, profile_img: 1 }
+      );
+      posts.push({
+        ...post._doc,
+        sender_name: senderData.username,
+        sender_profile: senderData.profile_img,
+      });
     }
+    // console.log("POSTS: .......... ", posts);
+    communityPosts = posts;
+
+    let data = {
+      communityData,
+      communityPosts,
+      communityModerators,
+      numberOfFollowers: communityData.followers.length,
+      numberOfParticipants: communityData.participants.length,
+      isModerator: communityData.moderators.includes(username),
+      isParticipant: communityData.followers.find(
+        (obj) => obj.user_id === username
+      )
+        ? true
+        : false,
+      isFollower: communityData.followers.find(
+        (obj) => obj.user_id === username
+      )
+        ? true
+        : false,
+    };
+    console.log(data);
+
+    return res.json({ status: 200, success: true, data: data });
+  } catch (error) {
+    console.error("Unable to fetch saved posts: ", error);
+    return res.json({ status: 500, success: false, error: error.message });
+  }
 });
 
 // FOLLOW COMMUNITY
 router.post("/c/:community_id/follow", async (req, res) => {
-  const user_id = JSON.parse(req.body.json).user_id;
-  const foundCommunity = await Community.findOne({
-    community_id: req.params.community_id,
-  });
-  foundCommunity.followers.push({
-    user_id: user_id,
-    follow_dt: Date(),
-  });
-  await foundCommunity.save();
-  const user = await User.findOne({ _id: user_id });
-  user.following.push(foundCommunity.community_id);
-  await user.save();
-  console.log(foundCommunity);
-  console.log(user);
-  res.send(`You are following ${foundCommunity.name} community`);
-});
+  try {
+    const { username } = req.body;
+    const { community_id } = req.params;
+    console.log(username, req.params);
+    const obj = {
+      user_id: username,
+      follow_dt: Date(),
+    };
+    const updatedCommunity = await Community.updateOne(
+      {
+        _id: community_id,
+        followers: {
+          $not: {
+            $elemMatch: {
+              user_id: username,
+            },
+          },
+        },
+      },
+      {
+        $push: {
+          followers: obj,
+        },
+      }
+    );
 
+    if (updatedCommunity.nModified !== 0) {
+      const updateUser = await User.updateOne(
+        {
+          username: username,
+          following: {
+            $not: {
+              $elemMatch: {
+                id: community_id,
+              },
+            },
+          },
+        },
+        {
+          $push: {
+            following: {
+              isCommunity: true,
+              id: community_id,
+            },
+          },
+        }
+      );
+      // user.following.push(foundCommunity._id);
+      // await user.save();
+      console.log(updateUser);
+      if (updateUser.nModified !== 0) {
+        return res.json({
+          status: 200,
+          success: true,
+          message: "followed",
+        });
+      }
+    }
+
+    return res.json({
+      status: 403,
+      success: false,
+      message: "Already followed",
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .json({
+        success: false,
+        status: 500,
+        message: "Internal Server Error",
+      })
+      .status(500);
+  }
+});
 
 // UNFOLLOW COMMUNITY
 router.post("/c/:community_id/unfollow", async (req, res) => {
-    const user_id = JSON.parse(req.body.json).user_id;
+  try {
+    const { username } = req.body;
+    const { community_id } = req.params;
     let followingUser, foundUser, index;
-    const foundCommunity = await Community.findOne({
-        community_id: req.params.community_id,
-    });
-    for (let user of foundCommunity.followers) {
-        if (user.user_id == user_id) {
-            followingUser = user;
-            break;
+
+    const removeUser = await Community.updateOne(
+      {
+        _id: community_id,
+      },
+      {
+        $pull: {
+          followers: {
+            user_id: username,
+          },
+        },
+      }
+    );
+
+    if (removeUser.nModified !== 0) {
+      const updateFollowing = await User.updateOne(
+        { username: username },
+        {
+          $pull: {
+            following: { id: community_id },
+          },
         }
+      );
+      // index = foundUser.following.indexOf(`${community_id}`);
+      // foundUser.following.splice(index, 1);
+      // await foundUser.save();
+      if (updateFollowing.nModified !== 0) {
+        return res
+          .json({
+            status: 200,
+            success: true,
+            message: `You have unfollowed`,
+          })
+          .status(200);
+      }
+      // res.send(`You have unfollowed ${foundCommunity.name}`);
     }
-    if (followingUser) {
-        index = foundCommunity.followers.indexOf(followingUser);
-        foundCommunity.splice(index, 1);
-        await foundCommunity.save();
-        foundUser = await User.find({ _id: user_id });
-        index = foundUser.following.indexOf(`${foundCommunity.community_id}`);
-        foundUser.following.splice(index, 1);
-        await foundUser.save();
-        res.send(`You have unfollowed ${foundCommunity.name}`);
-    } else {
-        res.send(`You must be following ${foundCommunity.name} to unfollow it.`);
-    }
+    return res
+      .json({
+        status: 403,
+        success: false,
+        message: `You must be following to unfollow it.`,
+      })
+      .status(403);
+  } catch (error) {
+    console.log(error);
+    return res
+      .json({
+        success: false,
+        status: 500,
+        message: "Internal Server Error",
+      })
+      .status(500);
+  }
+  // res.send(`You must be following ${foundCommunity.name} to unfollow it.`);
 });
 
 module.exports = router;

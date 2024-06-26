@@ -185,7 +185,7 @@ router.get("/c/:community_id/:filter", async (req, res) => {
 // UPVOTE
 router.post("/upvote/:post_id", async (req, res) => {
     const post_id = req.params.post_id;
-    const user_id = JSON.parse(req.body).user_id;
+    const user_id = req.body.user_id;
 
     try {
         const postData = await Post.findOne({ _id: post_id });
@@ -215,7 +215,7 @@ router.post("/upvote/:post_id", async (req, res) => {
 // DOWNVOTE
 router.post("/downvote/:post_id", async (req, res) => {
     const post_id = req.params.post_id;
-    const user_id = JSON.parse(req.body).user_id;
+    const user_id = req.body.user_id;
 
     try {
         const postData = await Post.findOne({ _id: post_id });

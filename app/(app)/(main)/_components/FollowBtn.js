@@ -3,51 +3,57 @@ import React, { useState } from 'react'
 import styles from '../_styles/FollowBtn.module.css'
 
 
-const followProfile = async (profileid)=>{
-    try {
-        const response = await fetch(url, {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            headers: {
-            //   "Content-Type": "application/json",
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(profileid), // body data type must match "Content-Type" header
-        });
-        throw await response.json();
-    } catch (error) {
-        throw Error("Something went wrong "+ error)
-    }
-}
+// const followProfile = async (profileid)=>{
+//     try {
+//         const response = await fetch(url, {
+//             method: "POST", // *GET, POST, PUT, DELETE, etc.
+//             mode: "cors", // no-cors, *cors, same-origin
+//             headers: {
+//             //   "Content-Type": "application/json",
+//               'Content-Type': 'application/x-www-form-urlencoded',
+//             },
+//             body: JSON.stringify(profileid), // body data type must match "Content-Type" header
+//         });
+//         throw await response.json();
+//     } catch (error) {
+//         throw Error("Something went wrong "+ error)
+//     }
+// }
 
 
-const FollowBtn = ({profileid,followed}) => {
-    const [follow,setFollow] = useState(followed);
+const FollowBtn = ({profileid,followed,changeFollowCount}) => {
+    const [isFollowed,setIsFollowed] = useState(followed);
     const handleClick = async ()=>{
-        setFollow(!follow);
+        setIsFollowed(!isFollowed);
+        console.log("isFollowed = "+isFollowed);
+        if(isFollowed){
+            changeFollowCount(-1);
+        }else{
+            changeFollowCount(1);
+        }
         try{
-            const response = await fetch(url, {
+            const response = await fetch(`/api/c/${profileid}/${isFollowed?"un":""}follow`, {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
                 mode: "cors", // no-cors, *cors, same-origin
                 headers: {
                 //   "Content-Type": "application/json",
                   'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: JSON.stringify(profileid), // body data type must match "Content-Type" header
             });
             const {success} = await response.json();
             if(!success){
-                setFollow(!follow);
+                throw Error("Some Error Occured");
             }
         }catch(error){
             console.log(error);
-            setFollow(!follow);
+            setIsFollowed(!isFollowed);
+            changeFollowCount(-1);
         }   
     }
 
   return (
     <button className={styles.btn} onClick={handleClick}>
-        {follow?'followed':'follow'}
+        {isFollowed?'followed':'follow'}
     </button>
   )
 }
