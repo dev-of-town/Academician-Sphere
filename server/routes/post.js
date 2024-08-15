@@ -14,6 +14,8 @@ router.post("/new-post", uploadPostData.array("attachement", 10), async (req, re
     try {
         let postData = req.body.json;
         let data = JSON.parse(postData);
+        console.log("This is Post.js Data PPPPPPPPPPPPPPP",data);
+        
         // postData.sender_id = req.session.user_id;
         const attachements = req.files;
         // console.log("Post: ", data);
@@ -47,7 +49,9 @@ router.post("/new-post", uploadPostData.array("attachement", 10), async (req, re
         await user.save();
 
         for (let id of data.community) {
-            const foundCommunity = await Community.findOne({ community_id: id });
+            console.log("THi is is is IDDDDDDDD",id);
+            
+            const foundCommunity = await Community.findOne({ _id: id });
             foundCommunity.posts.push(newPost._id);
             await foundCommunity.save();
         }

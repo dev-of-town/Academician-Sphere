@@ -29,9 +29,11 @@ async function getCommunityData(id,user_id) {
 const CommunityPage = async ({ params: { communityname } }) => {
   const cookieStore = cookies();
   // console.log(,"MY COOKIE");
+  console.log((communityname.join("/"))+"<----------------------This is community id");
+  
   const user_id = getUsername(cookieStore.get("access_token").value.toString());
-  console.log(communityname.at(-1));
-  let data = await getCommunityData(communityname.at(-1), user_id);
+  // console.log(communityname.at(-1));
+  let data = await getCommunityData(communityname.join("/"), user_id);
   const community = data.communityData;
 
   // let community = {

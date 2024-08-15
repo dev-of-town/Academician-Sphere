@@ -5,8 +5,8 @@ import CommunityComp from "./CommunityComp";
 import axios from "./axios.jsx";
 import { useState, useEffect } from "react";
 
-export default function Comm_List({ usercoms }) {
-    let [user_communities, changeCon] = useState([]);
+export default function Comm_List({ userCommunity,setUserCommunity }) {
+    // let [user_communities, changeCon] = useState([]);
 
 
   // const getCommData = async (cid) => {
@@ -59,9 +59,9 @@ export default function Comm_List({ usercoms }) {
           return c;
         })
         // console.log(coms);
-        usercoms.coms = coms;
-        console.log(usercoms,"Hello");
-        changeCon(coms);
+        // userCommunity.coms = coms;
+        console.log(userCommunity,"Hello");
+        setUserCommunity([...coms]);
       }).catch((error)=>{
         console.log(error);
       });
@@ -80,14 +80,14 @@ export default function Comm_List({ usercoms }) {
           <DropdownItem className="ms-2">
             <b>Communities</b>
           </DropdownItem>
-          {user_communities.map((comm, index) => (
+          {userCommunity.map((comm, index) => (
             <DropdownItem key={index}>
               <CommunityComp
-                all_c={user_communities}
-                changer={changeCon}
+                all_c={userCommunity}
+                changer={setUserCommunity}
                 user_community={comm}
                 i={index}
-                usercoms={usercoms}
+                usercoms={userCommunity}
                 key={index}
               />
             </DropdownItem>

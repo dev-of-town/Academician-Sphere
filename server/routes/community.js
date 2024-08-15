@@ -15,17 +15,18 @@ async function createCommunity(
   user_id,
   parent_community,
   images,
-  top
+  top,
+  communityNameId
 ) {
   //console.log("This is Our TOp", top);
-  if (!top) {
-    newCommunity.community_id = String(newCommunity.name);
-  } else {
-    newCommunity.community_id = String(user_id + newCommunity.community_id);
-  }
+  // if (!top) {
+    newCommunity.community_id = String(communityNameId);
+  // } else {
+  //   newCommunity.community_id = String(newCommunity.community_id);
+  // }
   try {
     const community = new Community({
-      community_id: newCommunity.community_id,
+      community_id: communityNameId,
       name: newCommunity.name,
       description: newCommunity.description,
       moderators: newCommunity.moderators,
@@ -53,7 +54,7 @@ async function createCommunity(
     });
     for (let subCommunity of newCommunity.sub_communities) {
       community.sub_communities.push(
-        String(user_id + subCommunity.community_id)
+        String(communityNameId+"/"+subCommunity.name)
       );
     }
     await community.save();
@@ -89,7 +90,8 @@ async function createCommunity(
           user_id,
           community.community_id,
           images,
-          top
+          top,
+          String(communityNameId+"/"+subCommunity.name)
         );
       }
     }
@@ -125,7 +127,8 @@ router.post(
         data.createdBy,
         null,
         req.files,
-        top
+        top,
+        data.name
       );
       console.log("The Most Top", topCommunity);
       return res.json({ success: true, status: 200, community: topCommunity });
@@ -137,7 +140,7 @@ router.post(
 );
 
 // GET COMMUNITY DATA
-router.post("/c/:community_id/get-community-data", async (req, res) => {
+router.post("/c/get-community-data/:community_id(*)", async (req, res) => {
   const { username } = req.body;
   const { community_id } = req.params;
   console.log(req.body+"$$$$$$$$$$$$$$$$$$$$$$$$");
