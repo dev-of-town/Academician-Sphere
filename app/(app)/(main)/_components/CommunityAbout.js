@@ -30,7 +30,7 @@ const CommunityAbout = ({ community,data }) => {
         </div>
       </div>
       <p className={styles.description}>{community.description}</p>
-      <FollowContainer community_id={community._id} isFollower={data.isFollower} followCount={data.numberOfFollowers} />
+      <FollowContainer _id={community._id} isFollower={data.isFollower} followCount={data.numberOfFollowers} isTop={community.parent_community===null}/>
       <div className={styles.modsContainer}>
         <h5>Moderators of Community:</h5>
         <div className={styles.mods}>

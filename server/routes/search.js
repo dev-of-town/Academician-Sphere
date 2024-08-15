@@ -6,16 +6,17 @@ const Community = mongoose.model('Community');
 
 // SEARCH COMMUNITY
 router.get("/c/search", async (req, res) => {
-    console.log("Community search !!");
+    //console.log("Community search !!");
     const { q } = req.query;
     let foundCommunity = [];
     try {
         foundCommunity = await Community.find({
+            parent_community:null,
             name: { $regex: `^${q}`, $options: "mi" },
         }).project({ community_id: 1, name: 1, profile_img: 1 });
         return res.json({ success: true, status: 200, data: foundCommunity });
     } catch (err) {
-        console.log(err);
+        //console.log(err);
         return res.json({
             success: false,
             status: 500,
@@ -36,7 +37,7 @@ router.get("/u/search", async (req, res) => {
         );
         return res.json({ success: true, status: 200, data: foundUser });
     } catch (error) {
-        console.log(err);
+        //console.log(err);
         return res.json({
             success: false,
             status: 500,
@@ -51,7 +52,7 @@ router.get("/search", async (req, res) => {
     let result = {};
     try {
         const foundCommunity = await Community.find(
-            {
+            {   parent_community:null,
                 name: { $regex: `^${q}`, $options: "mi" },
             },
             { community_id: 1, name: 1, profile_img: 1 }
@@ -68,7 +69,7 @@ router.get("/search", async (req, res) => {
 
         return res.json({ success: true, status: 200, data: result });
     } catch (err) {
-        console.log(err);
+        //console.log(err);
         return res.json({
             success: false,
             status: 500,

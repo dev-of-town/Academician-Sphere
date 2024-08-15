@@ -4,7 +4,7 @@ import FollowBtn from './FollowBtn'
 import styles from "../_styles/CommunityAbout.module.css";
 import { useRef } from 'react';
 
-const FollowContainer = ({followCount:fc,community_id,isFollower}) => {
+const FollowContainer = ({followCount:fc,community_id,_id,isFollower,isTop}) => {
     const [followCount,setFollowCount] = useState(fc);
     const changeFollowCount = (num)=>{
         if(num>0){
@@ -20,7 +20,7 @@ const FollowContainer = ({followCount:fc,community_id,isFollower}) => {
           <span>{followCount}</span>
         </div>
         <div className={styles.followBtn}>
-          <FollowBtn profileid={community_id} changeFollowCount={changeFollowCount} followed={isFollower}/>
+          <FollowBtn profileid={_id} isTop={isTop} changeFollowCount={changeFollowCount} followed={isFollower}/>
         </div>
       </div>
   )

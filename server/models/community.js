@@ -10,6 +10,10 @@ const communitySchema = new mongoose.Schema({
         type: String,
         required: [true, 'Community name cannot be empty.']
     },
+    level:{
+        type: Number,
+        default:0
+    },
     profile_img :{
         filename: {
             type :String,

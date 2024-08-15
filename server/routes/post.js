@@ -12,14 +12,16 @@ const Post = mongoose.model('Post');
 // CREATE NEW POST
 router.post("/new-post", uploadPostData.array("attachement", 10), async (req, res) => {
     try {
+        console.log("----------------New Post");
+        
         let postData = req.body.json;
         let data = JSON.parse(postData);
         console.log("This is Post.js Data PPPPPPPPPPPPPPP",data);
         
         // postData.sender_id = req.session.user_id;
         const attachements = req.files;
-        // console.log("Post: ", data);
-        // console.log("Images: ", req.files);
+        console.log("Post: ", data);
+        console.log("Images: ", req.files);
 
         let attachement = [];
         if (attachements.length > 0) {
@@ -49,7 +51,7 @@ router.post("/new-post", uploadPostData.array("attachement", 10), async (req, re
         await user.save();
 
         for (let id of data.community) {
-            console.log("THi is is is IDDDDDDDD",id);
+            console.log("T  Hi is is is IDDDDDDDD",id);
             
             const foundCommunity = await Community.findOne({ _id: id });
             foundCommunity.posts.push(newPost._id);
@@ -69,9 +71,9 @@ router.delete("/delete-post/:community_id/:post_id", async (req, res) => {
     const post_id = req.params.post_id;
     const community_id = req.params.community_id;
     const user_id = JSON.parse(req.body).user_id;
-    console.log("User:", user_id);
-    console.log("Community:", community_id);
-    console.log("Post:", post_id);
+    //console.log("User:", user_id);
+    //console.log("Community:", community_id);
+    //console.log("Post:", post_id);
 
     const removalFunction = async (postData, communityData) => {
         try {
@@ -111,12 +113,12 @@ router.delete("/delete-post/:community_id/:post_id", async (req, res) => {
 
     try {
         const postData = await Post.findOne({ _id: post_id });
-        console.log("Checking for sender of the post.");
+        //console.log("Checking for sender of the post.");
         if (postData.sender_id == user_id) {
             removalFunction(postData, null);
         } else {
-            console.log("User is not sender of the post.");
-            console.log("Checking for moderator of the post.");
+            //console.log("User is not sender of the post.");
+            //console.log("Checking for moderator of the post.");
             try {
                 const communityData = await Community.findOne({ community_id: community_id });
                 let flag = false;
@@ -127,7 +129,10 @@ router.delete("/delete-post/:community_id/:post_id", async (req, res) => {
                     }
                 }
                 if (flag) removalFunction(postData, communityData);
-                else console.log("User is not moderator of the post.");
+                else {
+                    //console.log("User is not moderator of the post.");
+
+                }
             } catch (error) {
                 console.error("Unable to find the community: ", error.message);
                 res.send(JSON.stringify({ success: false }));
@@ -157,7 +162,7 @@ router.get('/get-random-post', async (req, res) => {
         }
         res.json({ success: true, status: 200, data: posts });
     } catch (err) {
-        console.log(err);
+        //console.log(err);
         res.json({ success: false, status: 500, message: 'Cannot load post !!' });
     }
 });
@@ -177,11 +182,11 @@ router.get("/c/:community_id/:filter", async (req, res) => {
             }
             res.send(filteredPosts); // to be redirected to the community home page .....
         } else {
-            console.log(`Unable to find the community with ID: ${community_id}`);
+            //console.log(`Unable to find the community with ID: ${community_id}`);
             res.redirect("/");
         }
     } catch (error) {
-        console.log(`ERROR: ${error.message}`);
+        //console.log(`ERROR: ${error.message}`);
         res.redirect("/");
     }
 });
@@ -283,7 +288,7 @@ router.post("/unsave/:post_id", async (req, res) => {
 
     try {
         const userData = await User.findOne({ _id: user_id });
-        console.log(userData);
+        //console.log(userData);
 
         let i = userData.saved_posts.findIndex(
             (saved_post) => saved_post.post_id == post_id

@@ -21,7 +21,7 @@ import styles from '../_styles/FollowBtn.module.css'
 // }
 
 
-const FollowBtn = ({profileid,followed,changeFollowCount}) => {
+const FollowBtn = ({profileid,followed,changeFollowCount,isTop}) => {
     const [isFollowed,setIsFollowed] = useState(followed);
     const handleClick = async ()=>{
         setIsFollowed(!isFollowed);
@@ -53,7 +53,11 @@ const FollowBtn = ({profileid,followed,changeFollowCount}) => {
 
   return (
     <button className={styles.btn} onClick={handleClick}>
-        {isFollowed?'followed':'follow'}
+        {
+            (
+                isFollowed?"joined":"join"
+            )
+        }
     </button>
   )
 }

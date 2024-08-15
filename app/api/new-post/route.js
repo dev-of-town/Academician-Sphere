@@ -18,11 +18,17 @@ export async function POST(request) {
     formData.set("json",JSON.stringify(jsObj));
     console.log(formData);
 
-    const data = await (await fetch("http://localhost:4041/new-post", {
+    const response = await fetch("http://localhost:4041/new-post", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         body: formData, // body data type must match "Content-Type" header
-    })).json();
+    });
+
+    console.log("Error Prone");
+    console.log(response);
+    
+    const data = await response.json();
+    
 
     console.log(data);
     // const { data } = await axios.post("http://localhost:4041/new-post", post, {

@@ -20,12 +20,15 @@
 }
 
 .profileimg{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     background-color: white;
     border-radius: 50%;
     border: 1px solid black;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .subcontainer{

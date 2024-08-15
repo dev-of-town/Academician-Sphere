@@ -63,8 +63,12 @@ const page = async ({ params: { username } }) => {
   console.log(0, username,data,data.posts,"My posts");
 
   return (
-    <div>
-      <Feed posts={ data.posts } />
+    <div id='save-post' style={{
+      display:"flex",
+      justifyContent:"center",
+      paddingTop:"50px",
+    }}>
+      <Feed posts={ data.posts } width={"50%"} />
     </div>
   )
 }
