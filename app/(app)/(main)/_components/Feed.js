@@ -4,7 +4,7 @@ import Post from './Post'
 import CreatPostButton from './CreatPostButton';
 import FeedFilters from './FeedFilters';
 
-const Feed = async ({posts}) => {
+const Feed = async ({posts,width}) => {
     // if(!posts) posts = [];
     // console.log(posts);
     // let dummy = {
@@ -19,8 +19,13 @@ const Feed = async ({posts}) => {
     //   };
     //   let textdummy = {...dummy};
     //   textdummy["img"] = undefined;
+    let feedStyle
+    if(width){
+        feedStyle = {width}
+    }
+     
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={feedStyle}>
         <div className={styles.header}>
             <CreatPostButton />
             <FeedFilters />

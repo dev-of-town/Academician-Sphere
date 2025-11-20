@@ -1,15 +1,17 @@
-const router = require('express').Router();
-const multer = require('multer');
-const mongoose = require('mongoose');
-const { userStorage } = require('../config/cloudinary');
+const router = require("express").Router();
+const multer = require("multer");
+const mongoose = require("mongoose");
+const { userStorage } = require("../config/cloudinary");
 const uploadUserData = multer({ storage: userStorage });
 const ExpressError = require('../utils/ExpressError');
 
 const communityMiddlewares = require('../middlewares/community');
 
-const User = mongoose.model('User');
-const Community = mongoose.model('Community');
-const Post = mongoose.model('Post');
+const User = mongoose.model("User");
+const Community = mongoose.model("Community");
+const Post = mongoose.model("Post");
+
+
 
 // CREATE NEW COMMUNITY
 async function createCommunity(
@@ -18,17 +20,21 @@ async function createCommunity(
   user_id,
   parent_community,
   images,
-  top
+  top,
+  communityNameId,
+  level,
+  date
 ) {
-  //console.log("This is Our TOp", top);
-  if(!top){
-    newCommunity.community_id = String(newCommunity.name);
-  }else{
-    newCommunity.community_id = String(user_id + newCommunity.community_id);
-  }
+  ////console.log("This is Our TOp", top);
+  // if (!top) {
+    newCommunity.community_id = String(communityNameId);
+  // } else {
+  //   newCommunity.community_id = String(newCommunity.community_id);
+  // }
   try {
     const community = new Community({
-      community_id: newCommunity.community_id,
+      level,
+      community_id: communityNameId,
       name: newCommunity.name,
       description: newCommunity.description,
       moderators: newCommunity.moderators,
@@ -37,6 +43,10 @@ async function createCommunity(
       community_group: community_group,
       allowed_participants: newCommunity.allowed_participants,
       parent_community: parent_community ? parent_community : null,
+      followers:[{
+        user_id,
+        follow_dt: new Date()
+      }],
       profile_img: {
         filename: images.profile_img
           ? images.profile_img[0].filename
@@ -54,33 +64,35 @@ async function createCommunity(
           : "https://res.cloudinary.com/dbrt4m9x8/image/upload/v1697869577/defaults/default-background.jpg",
       },
     });
-    for(let subCommunity of newCommunity.sub_communities){
-        community.sub_communities.push(String(user_id + subCommunity.community_id));
-    };
+    for (let subCommunity of newCommunity.sub_communities) {
+      community.sub_communities.push(
+        String(communityNameId+"/"+subCommunity.name)
+      );
+    }
     await community.save();
 
-    //console.log("------------------xxx------------------", newCommunity.name);
+    ////console.log("------------------xxx------------------", newCommunity.name);
     newCommunity.moderators.forEach(async (moderator) => {
       const user = await User.findOne({ _id: moderator });
       const joinedCommunity = {
         community_id: community.community_id,
         joining_dt: new Date(),
       };
-      const followingCommunity ={
-        isCommunity : true,
-        id : community.community_id
-      }
+      const followingCommunity = {
+        isCommunity: true,
+        id: community.community_id,
+      };
       user.communities.push(joinedCommunity);
       user.following.push(followingCommunity);
-      try{
+      try {
         await user.save();
-      }catch(error){
-        console.log("Bhai ",error.message);
+      } catch (error) {
+        //console.log("Bhai ", error.message);
       }
     });
 
     if (!parent_community) top = community;
-    console.log(community);
+    //console.log(community);
     if (newCommunity.sub_communities.length !== 0) {
       for (let subCommunity of newCommunity.sub_communities) {
         subCommunity.moderators = newCommunity.moderators;
@@ -90,7 +102,9 @@ async function createCommunity(
           user_id,
           community.community_id,
           images,
-          top
+          top,
+          String(communityNameId+"/"+subCommunity.name),
+          level+1
         );
       }
     }
@@ -108,15 +122,18 @@ router.post(
   async (req, res,next) => {
     try {
       const communityData = req.body.json;
-      //console.log("Files", req.files.profile_img);
+      ////console.log("Files", req.files.profile_img);
       const data = JSON.parse(communityData);
       data.moderators.splice(0, 1);
       const top = null;
-      isUnique = await Community.findOne({community_id : data.name});
-      console.log(isUnique);
-      if(isUnique){
-        //return res.json({success : false, status : 401, message : 'Top level community name should be unique'});
-        return new ExpressError(401,'Top level community name should be unique');
+      isUnique = await Community.findOne({ community_id: data.name });
+      //console.log(isUnique);
+      if (isUnique) {
+        return res.json({
+          success: false,
+          status: 401,
+          message: "Top level community name should be unique",
+        });
       }
       const topCommunity = await createCommunity(
         data,
@@ -124,64 +141,77 @@ router.post(
         data.createdBy,
         null,
         req.files,
-        top
+        top,
+        data.name,
+        0
       );
-      console.log("The Most Top", topCommunity);
+      //console.log("The Most Top", topCommunity);
       return res.json({ success: true, status: 200, community: topCommunity });
     } catch (error) {
-      /*console.log("Unable to create Community !!", error);
-      return res.json({ success: false, message: error.message, status: 500 });*/
-      return next(new ExpressError(error.status,error.message));
+      //console.log("Unable to create Community !!", error);
+      return res.json({ success: false, message: error.message, status: 500 });
     }
   }
 );
 
 // GET COMMUNITY DATA
-router.post("/c/:community_id/get-community-data", async (req, res, next) => {
-    const user_id = req.body.user_id;
-    const community_id = req.params.community_id;
-    try {
-        const communityData = await Community.findOne({ community_id: community_id });
-        let communityPosts = await Post.find({
-            _id: { $in: communityData.posts },
-        });
-        const communityModerators = await User.find(
-            { _id: { $in: communityData.moderators } },
-            { _id: 1, username: 1, profile_img: 1 }
-        );
+router.post("/c/get-community-data/:community_id(*)", async (req, res) => {
+  const { username } = req.body;
+  const { community_id } = req.params;
+  //console.log(req.body+"$$$$$$$$$$$$$$$$$$$$$$$$");
+  //console.log(community_id+"!!!!!!!!!!!!!!!!!!!!$$$$$$$$$$$$$$$$$$$$$$$$");
+  try {
+    const communityData = await Community.findOne({
+      community_id: community_id,
+    });
+    let communityPosts = await Post.find({
+      _id: { $in: communityData.posts },
+    });
+    const communityModerators = await User.find(
+      { _id: { $in: communityData.moderators } },
+      { _id: 1, username: 1, profile_img: 1 }
+    );
 
-        let posts = [];
-        for (let post of communityPosts) {
-            const senderData = await User.findOne(
-                { _id: post.sender_id },
-                { username: 1, profile_img: 1 }
-            );
-            posts.push({
-                ...post._doc,
-                sender_name: senderData.username,
-                sender_profile: senderData.profile_img,
-            });
-        }
-        // console.log("POSTS: .......... ", posts);
-        communityPosts = posts;
-
-        let data = {};
-        data.communityData = communityData;
-        data.communityPosts = communityPosts;
-        data.communityModerators = communityModerators;
-        data.numberOfFollowers = communityData.followers.length;
-        data.numberOfParticipants = communityData.participants.length;
-        data.isModerator = communityData.moderators.includes(user_id);
-        data.isParticipant = communityData.participants.includes(user_id);
-        data.isFollower = communityData.followers.includes(user_id);
-        console.log(data);
-
-        return res.json({ status: 200, success: true, data: data });
-    } catch (error) {
-        /*console.error("Unable to get community data: ", error);
-        return res.json({ status: 500, success: false, error: error.message });*/
-        return new ExpressError(500,'Unable to get community data');
+    let posts = [];
+    for (let post of communityPosts) {
+      const senderData = await User.findOne(
+        { _id: post.sender_id },
+        { username: 1, profile_img: 1 }
+      );
+      posts.push({
+        ...post._doc,
+        sender_name: senderData.username,
+        sender_profile: senderData.profile_img,
+      });
     }
+    // //console.log("POSTS: .......... ", posts);
+    communityPosts = posts;
+
+    let data = {
+      communityData,
+      communityPosts,
+      communityModerators,
+      numberOfFollowers: communityData.followers.length,
+      numberOfParticipants: communityData.participants.length,
+      isModerator: communityData.moderators.includes(username),
+      isParticipant: communityData.followers.find(
+        (obj) => obj.user_id === username
+      )
+        ? true
+        : false,
+      isFollower: communityData.followers.find(
+        (obj) => obj.user_id === username
+      )
+        ? true
+        : false,
+    };
+    //console.log(data);
+
+    return res.json({ status: 200, success: true, data: data });
+  } catch (error) {
+    console.error("Unable to fetch saved posts: ", error);
+    return res.json({ status: 500, success: false, error: error.message });
+  }
 });
 
 // FOLLOW COMMUNITY
@@ -206,6 +236,7 @@ router.post("/c/:community_id/follow",communityMiddlewares.isFollowing, async (r
   }
 });
 
+   
 
 // UNFOLLOW COMMUNITY
 router.post("/c/:community_id/unfollow",communityMiddlewares.isUnfollowing, async (req, res, next) => {
@@ -239,5 +270,37 @@ router.post("/c/:community_id/unfollow",communityMiddlewares.isUnfollowing, asyn
     return next(new ExpressError(500,`Unable to unfollow ${foundCommunity.name}`));
   }
 });
+
+router.get("/get-top-communities-5",async (req, res)=>{
+  try {
+    const topCommunities = await Community.aggregate([
+        {
+            $addFields: {
+                followerCount: { $size: "$followers" }
+            }
+        },
+        {
+            $sort: { followerCount: -1 }
+        },
+        {
+            $limit: 5
+        },
+        {
+          $project: {
+              _id: 1,
+              community_id: 1,
+              name: 1,
+              profile_img: 1
+          }
+      }
+    ]);
+
+    console.log(topCommunities);
+    return res.status(200).json({status:200,success:true,communities:topCommunities});
+} catch (error) {
+    console.error("Error fetching top communities:", error);
+    return res.status(500).json({status:500,success:false,error:error.message});
+}
+})
 
 module.exports = router;

@@ -19,33 +19,31 @@ router.post("/login", async (req, res,next) => {
         }
         bcrypt.compare(enteredPassword, user.password, (error, result) => {
             if (error) {
-                console.log(`ERROR: ${error.message}`);
-                //return res.json({ status: 500, success: false, message: error.message });
-                return next(new ExpressError(500,error.message));
+                //console.log(`ERROR: ${error.message}`);
+                return res.json({ status: 500, success: true, message: error.message });
             } else if (result) {
-                console.log("Logged in as:", user);
+                //console.log("Logged in as:", user);
                 delete user.password;
                 return res.json({ status: 200, success: true, user });
             } else {
-                console.log("Passwords donot match.");
-                /*res.json({
+                //console.log("Passwords donot match.");
+                res.json({
                     status: 400,
                     success: false,
                     message: "Passwords donot match.",
-                });*/
+                });
                 return next(new ExpressError(400,'Passwords donot match.'));
             }
         });
     } catch (error) {
-        console.log(`Unable to find the user with email: ${enteredEmail}`, error);
-        //return res.json({ status: 500, success: false });
-        return next(new ExpressError(500,error.message));
+        //console.log(`Unable to find the user with email: ${enteredEmail}`, error);
+        return res.json({ status: 500, success: false });
     }
 });
 
 // SIGNUP
-router.post("/signup", async (req, res,next) => {
-    console.log("In sign-up")
+router.post("/signup", async (req, res) => {
+    //console.log("In sign-up")
     const { username, email, password } = req.body;
     let isUsername = await User.findOne({ username });
     let isEmail = await User.findOne({ email });

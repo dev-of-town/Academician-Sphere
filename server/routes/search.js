@@ -6,12 +6,13 @@ const User = mongoose.model('User');
 const Community = mongoose.model('Community');
 
 // SEARCH COMMUNITY
-router.get("/c/search", async (req, res,next) => {
-    console.log("Community search !!");
+router.get("/c/search", async (req, res) => {
+    //console.log("Community search !!");
     const { q } = req.query;
     let foundCommunity = [];
     try {
         foundCommunity = await Community.find({
+            parent_community:null,
             name: { $regex: `^${q}`, $options: "mi" },
         }).project({ community_id: 1, name: 1, profile_img: 1 });
         return res.json({ success: true, status: 200, data: foundCommunity });
@@ -54,7 +55,7 @@ router.get("/search", async (req, res,next) => {
     let result = {};
     try {
         const foundCommunity = await Community.find(
-            {
+            {   parent_community:null,
                 name: { $regex: `^${q}`, $options: "mi" },
             },
             { community_id: 1, name: 1, profile_img: 1 }

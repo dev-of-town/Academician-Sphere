@@ -9,6 +9,10 @@ const postSchema = new mongoose.Schema({
         type: Boolean,
         required: [true, 'Choose the post visibility.']
     },
+    // community_group:{
+    //     type:String,
+    //     default: ""
+    // },
     community: [String],
     sender_id: {
         type: String,

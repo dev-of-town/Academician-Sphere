@@ -13,6 +13,7 @@ export default function CommunityComp({
   usercoms,
 }) {
   console.log("Checking", all_c);
+  console.log("Checking User_community", user_community);
 
   return (
     <li>
@@ -22,7 +23,7 @@ export default function CommunityComp({
           id={i}
           defaultChecked={user_community.selected}
           onClick={(e) => {
-            //e.preventDefault()
+            e.preventDefault()
             console.log("the clicked", i);
             // user_community.selected=!user_community.selected
             const all_c_temp = [...all_c];
@@ -31,8 +32,8 @@ export default function CommunityComp({
 
             console.log("TEMP ", all_c_temp);
             console.log("ALL C", all_c_temp);
-            usercoms.coms = [...all_c];
-            changer(all_c_temp);
+            
+            changer([...all_c_temp]);
           }}
         />
         <label htmlFor={i} className="d-flex ms-3">

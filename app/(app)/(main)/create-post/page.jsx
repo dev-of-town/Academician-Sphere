@@ -17,10 +17,9 @@ const communities = [
 
 export default function page() {
   // let [user_communities, getc] = useState([]);
-  let user_communities = {
-    coms : []
-  };
-  let coms = [];
+  const [userCommunities,setUserCommunities] = useState([]);
+  // const router = useRouter();
+
   const [crt_post, changeCon] = useState({
     community: [],
     // sender_id: params.user_id,
@@ -41,18 +40,20 @@ export default function page() {
 
   const sendit = async (e) => {
     e.preventDefault();
-    console.log("Sending It", user_communities.coms);
+    const coms = [];
+    console.log("Sending It", userCommunities);
     // crt_post.communities = user_communities
-    user_communities.coms.map((c) => {
+    userCommunities.map((c) => {
       if (c.selected) {
         coms.push("" + c._id);
       }
     });
+
     if (coms.length == 0) {
       window.alert("Please select atleast 1 community");
     } else {
       // changeCon(...crt_post,community=coms);
-      crt_post.community = coms;
+      crt_post.community = [...coms];
       formData.append("json", JSON.stringify(crt_post));
 
       const response = await fetch("/api/new-post", {
@@ -61,7 +62,12 @@ export default function page() {
         body: formData, // body data type must match "Content-Type" header
       });
 
-      console.log(await response.json());
+      let res = await response.json();
+      if(response.ok){
+        alert("Successfully Posted.");
+      }else{
+        alert(res.error);
+      }
     }
   };
 
@@ -94,7 +100,7 @@ export default function page() {
       <div className={styles.dropContainer}>
         <div>
           {" "}
-          <Comm_List usercoms={user_communities} crt_post={crt_post} />
+          <Comm_List setUserCommunity={setUserCommunities} userCommunity={userCommunities} crt_post={crt_post} />
         </div>
         <div>
           {" "}

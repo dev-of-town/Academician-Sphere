@@ -22,6 +22,7 @@ const SendDataButton = ({formdata,data,children,url,style}) => {
             console.log(res);
             if(res.success){
                 console.log(res.success);
+                localStorage.setItem("heirarchy-updated","1");
                 router.push(`/c/${res.community.community_id}`);
             }
         }catch(error){

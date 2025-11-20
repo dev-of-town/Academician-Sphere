@@ -4,15 +4,16 @@ import Link from "next/link";
 import React, { useRef } from "react";
 import styles from "../_styles/CommunityCard.module.css";
 
-const CommunityCard = ({ communities, id }) => {
+const CommunityCard = ({ community }) => {
   const subRef = useRef(null);
-  let x = communities.filter((com) => com.parent === id);
-  let doNotShow = x.length === 0;
+  // let x = communities.filter((com) => com.parent === id);
+  let doNotShow = community?.sub_communities?.length === 0;
   const btnRef = useRef(null);
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        {doNotShow || <button style={{fontSize:'1.3rem'}} ref={btnRef} onClick={() => {
+        {<button style={{fontSize:'1.3em'}} ref={btnRef} onClick={() => {
+          if(community?.sub_communities?.length===0) return
           let list = subRef.current.classList;
           if(list.contains("h-0")){
             list.remove("h-0");
@@ -21,19 +22,21 @@ const CommunityCard = ({ communities, id }) => {
             list.add("h-0");
             btnRef.current.textContent = "+";
           }
-        }}>{"+"}</button>}
-        {!id && (
+        }}>{doNotShow?">":"+"}</button>}
+        {
           <div className={styles.profileimg}>
-            <Image src={communities[id].profileimg} width={35} height={35} />{" "}
+            <Image src={community?.profile_img.url} width={25} height={25} alt="+" />{" "}
           </div>
-        )}
-        <Link href="/">{communities[id].name}</Link>
+        }
+        <Link href={"/c/"+community.community_id}>{community?.name}</Link>
       </div>
       {doNotShow || (
         <div className={`${styles.subcontainer} h-0`} ref={subRef}>
-          {x.map((ele) => (
-            <CommunityCard communities={communities} id={ele.id} key={ele.id} />
-          ))}
+          {community?.sub_communities?.map((c) => {
+            return (
+              <CommunityCard community={c} key={c._id} />
+            )
+          })}
         </div>
       )}
     </div>
