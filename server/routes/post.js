@@ -47,7 +47,7 @@ router.post("/new-post", uploadPostData.array("attachement", 10), async (req, re
         await user.save();
 
         for (let id of data.community) {
-            const foundCommunity = await Community.findOne({ community_id: id });
+            const foundCommunity = await Community.findOne({ _id: id });
             foundCommunity.posts.push(newPost._id);
             await foundCommunity.save();
         }
@@ -72,7 +72,7 @@ router.delete("/delete-post/:community_id/:post_id", async (req, res) => {
     const removalFunction = async (postData, communityData) => {
         try {
             if (communityData == null)
-                communityData = await Community.findOne({ community_id : community_id });
+                communityData = await Community.findOne({ _id : community_id });
 
             // remove post from the posts array in the Community
             let i = communityData.posts.findIndex((post) => post == post_id);

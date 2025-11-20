@@ -3,6 +3,9 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const { userStorage } = require('../config/cloudinary');
 const uploadUserData = multer({ storage: userStorage });
+const ExpressError = require('../utils/ExpressError');
+
+const communityMiddlewares = require('../middlewares/community');
 
 const User = mongoose.model('User');
 const Community = mongoose.model('Community');
@@ -93,15 +96,16 @@ async function createCommunity(
     }
     return top;
   } catch (err) {
-    console.log("Unable to create all communites");
-    console.log(err);
+    /*console.log("Unable to create all communites");
+    console.log(err);*/
+    throw new ExpressError(500,'Unable to create all communites');
   }
 }
 
 router.post(
   "/c/new_community",
   uploadUserData.fields([{ name: "profile_img" }, { name: "template_img" }]),
-  async (req, res) => {
+  async (req, res,next) => {
     try {
       const communityData = req.body.json;
       //console.log("Files", req.files.profile_img);
@@ -111,7 +115,8 @@ router.post(
       isUnique = await Community.findOne({community_id : data.name});
       console.log(isUnique);
       if(isUnique){
-        return res.json({success : false, status : 401, message : 'Top level community name should be unique'});
+        //return res.json({success : false, status : 401, message : 'Top level community name should be unique'});
+        return new ExpressError(401,'Top level community name should be unique');
       }
       const topCommunity = await createCommunity(
         data,
@@ -124,14 +129,15 @@ router.post(
       console.log("The Most Top", topCommunity);
       return res.json({ success: true, status: 200, community: topCommunity });
     } catch (error) {
-      console.log("Unable to create Community !!", error);
-      return res.json({ success: false, message: error.message, status: 500 });
+      /*console.log("Unable to create Community !!", error);
+      return res.json({ success: false, message: error.message, status: 500 });*/
+      return next(new ExpressError(error.status,error.message));
     }
   }
 );
 
 // GET COMMUNITY DATA
-router.post("/c/:community_id/get-community-data", async (req, res) => {
+router.post("/c/:community_id/get-community-data", async (req, res, next) => {
     const user_id = req.body.user_id;
     const community_id = req.params.community_id;
     try {
@@ -172,13 +178,15 @@ router.post("/c/:community_id/get-community-data", async (req, res) => {
 
         return res.json({ status: 200, success: true, data: data });
     } catch (error) {
-        console.error("Unable to fetch saved posts: ", error);
-        return res.json({ status: 500, success: false, error: error.message });
+        /*console.error("Unable to get community data: ", error);
+        return res.json({ status: 500, success: false, error: error.message });*/
+        return new ExpressError(500,'Unable to get community data');
     }
 });
 
 // FOLLOW COMMUNITY
-router.post("/c/:community_id/follow", async (req, res) => {
+router.post("/c/:community_id/follow",communityMiddlewares.isFollowing, async (req, res,next) => {
+  try{
   const user_id = JSON.parse(req.body.json).user_id;
   const foundCommunity = await Community.findOne({
     community_id: req.params.community_id,
@@ -189,39 +197,47 @@ router.post("/c/:community_id/follow", async (req, res) => {
   });
   await foundCommunity.save();
   const user = await User.findOne({ _id: user_id });
-  user.following.push(foundCommunity.community_id);
+  user.following.push({isCommunity : true,id : foundCommunity.community_id});
   await user.save();
-  console.log(foundCommunity);
-  console.log(user);
-  res.send(`You are following ${foundCommunity.name} community`);
+  //res.send(`You are following ${foundCommunity.name} community`);
+  return res.json({success : true,status : 200, message : `Successfully followed ${foundCommunity.name}`})
+  }catch(err){
+    return next(new ExpressError(500,`Unable to follow ${foundCommunity.name}`));
+  }
 });
 
 
 // UNFOLLOW COMMUNITY
-router.post("/c/:community_id/unfollow", async (req, res) => {
+router.post("/c/:community_id/unfollow",communityMiddlewares.isUnfollowing, async (req, res, next) => {
+    try{
     const user_id = JSON.parse(req.body.json).user_id;
     let followingUser, foundUser, index;
     const foundCommunity = await Community.findOne({
         community_id: req.params.community_id,
     });
-    for (let user of foundCommunity.followers) {
+    /*for (let user of foundCommunity.followers) {
         if (user.user_id == user_id) {
             followingUser = user;
             break;
         }
-    }
-    if (followingUser) {
+    }*/
+    //if (followingUser) {
         index = foundCommunity.followers.indexOf(followingUser);
         foundCommunity.splice(index, 1);
         await foundCommunity.save();
         foundUser = await User.find({ _id: user_id });
-        index = foundUser.following.indexOf(`${foundCommunity.community_id}`);
+        index = foundUser.following.indexOf({isCommunity : true,id : `${foundCommunity.community_id}`});
         foundUser.following.splice(index, 1);
         await foundUser.save();
-        res.send(`You have unfollowed ${foundCommunity.name}`);
-    } else {
-        res.send(`You must be following ${foundCommunity.name} to unfollow it.`);
-    }
+        //res.send(`You have unfollowed ${foundCommunity.name}`);
+        return res.json({success : true, status : 200, message : `Successfully unfollowed ${foundCommunity.name}`})
+    //} else {
+        //res.send(`You must be following ${foundCommunity.name} to unfollow it.`);
+        //return next(new ExpressError(400,`You must be following ${foundCommunity.name} to unfollow it.`));
+    //}
+  }catch(err){
+    return next(new ExpressError(500,`Unable to unfollow ${foundCommunity.name}`));
+  }
 });
 
 module.exports = router;

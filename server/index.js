@@ -19,6 +19,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: true, credentials: true }));
 app.use(require('./routes'));
 
+app.all('*',(req,res) =>{
+  res.status(404).json({success:false,status:404,message:'Resource not found'});
+});
+
+app.use((err,req,res,next) =>{
+  console.log(err);
+  const {status=500,message='Something went wrong!!'} = err;
+  res.status(status).json({
+    success : false,
+    status : status,
+    message : message
+  })
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT} port.`);
 });

@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const ExpressError = require('../utils/ExpressError');
 
 const User = mongoose.model('User');
 const Community = mongoose.model('Community');
 
 // SEARCH COMMUNITY
-router.get("/c/search", async (req, res) => {
+router.get("/c/search", async (req, res,next) => {
     console.log("Community search !!");
     const { q } = req.query;
     let foundCommunity = [];
@@ -15,38 +16,40 @@ router.get("/c/search", async (req, res) => {
         }).project({ community_id: 1, name: 1, profile_img: 1 });
         return res.json({ success: true, status: 200, data: foundCommunity });
     } catch (err) {
-        console.log(err);
+        /*console.log(err);
         return res.json({
             success: false,
             status: 500,
             message: "Cannot carry search, try again later !!",
-        });
+        });*/
+        return next(new ExpressError(500,'Cannot carry search, try again later !!'));
     }
 });
 
 // SEARCH USER
-router.get("/u/search", async (req, res) => {
+router.get("/u/search", async (req, res,next) => {
     const { q } = req.query;
     try {
         const foundUser = await User.find(
             {
                 username: { $regex: `^${q}`, $options: "mi" },
             },
-            { community_id: 1, username: 1, profile_img: 1 }
+            {_id : 1,username: 1, profile_img: 1 }
         );
         return res.json({ success: true, status: 200, data: foundUser });
     } catch (error) {
-        console.log(err);
+        /*console.log(err);
         return res.json({
             success: false,
             status: 500,
             message: "Cannot carry search, try again later !!",
-        });
+        });*/
+        return next(new ExpressError(500,'Cannot carry search, try again later !!'));
     }
 });
 
 // SEARCH BOTH
-router.get("/search", async (req, res) => {
+router.get("/search", async (req, res,next) => {
     const { q } = req.query;
     let result = {};
     try {
@@ -68,12 +71,13 @@ router.get("/search", async (req, res) => {
 
         return res.json({ success: true, status: 200, data: result });
     } catch (err) {
-        console.log(err);
+        /*console.log(err);
         return res.json({
             success: false,
             status: 500,
             message: "Cannot carry search, try again later !!",
-        });
+        });*/
+        return next(new ExpressError(500,'Cannot carry search, try again later !!'));
     }
 });
 

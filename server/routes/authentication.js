@@ -1,62 +1,69 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const User = require('mongoose').model('User');
+const ExpressError = require('../utils/ExpressError');
 
 // LOGIN
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res,next) => {
     const enteredEmail = req.body.email;
     const enteredPassword = req.body.password;
     try {
         const user = await User.findOne({ mail: enteredEmail });
         if (!user) {
-            return res.json({
+            /*return res.json({
                 status: 404,
                 success: false,
                 message: "User does not exists",
-            });
+            });*/
+            return next(new ExpressError(404,'User does not exists'));
         }
         bcrypt.compare(enteredPassword, user.password, (error, result) => {
             if (error) {
                 console.log(`ERROR: ${error.message}`);
-                return res.json({ status: 500, success: true, message: error.message });
+                //return res.json({ status: 500, success: false, message: error.message });
+                return next(new ExpressError(500,error.message));
             } else if (result) {
                 console.log("Logged in as:", user);
                 delete user.password;
                 return res.json({ status: 200, success: true, user });
             } else {
                 console.log("Passwords donot match.");
-                res.json({
+                /*res.json({
                     status: 400,
                     success: false,
                     message: "Passwords donot match.",
-                });
+                });*/
+                return next(new ExpressError(400,'Passwords donot match.'));
             }
         });
     } catch (error) {
         console.log(`Unable to find the user with email: ${enteredEmail}`, error);
-        return res.json({ status: 500, success: false });
+        //return res.json({ status: 500, success: false });
+        return next(new ExpressError(500,error.message));
     }
 });
 
 // SIGNUP
-router.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res,next) => {
     console.log("In sign-up")
     const { username, email, password } = req.body;
     let isUsername = await User.findOne({ username });
     let isEmail = await User.findOne({ email });
     if (isUsername) {
-        return res.json({
+        /*return res.json({
             status: 409,
             success: false,
             message: "Username already exist",
-        });
+        });*/
+        return next(new ExpressError(409,'Username already exist'));
     }
     if (isEmail) {
-        return res.json({
+        /*return res.json({
             status: 410,
             success: false,
             message: "Email already exist",
-        });
+        });*/
+        return next(new ExpressError(410,'Email already exist'));
     }
 
     const hash = await bcrypt.hash(password, 12);
@@ -71,7 +78,8 @@ router.post("/signup", async (req, res) => {
         return res.json({ success: true, status: 200, user: user });
     } catch (error) {
         console.error("Unable to create the user profile: ", error.message);
-        return res.json({ success: false, status: 500 });
+        //return res.json({ success: false, status: 500 });
+        return next(new ExpressError(500,error.message));
     }
 });
 

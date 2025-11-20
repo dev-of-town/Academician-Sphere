@@ -4,13 +4,17 @@ const mongoose = require('mongoose');
 const { cloudinary } = require('../config/cloudinary');
 const { userStorage } = require('../config/cloudinary');
 const uploadUserData = multer({ storage: userStorage });
+const ExpressError = require('../utils/ExpressError');
+//const { default: next } = require('next/types');
+
+const userMiddlewares = require('../middlewares/user');
 
 const User = mongoose.model('User');
 const Community = mongoose.model('Community');
 const Post = mongoose.model('Post');
 
 // GET USER DATA
-router.post("/u/:profile_id", async (req, res) => {
+router.post("/u/:profile_id", async (req, res,next) => {
     const id = req.params.profile_id;
     const user_id = req.body.user_id;
     try {
@@ -24,11 +28,13 @@ router.post("/u/:profile_id", async (req, res) => {
             return res.json({ status: 200, success: true, user: user });
         } else {
             console.log(`Unable to find profile with ID: ${id}`);
-            return res.json({ success: false, status: 400, message: "not found" });
+            //return res.json({ success: false, status: 400, message: "not found" });
+            return next(new ExpressError(404,'Profile not found'));
         }
     } catch (error) {
         console.log(`ERROR: ${error.message}`);
-        return res.json({ success: false });
+        //return res.json({ success: false });
+        return next(new ExpressError(500,error.message));
     }
 });
 
@@ -36,7 +42,7 @@ router.post("/u/:profile_id", async (req, res) => {
 router.patch(
     "/edit-profile",
     uploadUserData.fields([{ name: "profile_img" }, { name: "background_img" }]),
-    async (req, res) => {
+    async (req, res,next) => {
         // const user_id = req.session.user_id;
         // console.log("User ID: ", user_id);
         let data = req.body.json;
@@ -49,7 +55,7 @@ router.patch(
 
         try {
             const userData = await User.findOne({ _id: user_id });
-            console.log(userData);
+            //console.log(userData);
             if (data.changeProfile) {
                 console.log(12345);
                 await cloudinary.uploader.destroy(userData.profile_img.filename);
@@ -82,13 +88,14 @@ router.patch(
             return res.json({ status: 200, success: true, user: userData });
         } catch (error) {
             console.error("Unable to update the user data: ", error);
-            return res.json({ status: 500, success: false });
+            //return res.json({ status: 500, success: false });
+            return next(new ExpressError(500,error.message));
         }
     }
 );
 
 // GET ALL THE COMMUNITIES FOLLOWED BY THE USER
-router.get("/u/:user_id/get-following-community", async (req, res) => {
+router.get("/u/:user_id/get-following-community", async (req, res,next) => {
     //   const user_id = JSON.parse(req.body.json).user_id;
     try {
         const user_id = req.params.user_id;
@@ -110,17 +117,18 @@ router.get("/u/:user_id/get-following-community", async (req, res) => {
         });
         return res.json({ status: 200, success: true, followingCommunity: result });
     } catch (error) {
-        console.error("Unable to fetch communities followed by user: ", error);
+        /*console.error("Unable to fetch communities followed by user: ", error);
         return res.json({
             status: 500,
             success: false,
             message: "Unable to fetch communites followed by user",
-        });
+        });*/
+        return next(new ExpressError(500,'Unable to fetch communites followed by user'));
     }
 });
 
 // GET ALL THE POSTS CREATED BY THE USER
-router.get("/u/:user_id/get-user-posts", async (req, res) => {
+router.get("/u/:user_id/get-user-posts", async (req, res,next) => {
     const user_id = req.params.user_id;
     try {
         const userData = await User.findOne({ _id: user_id });
@@ -137,13 +145,14 @@ router.get("/u/:user_id/get-user-posts", async (req, res) => {
         }
         return res.json({ status: 200, success: true, posts: data });
     } catch (error) {
-        console.error("Unable to fetch the posts: ", error);
-        return res.json({ status: 500, success: false, error: error.message });
+        /*console.error("Unable to fetch the posts: ", error);
+        return res.json({ status: 500, success: false, error: error.message });*/
+        return next(new ExpressError(500,'Unable to fetch the posts'));
     }
 });
 
 // GET SAVED POSTS OF THE USER
-router.get("/u/:user_id/get-saved-posts", async (req, res) => {
+router.get("/u/:user_id/get-saved-posts", async (req, res,next) => {
     const user_id = req.params.user_id;
     try {
         const userData = await User.findOne({ _id: user_id });
@@ -159,42 +168,54 @@ router.get("/u/:user_id/get-saved-posts", async (req, res) => {
         }
         return res.json({ status: 200, success: true, savedPosts: data });
     } catch (error) {
-        console.error("Unable to fetch saved posts: ", error);
-        return res.json({ status: 500, success: false, error: error.message });
+        /*console.error("Unable to fetch saved posts: ", error);
+        return res.json({ status: 500, success: false, error: error.message });*/
+        return next(new ExpressError(500,'Unable to fetch saved posts'));
     }
 });
 
 // FOLLOW USER
-router.post("/u/:user_id/follow", async (req, res) => {
+router.post("/u/:user_id/follow",userMiddlewares.isFollowing, async (req, res,next) => {
+    try{
     const user_id = JSON.parse(req.body.json).user_id;
     const currentUser = await User.findOne({ _id: user_id });
     const followedUser = await User.findOne({ _id: req.params.user_id });
-    currentUser.following.push(`${followedUser._id}`);
+    currentUser.following.push({isCommunity : false,id : `${followedUser._id}`});
     await currentUser.save();
     followedUser.followers.push(`${currentUser._id}`);
     await followedUser.save();
-    res.send(`You are following ${followedUser._username}.`);
+    //res.send(`You are following ${followedUser.username}.`);
+    return res.json({success : true,status : 200, message : `Successfully followed ${followedUser.username}`});
+    }catch(err){
+        return next(new ExpressError(500,`Unable to follow ${followedUser.username}`))
+    }
 });
 
 // UNFOLLOW USER
-router.post("/u/:user_id/unfollow", async (req, res) => {
+router.post("/u/:user_id/unfollow", userMiddlewares.isUnfollowing,async (req, res,next) => {
+    try{
     const user_id = JSON.parse(req.body.json).user_id;
     let index;
     const unfollowedUser = await User.findOne({ _id: req.params.user_id });
     const currentUser = await User.findOne({ _id: user_id });
-    const isFollowing = currentUser.following.includes(`${req.params.username}`);
-    if (isFollowing) {
-        index = currentUser.following.indexOf(`${req.params.username}`);
+    //const isFollowing = currentUser.following.includes({isCommunity : false, id : `${req.params.user_id}`});
+    //if (isFollowing) {
+        index = currentUser.following.indexOf({isCommunity : false, id : `${req.params.user_id}`});
         currentUser.followers.splice(index, 1);
         await currentUser.save();
         index = unfollowedUser.followers.indexOf(`${currentUser._id}`);
         unfollowedUser.followers.splice(index, 1);
         await unfollowedUser.save();
-        res.send(`You have unfollowed ${unfollowedUser.username}.`);
-    } else {
-        res.send(
+        //res.send(`You have unfollowed ${unfollowedUser.username}.`);
+        return res.json({success : true, status : 200, message : `Successfully unfollowed ${unfollowedUser.username}`})
+    //} else {
+        /*res.send(
             `You must be following ${unfollowedUser.username} to unfollow him/her.`
-        );
+        );*/
+    //    return next(new ExpressError(400,`You must be following ${unfollowedUser.username} to unfollow him/her.`))
+    //}
+    }catch(err){
+        return next(new ExpressError(500,`Unable to unfollow ${unfollowedUser.username}`));
     }
 });
 
